@@ -1,23 +1,33 @@
-Skill,Mana,Action Type,Range,Shape,AoE,Use Limit,Tier,Level Required,Training Sessions,Learned At Start?
-Horizontal,0,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,YES
-Vertical,0,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,YES
-Slant,0,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,YES
-Retreat,2,Bonus Action,Self,Line (backward),None,1/turn,Mobility,1,0,YES
-Deflect,10,Special Reaction,Melee (5 ft),Melee guard,None,Unlimited/turn,Defense,1,0,YES
-Rage Spike,8,Action,15 ft charge,Line (forward),None,1/Action,Mobility,1,0,YES
-Uppercut,5,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,2,1,NO
-Sonic Leap,10,Action,20 ft charge,Line (forward),None,1/Action,Mobility,4,2,NO
-Vertical Arc,10,Action,Melee (5 ft),V-shape,None,1/Action,Combo,4,2,NO
-Horizontal Arc,10,Action,Melee (5 ft),Horizontal sweep,None,1/Action,Combo,5,2,NO
-Snake Bite,12,Action,Melee (5 ft),Melee arc,None,1/Action,Utility,6,3,NO
-Sharp Nail,14,Action,Melee (5 ft),Zigzag slash,None,1/Action,Combo,6,3,NO
-Horizontal Square,18,Action,Melee (5 ft),Square / rhombus,5-ft square pattern,1/Action,Mid,7,3,NO
-Vertical Square,18,Action,Melee (5 ft),Square,5-ft square pattern,1/Action,Mid,7,3,NO
-Embracer,14,Action,Touch (5 ft),Thrust (unarmed),None,1/Action,Utility,8,3,NO
-Vorpal Strike,22,Action,10 ft (reach),Line thrust,None,1/Action,Power,9,4,NO
-Dual Blades (Unique Skill),0,Passive Unlock,—,—,None,—,Gate,10,5,NO
-Double Circular,16,Action,15 ft charge,Line (forward),None,1/Action,Dual,10,3,NO
-Cross Block,8,Reaction,Melee (5 ft),Cross guard,None,1/Reaction,Defense,11,3,NO
-Meteor Break,28,Action,Melee + tackle,Line / chain,None,1/Action,Power,12,5,NO
-Starburst Stream,48,Action,Melee (5 ft),Multi-slash storm,None,1/fight,Ultimate,14,6,NO
-The Eclipse,80,Action,Melee (5 ft),Multi-slash storm,None,1/long rest,Ultimate,18,8,NO
+Skill,Mana,Action Type,Range,Shape,AoE,Use Limit,Tier,Level Required,Training Sessions,Hours Each,Train DC,Learned At Start?
+Horizontal,0,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,0,0,YES
+Vertical,0,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,0,0,YES
+Slant,0,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,0,0,YES
+Retreat,2,Bonus Action,Self,Line (backward),None,1/turn,Mobility,1,0,0,0,YES
+Deflect,10,Special Reaction,Melee (5 ft),Melee guard,None,Unlimited/turn,Defense,1,0,0,0,YES
+Rage Spike,8,Action,15 ft charge,Line (forward),None,1/Action,Mobility,1,0,0,0,YES
+Uppercut,5,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,2,1,1,10,NO
+Night Needle,6,Action,Melee (5 ft),Line thrust,None,1/Action,Basic,2,1,1,10,NO
+Dual Blades (Unique Skill),0,Passive Unlock,—,—,None,—,Gate,3,4,1.5,14,NO
+Double Circular,16,Action,15 ft charge,Line (forward),None,1/Action,Dual,3,3,1,13,NO
+Fade Slash,9,Action,Melee (5 ft),Melee arc,None,1/Action,Mobility,3,2,1,12,NO
+Sonic Leap,10,Action,20 ft charge,Line (forward),None,1/Action,Mobility,4,2,1,12,NO
+Vertical Arc,10,Action,Melee (5 ft),V-shape,None,1/Action,Combo,4,2,1,12,NO
+Cross Block,8,Reaction,Melee (5 ft),Cross guard,None,1/Reaction,Defense,4,3,1,13,NO
+Horizontal Arc,10,Action,Melee (5 ft),Horizontal sweep,None,1/Action,Combo,5,2,1,12,NO
+Bolt Spiral,12,Action,10 ft charge,Spiral,None,1/Action,Combo,5,2,1,13,NO
+Snake Bite,12,Action,Melee (5 ft),Melee arc,None,1/Action,Utility,6,3,1,14,NO
+Sharp Nail,14,Action,Melee (5 ft),Zigzag slash,None,1/Action,Combo,6,3,1,14,NO
+Horizontal Square,18,Action,Melee (5 ft),Square / rhombus,5-ft square pattern,1/Action,Mid,7,3,1,14,NO
+Vertical Square,18,Action,Melee (5 ft),Square,5-ft square pattern,1/Action,Mid,7,3,1,14,NO
+Embracer,14,Action,Touch (5 ft),Thrust (unarmed),None,1/Action,Utility,8,3,1,14,NO
+Grave Bind,10,Bonus Action,Touch (5 ft),Grab,None,1/turn,Utility,8,2,1,13,NO
+Vorpal Strike,22,Action,10 ft (reach),Line thrust,None,1/Action,Power,9,4,1.5,16,NO
+Twin Meteor,22,Action,Melee (5 ft),X-cross storm,None,1/Action,Dual,10,4,1,15,NO
+Scarlet Orbit,20,Action,10 ft,Ring slash,5-ft radius around you (foes),1/Action,Dual,11,4,1,15,NO
+Meteor Break,28,Action,Melee + tackle,Line / chain,None,1/Action,Power,12,5,1.5,16,NO
+Hollow Fang,24,Action,10 ft,Double thrust,None,1/Action,Power,13,4,1.5,16,NO
+Starburst Stream,48,Action,Melee (5 ft),Multi-slash storm,None,1/fight,Ultimate,14,6,2,18,NO
+Ashen Requiem,32,Action,Melee (5 ft),Falling crescents,None,1/short rest,Power,15,5,1.5,17,NO
+Black Orbit,14,Bonus Action,Self,Orbit guard,Self,1/turn,Defense,16,3,1,16,NO
+Eclipse Prelude,40,Action,Melee (5 ft),Half-storm,None,1/long rest,Power,17,6,2,18,NO
+The Eclipse,80,Action,Melee (5 ft),Multi-slash storm,None,1/long rest,Ultimate,18,8,2,20,NO

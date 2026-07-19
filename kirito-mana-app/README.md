@@ -5,8 +5,8 @@ Mobile-first Progressive Web App for the Kirito mana system.
 - Combat mana tracker with quick buttons (Deflect / Retreat / Rage Spike / free basics)
 - Full D&D sheet: ability scores, saves/skills + proficiency, HP/temp, AC, speed, initiative, death saves
 - Equipment list, portrait upload, backstory / features / coins / XP
-- Skills browser + training unlocks
-- Dual Blades Level 10 gate + Reaction Trial toggle
+- Skills browser + training unlocks (drills, hours, DCs in **Train** tab)
+- Dual Blades **Level 3** gate + Reaction Trial toggle + per-skill training drills/hours
 - **Saves on your phone** with `localStorage` — survives full app close
 - Offline-capable after first load (service worker)
 - Install to Home Screen (iPhone & Android)

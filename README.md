@@ -24,6 +24,7 @@ Aincrad / season 1 sword-skill mana homebrew for D&D-style play (Google Sheets C
 |---|---|
 | [Master Skills Sheet](kirito-mana-system/MASTER-SKILLS.md) | One-page readable skill table for GitHub |
 | [D&D Sheet reference](kirito-mana-system/DND-SHEET.md) | Stats, HP, death saves, gear, profile fields |
+| [Training system](kirito-mana-system/TRAINING.md) | Drills, hours, DCs, Dual Blades at Level 3 |
 | [System rules & Sheets formulas](kirito-mana-system/README.md) | Full rules: mana, regen, level locks, training, dual-wield gate |
 | [Skills list (CSV)](kirito-mana-system/skills.csv) | Importable sheet data |
 | [Quick reference](kirito-mana-system/quick-reference.csv) | Compact skill / mana / level table |

@@ -1,22 +1,33 @@
-# GitHub Pages setup (one time)
+# GitHub Pages setup (required once)
 
-The deploy workflow is already in the repo:
+The deploy failed before because **Pages was not enabled** on the repo.  
+GitHub Actions cannot flip that switch by itself.
 
-`.github/workflows/deploy-aincrad-mana.yml`
+## Do this once (takes ~30 seconds)
 
-It publishes everything inside `kirito-mana-app/` to:
+1. Merge / pull the latest fix onto `main` (or wait for the Pages fix PR).
+2. Open: https://github.com/Dralorex/General-Questions/settings/pages
+3. Under **Build and deployment**:
+   - **Source:** Deploy from a branch
+   - **Branch:** `gh-pages`
+   - **Folder:** `/ (root)`
+4. Click **Save**.
+5. Run the workflow:
+   - https://github.com/Dralorex/General-Questions/actions/workflows/deploy-aincrad-mana.yml
+   - **Run workflow** → branch `main`
 
-**https://dralorex.github.io/General-Questions/**
+If `gh-pages` is not in the branch dropdown yet, run the workflow first (step 5), wait for it to finish, then come back and pick `gh-pages` in step 3.
 
-## Enable Pages
+## Your phone URL
 
-1. Merge latest `main` (PWA + workflow).
-2. Repo **Settings → Pages**.
-3. **Source** = **GitHub Actions** (not “Deploy from a branch”).
-4. **Actions** tab → **Deploy Aincrad Mana PWA** → **Run workflow** → branch `main`.
-5. Wait for the green check, then open the URL on your phone.
+https://dralorex.github.io/General-Questions/
 
-## After that
+Give GitHub 1–2 minutes after a green deploy before refreshing.
 
-- Edits under `kirito-mana-app/` on `main` redeploy automatically.
-- Manual redeploy anytime with **Run workflow**.
+## Why it failed earlier
+
+```
+Get Pages site failed ... Pages enabled and configured to build using GitHub Actions
+```
+
+That means Pages wasn’t turned on yet. The workflow now publishes to the `gh-pages` branch instead, which is the reliable setup.

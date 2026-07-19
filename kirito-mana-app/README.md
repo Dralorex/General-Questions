@@ -15,13 +15,13 @@ Mobile-first Progressive Web App for the Kirito mana system.
 https://dralorex.github.io/General-Questions/
 
 ### One-time setup (repo owner)
-This agent can’t flip the Pages switch for you (API permission). Do this once:
+Pages must be enabled manually once. Full steps: [PAGES-SETUP.md](PAGES-SETUP.md)
 
-1. Merge the PWA PR into `main`.
-2. GitHub → **Settings → Pages**
-3. Under **Build and deployment → Source**, choose **GitHub Actions**
-4. Open **Actions** → workflow **Deploy Aincrad Mana PWA** → **Run workflow**
-5. When it’s green, open: https://dralorex.github.io/General-Questions/
+Short version:
+
+1. **Actions → Deploy Aincrad Mana PWA → Run workflow** (creates `gh-pages` branch)
+2. **Settings → Pages → Source = Deploy from a branch → `gh-pages` / root → Save**
+3. Open: https://dralorex.github.io/General-Questions/
 
 Later pushes that touch `kirito-mana-app/` auto-redeploy.
 

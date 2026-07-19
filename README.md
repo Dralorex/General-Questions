@@ -4,6 +4,14 @@ This is for my random questions so I can see things anywhere.
 
 ## Projects
 
+### [Aincrad Mana — Phone App (PWA)](kirito-mana-app/)
+Installable phone web app for combat mana, skills, and training. **Saves on your phone** even after a full close.
+
+| Link | What it is |
+|---|---|
+| [Open the app](kirito-mana-app/index.html) | Combat tracker UI |
+| [App README](kirito-mana-app/README.md) | Install steps (iPhone / Android) + save notes |
+
 ### [Kirito Mana System](kirito-mana-system/)
 Aincrad / season 1 sword-skill mana homebrew for D&D-style play (Google Sheets CSVs).
 

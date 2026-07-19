@@ -47,7 +47,8 @@ Canon does **not** publish a full skillbook dump for anime-only Kirito. This lis
 |---|---:|---|
 | Meteor Break | 7 | Sword + martial composite |
 | Embracer | 1 | Unarmed pierce |
-| Single Shot | 1 | Blade throw |
+
+No projectile / blade-throw skills in this kit.
 
 ### Utility (homebrew / anime movement)
 | Skill | Mana | Action Type | Role |

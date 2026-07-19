@@ -2,41 +2,54 @@
 
 One-page GitHub view of the Kirito Aincrad mana kit.
 
-**Max Mana:** 100 · **Flow:** Level unlocks → train sessions → Learned → usable · **Dual wield:** locked until Level 10
+**Max Mana:** 100 · **Flow:** Level unlocks → train sessions → Learned → usable · **Dual wield:** locked until Level 10  
+**No projectile skills.** Melee / movement / defense only.
 
 → Full rules: [README.md](README.md) · Import CSV: [skills.csv](skills.csv)
 
 ---
 
+## Starter kit (Level 1 · all Learned)
+
+| Skill | Mana | Action Type | Notes |
+|---|---:|---|---|
+| Horizontal | **0** | Action | Free basic |
+| Vertical | **0** | Action | Free basic |
+| Slant | **0** | Action | Free basic |
+| Retreat | 2 | Bonus Action | Backstep / switch |
+| Deflect | 10 | Special Reaction | Unlimited/turn while mana lasts |
+| Rage Spike | 8 | Action | Leap gap-closer |
+
+---
+
 ## Master table — cost, action, range
 
-| Skill | Mana | Action Type | Range | Shape | AoE | Use Limit | Lvl | Train |
-|---|---:|---|---|---|---|---|---:|---:|
-| Horizontal | 4 | Action | Melee (5 ft) | Melee arc | None | 1/Action | 1 | 0 |
-| Vertical | 4 | Action | Melee (5 ft) | Melee arc | None | 1/Action | 1 | 0 |
-| Slant | 4 | Action | Melee (5 ft) | Melee arc | None | 1/Action | 1 | 1 |
-| Retreat | 2 | Bonus Action | Self | Line (backward) | None | 1/turn | 1 | 1 |
-| Uppercut | 5 | Action | Melee (5 ft) | Melee arc | None | 1/Action | 2 | 1 |
-| Single Shot | 6 | Action | 30/90 ft | Projectile | None | 1/Action | 2 | 2 |
-| Rage Spike | 8 | Action | 15 ft charge | Line (forward) | None | 1/Action | 3 | 2 |
-| Deflect | 10 | Special Reaction | Melee (5 ft) | Melee guard | None | **Unlimited/turn** | 3 | 2 |
-| Sonic Leap | 10 | Action | 20 ft charge | Line (forward) | None | 1/Action | 4 | 2 |
-| Vertical Arc | 10 | Action | Melee (5 ft) | V-shape | None | 1/Action | 4 | 2 |
-| Horizontal Arc | 10 | Action | Melee (5 ft) | Horizontal sweep | None | 1/Action | 5 | 2 |
-| Snake Bite | 12 | Action | Melee (5 ft) | Melee arc | None | 1/Action | 6 | 3 |
-| Sharp Nail | 14 | Action | Melee (5 ft) | Zigzag slash | None | 1/Action | 6 | 3 |
-| Horizontal Square | 18 | Action | Melee (5 ft) | Square / rhombus | 5-ft square pattern | 1/Action | 7 | 3 |
-| Vertical Square | 18 | Action | Melee (5 ft) | Square | 5-ft square pattern | 1/Action | 7 | 3 |
-| Embracer | 14 | Action | Touch (5 ft) | Thrust (unarmed) | None | 1/Action | 8 | 3 |
-| Vorpal Strike | 22 | Action | 10 ft (reach) | Line thrust | None | 1/Action | 9 | 4 |
-| Dual Blades (Unique Skill) | 0 | Passive Unlock | — | — | None | — | 10 | 5 |
-| Double Circular | 16 | Action | 15 ft charge | Line (forward) | None | 1/Action | 10 | 3 |
-| Cross Block | 8 | Reaction | Melee (5 ft) | Cross guard | None | 1/Reaction | 11 | 3 |
-| Meteor Break | 28 | Action | Melee + tackle | Line / chain | None | 1/Action | 12 | 5 |
-| Starburst Stream | 48 | Action | Melee (5 ft) | Multi-slash storm | None | 1/fight | 14 | 6 |
-| The Eclipse | 80 | Action | Melee (5 ft) | Multi-slash storm | None | 1/long rest | 18 | 8 |
+| Skill | Mana | Action Type | Range | Shape | AoE | Use Limit | Lvl | Train | Start? |
+|---|---:|---|---|---|---|---|---:|---:|---|
+| Horizontal | 0 | Action | Melee (5 ft) | Melee arc | None | 1/Action | 1 | 0 | YES |
+| Vertical | 0 | Action | Melee (5 ft) | Melee arc | None | 1/Action | 1 | 0 | YES |
+| Slant | 0 | Action | Melee (5 ft) | Melee arc | None | 1/Action | 1 | 0 | YES |
+| Retreat | 2 | Bonus Action | Self | Line (backward) | None | 1/turn | 1 | 0 | YES |
+| Deflect | 10 | Special Reaction | Melee (5 ft) | Melee guard | None | **Unlimited/turn** | 1 | 0 | YES |
+| Rage Spike | 8 | Action | 15 ft charge | Line (forward) | None | 1/Action | 1 | 0 | YES |
+| Uppercut | 5 | Action | Melee (5 ft) | Melee arc | None | 1/Action | 2 | 1 | NO |
+| Sonic Leap | 10 | Action | 20 ft charge | Line (forward) | None | 1/Action | 4 | 2 | NO |
+| Vertical Arc | 10 | Action | Melee (5 ft) | V-shape | None | 1/Action | 4 | 2 | NO |
+| Horizontal Arc | 10 | Action | Melee (5 ft) | Horizontal sweep | None | 1/Action | 5 | 2 | NO |
+| Snake Bite | 12 | Action | Melee (5 ft) | Melee arc | None | 1/Action | 6 | 3 | NO |
+| Sharp Nail | 14 | Action | Melee (5 ft) | Zigzag slash | None | 1/Action | 6 | 3 | NO |
+| Horizontal Square | 18 | Action | Melee (5 ft) | Square / rhombus | 5-ft square pattern | 1/Action | 7 | 3 | NO |
+| Vertical Square | 18 | Action | Melee (5 ft) | Square | 5-ft square pattern | 1/Action | 7 | 3 | NO |
+| Embracer | 14 | Action | Touch (5 ft) | Thrust (unarmed) | None | 1/Action | 8 | 3 | NO |
+| Vorpal Strike | 22 | Action | 10 ft (reach) | Line thrust | None | 1/Action | 9 | 4 | NO |
+| Dual Blades (Unique Skill) | 0 | Passive Unlock | — | — | None | — | 10 | 5 | NO |
+| Double Circular | 16 | Action | 15 ft charge | Line (forward) | None | 1/Action | 10 | 3 | NO |
+| Cross Block | 8 | Reaction | Melee (5 ft) | Cross guard | None | 1/Reaction | 11 | 3 | NO |
+| Meteor Break | 28 | Action | Melee + tackle | Line / chain | None | 1/Action | 12 | 5 | NO |
+| Starburst Stream | 48 | Action | Melee (5 ft) | Multi-slash storm | None | 1/fight | 14 | 6 | NO |
+| The Eclipse | 80 | Action | Melee (5 ft) | Multi-slash storm | None | 1/long rest | 18 | 8 | NO |
 
-`Train` = sessions needed after level unlock. `0` = known at creation.
+`Train` = sessions needed after level unlock. `0` + Start YES = known at creation.
 
 ---
 
@@ -44,14 +57,13 @@ One-page GitHub view of the Kirito Aincrad mana kit.
 
 | Skill | Tier | Category | Prerequisite | Effect (short) | Notes |
 |---|---|---|---|---|---|
-| Horizontal | Basic | One-Handed Sword | — | Melee +1d4 | Starter · auto-Learned |
-| Vertical | Basic | One-Handed Sword | — | Melee +1d4 | Starter · auto-Learned |
-| Slant | Basic | One-Handed Sword | — | Melee +1d4 | First train-to-learn |
+| Horizontal | Basic | One-Handed Sword | — | Melee +1d4 | Free · no mana |
+| Vertical | Basic | One-Handed Sword | — | Melee +1d4 | Free · no mana |
+| Slant | Basic | One-Handed Sword | — | Melee +1d4 | Free · no mana |
 | Retreat | Mobility | Movement Technique | — | Bonus Action: dash 15 ft straight back; no OA | Anime switch / backstep |
-| Uppercut | Basic | One-Handed Sword | Slant | Melee +1d6 | Stronger basic |
-| Single Shot | Utility | Blade Throwing | — | Ranged 30/90 +1d6 | Thrown blade |
-| Rage Spike | Mobility | One-Handed Sword | Uppercut | Dash 15 ft · melee +1d6 | Leap / upward |
-| Deflect | Defense | Defense Technique | Slant | Special Reaction: force melee reroll / disadv; **does not use your Reaction** | Pay 10 mana each time · unlimited / turn |
+| Deflect | Defense | Defense Technique | — | Special Reaction: force melee reroll / disadv; **does not use your Reaction** | Pay 10 mana each time · unlimited / turn |
+| Rage Spike | Mobility | One-Handed Sword | — | Dash 15 ft · melee +1d6 | Leap / upward |
+| Uppercut | Basic | One-Handed Sword | Slant | Melee +1d6 | Stronger basic (costs mana) |
 | Sonic Leap | Mobility | One-Handed Sword | Rage Spike | Dash 20 ft · melee +1d8 | Charge staple |
 | Vertical Arc | Combo | One-Handed Sword | Vertical | 2 melee (+1d4 each) | V-shape |
 | Horizontal Arc | Combo | One-Handed Sword | Horizontal | 2 melee (+1d4 each) | L↔R pair |
@@ -70,7 +82,10 @@ One-page GitHub view of the Kirito Aincrad mana kit.
 
 ---
 
-## New utility skills
+## Starter utility rules
+
+### Free basics — Horizontal / Vertical / Slant
+**0 mana.** Always available. They do not spend from the 100 mana pool.
 
 ### Retreat — 2 mana · Bonus Action
 Anime “switch” / backstep. Move up to **15 ft straight backward**. Does not provoke opportunity attacks. **Once per turn.**
@@ -80,9 +95,11 @@ When you are hit by a melee weapon attack or sword skill you can see, spend **10
 
 - **Does not consume** your normal Reaction.
 - **Unlimited times per turn** — pay 10 mana for each deflect.
-- Soft-locked only by mana (and being able to see the attack).
 
 **vs Cross Block:** Cross Block is the Dual Blades Reaction (uses your Reaction, cheaper, riposte). Deflect is the always-on single-blade guard spam.
+
+### Rage Spike — 8 mana · Action
+Dash up to 15 ft, then an upward melee strike.
 
 ---
 
@@ -91,8 +108,8 @@ When you are hit by a melee weapon attack or sword skill you can see, spend **10
 | Column | Meaning |
 |---|---|
 | Action Type | Action / Bonus Action / Reaction / Special Reaction / Passive Unlock |
-| Range | Reach, charge distance, or ranged brackets |
-| Shape | How the motion looks (arc, line, square, projectile…) |
+| Range | Reach, charge distance, or melee brackets |
+| Shape | How the motion looks (arc, line, square…) |
 | AoE | Area footprint if any (most sword skills are single-target) |
 | Use Limit | How often you can spend it (turn / reaction / rest) |
 | Target | Who it affects (full detail in `skills.csv`) |
@@ -102,11 +119,10 @@ When you are hit by a melee weapon attack or sword skill you can see, spend **10
 
 ## Unlock by level
 
-| Lvl | Skills that become trainable |
+| Lvl | Skills |
 |---:|---|
-| 1 | Horizontal, Vertical *(known)* · Slant · **Retreat** |
-| 2 | Uppercut · Single Shot |
-| 3 | Rage Spike · **Deflect** |
+| 1 | **Starter (Learned):** Horizontal, Vertical, Slant, Retreat, Deflect, Rage Spike |
+| 2 | Uppercut *(train)* |
 | 4 | Sonic Leap · Vertical Arc |
 | 5 | Horizontal Arc |
 | 6 | Snake Bite · Sharp Nail |

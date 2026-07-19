@@ -1,0 +1,22 @@
+Skill,Category,Hits,Tier,Mana Cost,Level Required,Training Sessions,Prerequisite,Suggested D&D Effect,Notes / Source
+Horizontal,One-Handed Sword,1,Basic,4,1,0,—,Melee weapon attack +1d4,Starter skill; known at character creation
+Vertical,One-Handed Sword,1,Basic,4,1,0,—,Melee weapon attack +1d4,Starter skill; known at character creation
+Slant,One-Handed Sword,1,Basic,4,1,1,—,Melee weapon attack +1d4,First train-to-learn skill
+Uppercut,One-Handed Sword,1,Basic,5,2,1,Slant,Melee weapon attack +1d6,Upward cut; slightly stronger basic
+Single Shot,Blade Throwing,1,Utility,6,2,2,—,Ranged weapon attack 30/90; +1d6,Thrown blade skill
+Rage Spike,One-Handed Sword,1,Mobility,8,3,2,Uppercut,"Dash up to 15 ft; melee +1d6",Leap + upward strike
+Sonic Leap,One-Handed Sword,1,Mobility,10,4,2,Rage Spike,"Dash up to 20 ft; melee +1d8",Charge downward strike; Kirito staple
+Vertical Arc,One-Handed Sword,2,Combo,10,4,2,Vertical,Two melee attacks (+1d4 each),V-shaped trajectory
+Horizontal Arc,One-Handed Sword,2,Combo,10,5,2,Horizontal,Two melee attacks (+1d4 each),Left-right horizontal pair
+Snake Bite,One-Handed Sword,2,Utility,12,6,3,Horizontal Arc,"Two attacks; on hit DC 13 Str save or weapon disadvantage until end of next turn",Weapon-break style skill
+Sharp Nail,One-Handed Sword,3,Combo,14,6,3,Vertical Arc,Three melee attacks (+1d4 each),Progressive Aincrad mid combo
+Horizontal Square,One-Handed Sword,4,Mid,18,7,3,Horizontal Arc,"Four melee attacks; +2 AC until start of next turn if all hit",4-hit square
+Vertical Square,One-Handed Sword,4,Mid,18,7,3,Vertical Arc,Four melee attacks (+1d6 each),LN Aincrad mid skill
+Embracer,Martial Arts,1,Utility,14,8,3,—,"Unarmed strike +2d8; ignore nonmagical armor bonus to AC",Requires Martial Arts extra skill unlocked at 8
+Vorpal Strike,One-Handed Sword,1,Power,22,9,4,Sonic Leap,"Melee attack with reach +5 ft; +2d8 damage; long post-motion (skip reaction until next turn)",Kirito signature heavy thrust
+Dual Blades (Unique Skill),Unique Skill Gate,0,Gate,0,10,5,Vorpal Strike + Reaction Trial,"Unlocks dual-wield skill tree; may wield two one-handed swords",LEVEL LOCK: cannot dual-wield sword skills before this
+Double Circular,Dual Blades,2,Dual,16,10,3,Dual Blades (Unique Skill),"Dash 15 ft; two melee attacks with both weapons (+1d6 each)",First Dual Blades technique
+Cross Block,Dual Blades,0,Defense,8,11,3,Double Circular,"Reaction: impose disadvantage on one melee attack; if miss you may riposte once",Defensive dual-blade cross
+Meteor Break,Composite (Sword + Martial Arts),7,Power,28,12,5,Embracer + Vertical Square,"Seven-hit combo: treat as Attack action that deals 4d8 + STR; shove target 10 ft",Composite; needs martial + sword mid skill
+Starburst Stream,Dual Blades,16,Ultimate,48,14,6,Double Circular + Cross Block,"Full-round multiattack: 6 attacks at +2 to hit; +3d8 bonus damage once; you are vulnerable until your next turn (post-motion)",Boss-killer; Gleam Eyes
+The Eclipse,Dual Blades,27,Ultimate,80,18,8,Starburst Stream,"Once per long rest: 8 attacks; +6d8 bonus damage; after use your speed is 0 and attacks against you have advantage until end of next turn",Finale vs Heathcliff; nearly empties the bar

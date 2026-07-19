@@ -1,0 +1,22 @@
+Skill,Level Required,Training Sessions Needed,Sessions Completed,Prerequisite Met?,Level Met?,Status,Learned?
+Horizontal,1,0,0,YES,YES,Learned,YES
+Vertical,1,0,0,YES,YES,Learned,YES
+Slant,1,1,0,YES,YES,Training,NO
+Uppercut,2,1,0,NO,NO,Locked,NO
+Single Shot,2,2,0,YES,NO,Locked,NO
+Rage Spike,3,2,0,NO,NO,Locked,NO
+Sonic Leap,4,2,0,NO,NO,Locked,NO
+Vertical Arc,4,2,0,NO,NO,Locked,NO
+Horizontal Arc,5,2,0,NO,NO,Locked,NO
+Snake Bite,6,3,0,NO,NO,Locked,NO
+Sharp Nail,6,3,0,NO,NO,Locked,NO
+Horizontal Square,7,3,0,NO,NO,Locked,NO
+Vertical Square,7,3,0,NO,NO,Locked,NO
+Embracer,8,3,0,NO,NO,Locked,NO
+Vorpal Strike,9,4,0,NO,NO,Locked,NO
+Dual Blades (Unique Skill),10,5,0,NO,NO,Locked,NO
+Double Circular,10,3,0,NO,NO,Locked,NO
+Cross Block,11,3,0,NO,NO,Locked,NO
+Meteor Break,12,5,0,NO,NO,Locked,NO
+Starburst Stream,14,6,0,NO,NO,Locked,NO
+The Eclipse,18,8,0,NO,NO,Locked,NO

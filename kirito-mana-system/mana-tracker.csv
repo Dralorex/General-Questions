@@ -1,0 +1,14 @@
+Field,Value,Notes
+Character Name,Kirito / Your PC,
+Current Level,1,Drives which skills can unlock
+Max Mana,100,Starting pool
+Current Mana,100,"Do not type over formula cells if you import the formulas sheet"
+Dual Blades Unlocked?,NO,Becomes YES only at Level 10+ after Reaction Trial + finishing Dual Blades training
+Mana Regen Mode,Combat Tick,"Options: Combat Tick / Short Rest / Long Rest / Out of Combat"
+Combat Round,1,
+Last Skill Used,,
+Last Mana Spent,0,
+Mana After Spend,,
+Regen This Tick,0,
+Mana After Regen,,
+Status Notes,Only Learned skills may be cast,

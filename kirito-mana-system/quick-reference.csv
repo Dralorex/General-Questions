@@ -1,0 +1,22 @@
+Skill,Mana,Tier,Level Required,Training Sessions,Learned At Start?
+Horizontal,4,Basic,1,0,YES
+Vertical,4,Basic,1,0,YES
+Slant,4,Basic,1,1,NO
+Uppercut,5,Basic,2,1,NO
+Single Shot,6,Utility,2,2,NO
+Rage Spike,8,Mobility,3,2,NO
+Sonic Leap,10,Mobility,4,2,NO
+Vertical Arc,10,Combo,4,2,NO
+Horizontal Arc,10,Combo,5,2,NO
+Snake Bite,12,Utility,6,3,NO
+Sharp Nail,14,Combo,6,3,NO
+Horizontal Square,18,Mid,7,3,NO
+Vertical Square,18,Mid,7,3,NO
+Embracer,14,Utility,8,3,NO
+Vorpal Strike,22,Power,9,4,NO
+Dual Blades (Unique Skill),0,Gate,10,5,NO
+Double Circular,16,Dual,10,3,NO
+Cross Block,8,Defense,11,3,NO
+Meteor Break,28,Power,12,5,NO
+Starburst Stream,48,Ultimate,14,6,NO
+The Eclipse,80,Ultimate,18,8,NO

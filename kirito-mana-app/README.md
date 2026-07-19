@@ -10,6 +10,7 @@ Mobile-first Progressive Web App for the Kirito mana system.
 - **Saves on your phone** with `localStorage` — survives full app close
 - Offline-capable after first load (service worker)
 - Install to Home Screen (iPhone & Android)
+- **DM Link** (Profile): share a code so [DM Eye](../dm-eye/) can track your vitals live
 
 ## Phone link (GitHub Pages)
 
@@ -19,7 +20,10 @@ https://dralorex.github.io/General-Questions/mana/
 **Codex (separate 5e sheet):**  
 https://dralorex.github.io/General-Questions/codex/
 
-**Hub (pick either app):**  
+**DM Eye (party tracker):**  
+https://dralorex.github.io/General-Questions/dm-eye/
+
+**Hub (pick an app):**  
 https://dralorex.github.io/General-Questions/
 
 ### Important: this repo is private
@@ -33,7 +37,7 @@ Short version after it’s public:
 1. **Settings → Pages → Deploy from a branch → `gh-pages` / root → Save**
 2. Open Mana: https://dralorex.github.io/General-Questions/mana/
 
-Later pushes that touch `kirito-mana-app/` or `codex-5e/` auto-redeploy both apps.
+Later pushes that touch `kirito-mana-app/`, `codex-5e/`, `dm-eye/`, or `pages-hub/` auto-redeploy the phone apps.
 
 ### Install on your phone
 1. Open the Pages URL above on your phone.
@@ -78,3 +82,4 @@ No projectile skills.
 
 - [Master Skills Sheet](../kirito-mana-system/MASTER-SKILLS.md)
 - [System rules](../kirito-mana-system/README.md)
+- [DM Eye live tracker](../dm-eye/)

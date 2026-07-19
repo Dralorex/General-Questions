@@ -34,6 +34,7 @@ Open **http://localhost:4174**
 - **Notes** tab: nested folders, tags, search
 - Combat vitals, death saves, gear, portrait, backup/export
 - Offline saves on this device (`localStorage`)
+- **DM Link** (Profile): share a 6-character code so [DM Eye](../dm-eye/) can track your sheet live
 
 ## Quick start in the app
 
@@ -42,6 +43,7 @@ Open **http://localhost:4174**
 3. **Spells** → browse that class’s spell list (or uncheck “Class list only”)
 4. **Notes** → `+ Folder` (e.g. Tavern Talks) → open it → `+ Note` → add tags like `npc, quest`
 5. Nested folders: open a folder, then `+ Folder` again for a subfolder
+6. **DM Link** → turn **Share with DM** on → give the code to your DM
 
 ## Tabs
 
@@ -61,5 +63,6 @@ Spell and class content comes from the **D&D 5e SRD 5.1** (via [dnd5eapi.co](htt
 ## Related
 
 - Original mana / sword-skill app: [kirito-mana-app](../kirito-mana-app/)
+- DM live tracker: [dm-eye](../dm-eye/)
 - Homebrew CSVs: [kirito-mana-system](../kirito-mana-system/)
 - Pages URLs: [PAGES-SETUP.md](PAGES-SETUP.md)

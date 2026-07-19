@@ -33,6 +33,7 @@
       xp: 0,
       classId: "",
       className: "",
+      subclass: "",
       race: "",
       background: "",
       alignment: "",
@@ -75,6 +76,8 @@
         search: "",
         tagFilter: "",
       },
+      dmLinkCode: "",
+      dmLinkEnabled: false,
       updatedAt: Date.now(),
     };
   }
@@ -146,9 +149,70 @@
   let toastTimer = null;
   let deathPopupShown = false;
   let livedPopupShown = false;
+  let dmPublisher = null;
+  let dmLinkStatus = "offline";
 
   function clamp(n, min, max) {
     return Math.max(min, Math.min(max, n));
+  }
+
+  function ensureDmLinkCode() {
+    const Link = window.DmEyeLink;
+    if (!Link) return;
+    if (!Link.isValidCode(state.dmLinkCode)) {
+      state.dmLinkCode = Link.generateCode();
+    }
+  }
+
+  function setDmLinkStatusText(status) {
+    dmLinkStatus = status || "offline";
+    const el = $("#dmLinkStatus");
+    if (!el) return;
+    if (!state.dmLinkEnabled) {
+      el.textContent = "Sharing off — DM Eye will not see updates";
+      return;
+    }
+    const map = {
+      online: "Sharing on · live",
+      connecting: "Sharing on · connecting…",
+      offline: "Sharing on · reconnecting…",
+      error: "Sharing on · link error, retrying…",
+    };
+    el.textContent = map[dmLinkStatus] || "Sharing on";
+  }
+
+  function stopDmPublisher() {
+    if (!dmPublisher) return;
+    try {
+      dmPublisher.stop();
+    } catch (_) {}
+    dmPublisher = null;
+  }
+
+  function syncDmLink() {
+    const Link = window.DmEyeLink;
+    if (!Link) return;
+    ensureDmLinkCode();
+    if (!state.dmLinkEnabled) {
+      stopDmPublisher();
+      setDmLinkStatusText("offline");
+      return;
+    }
+    if (!dmPublisher || dmPublisher.code !== state.dmLinkCode) {
+      stopDmPublisher();
+      dmPublisher = new Link.DmLinkPublisher({
+        source: "codex",
+        onStatus: setDmLinkStatusText,
+      });
+      try {
+        dmPublisher.start(state.dmLinkCode);
+      } catch (err) {
+        console.warn(err);
+        setDmLinkStatusText("error");
+        return;
+      }
+    }
+    dmPublisher.publish(Link.snapshotFromState(state, "codex"));
   }
 
   function persist(immediate = false) {
@@ -157,6 +221,7 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         setSaveBadge(true);
+        syncDmLink();
       } catch (err) {
         setSaveBadge(false, "Save failed — storage full?");
         console.error(err);
@@ -897,7 +962,12 @@
     const cls = selectedClass();
     $("#levelChip").textContent = `Lv ${state.level}`;
     $("#nameChip").textContent = state.name || "Adventurer";
-    $("#classChip").textContent = cls ? cls.name : "No class";
+    const classLabel = cls
+      ? state.subclass
+        ? `${cls.name} (${state.subclass})`
+        : cls.name
+      : "No class";
+    $("#classChip").textContent = classLabel;
     $("#hpChip").textContent = `HP ${hpTotalDisplay()}`;
     $("#profBonusLabel").textContent = `(${window.formatMod(pb())})`;
   }
@@ -1229,6 +1299,7 @@
     $("#nameInput").value = state.name || "";
     $("#levelInput").value = String(state.level);
     $("#xpInput").value = String(state.xp || 0);
+    $("#subclassInput").value = state.subclass || "";
     $("#raceInput").value = state.race || "";
     $("#backgroundInput").value = state.background || "";
     $("#alignmentInput").value = state.alignment || "";
@@ -1246,6 +1317,12 @@
     $("#featsInput").value = state.feats || "";
     $("#profTextInput").value = state.proficienciesText || "";
     $("#otherNotesInput").value = state.otherNotes || "";
+    ensureDmLinkCode();
+    const codeEl = $("#dmLinkCode");
+    if (codeEl) codeEl.textContent = state.dmLinkCode || "————";
+    const toggle = $("#dmLinkToggle");
+    if (toggle) toggle.checked = !!state.dmLinkEnabled;
+    setDmLinkStatusText(dmLinkStatus);
     const preview = $("#portraitPreview");
     if (state.portraitDataUrl) {
       preview.classList.remove("empty");
@@ -1522,6 +1599,7 @@
         },
       ],
       ["xpInput", (v) => (state.xp = Math.max(0, Number(v) || 0))],
+      ["subclassInput", (v) => (state.subclass = v)],
       ["raceInput", (v) => (state.race = v)],
       ["backgroundInput", (v) => (state.background = v)],
       ["alignmentInput", (v) => (state.alignment = v)],
@@ -1552,6 +1630,31 @@
 
     $("#classSelect")?.addEventListener("change", (e) => {
       applyClass(e.target.value);
+    });
+
+    $("#dmLinkToggle")?.addEventListener("change", (e) => {
+      state.dmLinkEnabled = !!e.target.checked;
+      persist(true);
+      renderProfile();
+      toast(state.dmLinkEnabled ? "DM Link sharing on" : "DM Link sharing off", "ok");
+    });
+    $("#dmLinkCopy")?.addEventListener("click", async () => {
+      ensureDmLinkCode();
+      try {
+        await navigator.clipboard.writeText(state.dmLinkCode);
+        toast("Code copied", "ok");
+      } catch {
+        toast(state.dmLinkCode, "info");
+      }
+    });
+    $("#dmLinkRegen")?.addEventListener("click", () => {
+      if (!window.DmEyeLink) return;
+      const wasOn = state.dmLinkEnabled;
+      if (wasOn) stopDmPublisher();
+      state.dmLinkCode = window.DmEyeLink.generateCode();
+      persist(true);
+      renderProfile();
+      toast("New DM Link code ready", "ok");
     });
 
     const syncSpellFilter = () => {
@@ -1641,5 +1744,7 @@
   setSaveBadge(true);
   setupInstall();
   registerSW();
+  ensureDmLinkCode();
+  if (state.dmLinkEnabled) syncDmLink();
   render();
 })();

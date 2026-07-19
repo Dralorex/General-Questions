@@ -1067,28 +1067,51 @@ body {
 }
 
 .portrait-preview {
-  /* Same square as the photo adjuster outline (1:1 · 14px corners). */
-  width: min(100%, 280px);
-  aspect-ratio: 1 / 1;
-  height: auto;
-  max-height: none;
+  /* Hard lock to the same 1:1 square as the crop outline — no rectangle crop. */
+  --portrait-side: min(100%, 280px);
+  width: var(--portrait-side);
+  max-width: 280px;
   margin: 0 auto 10px;
+  position: relative;
   border-radius: 14px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.35);
-  display: grid;
-  place-items: center;
   color: var(--muted);
   border: 2px solid rgba(230, 196, 122, 0.55);
   box-shadow: 0 0 0 3px rgba(230, 196, 122, 0.12);
 }
 
-.portrait-preview img {
+.portrait-preview::before {
+  content: "";
+  display: block;
+  padding-bottom: 100%; /* forces square even if aspect-ratio is ignored */
+}
+
+.portrait-preview > * {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+}
+
+.portrait-preview.empty {
+  display: block;
+}
+
+.portrait-preview.empty::after {
+  content: "No photo";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.portrait-preview img {
+  object-fit: contain;
   object-position: center;
   display: block;
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .portrait-actions {
@@ -1108,9 +1131,11 @@ body {
 }
 
 .portrait-crop-frame {
-  /* Match Profile portrait-preview outline (square + 14px radius). */
-  width: min(72vw, 280px);
-  aspect-ratio: 1;
+  /* Same square as Profile .portrait-preview. */
+  --portrait-side: min(100%, 280px);
+  width: var(--portrait-side);
+  max-width: 280px;
+  aspect-ratio: 1 / 1;
   border-radius: 14px;
   overflow: hidden;
   position: relative;
@@ -1151,39 +1176,6 @@ body {
   transform-origin: 0 0;
   pointer-events: none;
   -webkit-user-drag: none;
-}
-
-.portrait-final-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 8px 10px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.portrait-final-row .label {
-  margin: 0 0 2px;
-}
-
-.portrait-live-preview {
-  width: 72px;
-  height: 72px;
-  border-radius: 14px;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 2px solid var(--gold);
-  background: rgba(0, 0, 0, 0.35);
-  box-shadow: 0 0 0 3px rgba(230, 196, 122, 0.16);
-}
-
-.portrait-live-preview canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
 }
 
 .portrait-zoom-field {

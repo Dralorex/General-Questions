@@ -1,12 +1,11 @@
 Skill,Mana,Action Type,Range,Shape,AoE,Use Limit,Tier,Level Required,Training Sessions,Learned At Start?
-Horizontal,4,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,YES
-Vertical,4,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,YES
-Slant,4,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,1,NO
-Retreat,2,Bonus Action,Self,Line (backward),None,1/turn,Mobility,1,1,NO
+Horizontal,0,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,YES
+Vertical,0,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,YES
+Slant,0,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,YES
+Retreat,2,Bonus Action,Self,Line (backward),None,1/turn,Mobility,1,0,YES
+Deflect,10,Special Reaction,Melee (5 ft),Melee guard,None,Unlimited/turn,Defense,1,0,YES
+Rage Spike,8,Action,15 ft charge,Line (forward),None,1/Action,Mobility,1,0,YES
 Uppercut,5,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,2,1,NO
-Single Shot,6,Action,30/90 ft,Projectile,None,1/Action,Utility,2,2,NO
-Rage Spike,8,Action,15 ft charge,Line (forward),None,1/Action,Mobility,3,2,NO
-Deflect,10,Special Reaction,Melee (5 ft),Melee guard,None,Unlimited/turn,Defense,3,2,NO
 Sonic Leap,10,Action,20 ft charge,Line (forward),None,1/Action,Mobility,4,2,NO
 Vertical Arc,10,Action,Melee (5 ft),V-shape,None,1/Action,Combo,4,2,NO
 Horizontal Arc,10,Action,Melee (5 ft),Horizontal sweep,None,1/Action,Combo,5,2,NO

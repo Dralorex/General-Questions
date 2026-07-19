@@ -921,6 +921,10 @@ body {
   padding: 0.2rem 0;
 }
 
+.equip-meta {
+  margin: 4px 2px 0;
+}
+
 .equip-rule {
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.45);
@@ -936,6 +940,103 @@ body {
   font: inherit;
   resize: vertical;
   min-height: 4rem;
+}
+
+/* Gear picker sheet */
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(6, 10, 14, 0.72);
+  display: grid;
+  align-items: end;
+  padding: 0;
+}
+
+.sheet[hidden] {
+  display: none !important;
+}
+
+.sheet-panel {
+  background: linear-gradient(180deg, #1a2433, #121820);
+  border-radius: 18px 18px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 0;
+  max-height: min(88vh, 720px);
+  display: flex;
+  flex-direction: column;
+  padding: 14px 14px calc(14px + env(safe-area-inset-bottom, 0px));
+  gap: 10px;
+}
+
+.sheet-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: start;
+}
+
+.sheet-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+.sheet-filters {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 8px;
+}
+
+.sheet-results {
+  overflow: auto;
+  display: grid;
+  gap: 6px;
+  min-height: 12rem;
+  max-height: 48vh;
+  padding-right: 2px;
+}
+
+.gear-pick-row {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 0.7rem 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  font: inherit;
+  cursor: pointer;
+}
+
+.gear-pick-row:active {
+  transform: scale(0.99);
+}
+
+.gear-pick-main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.gear-pick-name {
+  font-weight: 700;
+  font-family: var(--font-display);
+}
+
+.tiny-pill {
+  font-size: 0.68rem;
+  padding: 0.2rem 0.45rem;
+  white-space: nowrap;
+}
+
+.sheet-custom {
+  width: 100%;
 }
 
 .icon-trash {

@@ -30,7 +30,9 @@ Open **http://localhost:4174**
 
 - Full **5e SRD spell database** (319 spells) with casting details
 - Spells by level in **dropdowns**, with **checkboxes** to prepare / know spells (5e limits)
+- Martial classes rename that tab (**Features / Rage / Ki / Tricks**) and show class features instead
 - **Spell slots** tracked in Combat; quick-cast buttons spend slots like skill buttons
+- Full **5e SRD equipment + magic item** catalog — search and add from Gear
 - Long rest restores all slots; warlock **pact slots** also restore on short rest
 - All **12 SRD classes** in a Profile dropdown with auto-applied features, saves, hit dice, and spell list
 - **Notes** tab: nested folders, tags, search
@@ -51,14 +53,14 @@ Open **http://localhost:4174**
 |---|---|
 | Combat | Vitals, spell slots, quick-cast, short/long rest, log |
 | Stats | Abilities + auto class saves + feature list |
-| Spells | SRD spellbook with level dropdowns + prepare/known checkboxes |
-| Gear | Equipment list |
+| Spells / Features | Caster spellbook **or** martial class features (tab name follows class) |
+| Gear | SRD equipment search + custom items |
 | Notes | Nested folders + tagged notes |
 | Profile | Class picker + sheet fields + backup |
 
 ## Data & license
 
-Spell and class content comes from the **D&D 5e SRD 5.1** (via [dnd5eapi.co](https://www.dnd5eapi.co/)), © Wizards of the Coast, used under **CC-BY-4.0**.
+Spell, class, equipment, and magic-item content comes from the **D&D 5e SRD 5.1** (via [dnd5eapi.co](https://www.dnd5eapi.co/)), © Wizards of the Coast, used under **CC-BY-4.0**.
 
 ## Related
 

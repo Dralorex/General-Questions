@@ -3,7 +3,7 @@
   const CLASSES = window.CODEX_CLASSES || [];
   const SPELLS = window.CODEX_SPELLS || [];
   const STORAGE_KEY = "codex-5e-pwa-v1";
-  const APP_VERSION = "5.0.0";
+  const APP_VERSION = "5.1.0";
 
   const SAVE_ID_BY_KEY = {
     str: "str-save",
@@ -509,12 +509,12 @@
     }
   }
 
-  function refreshClassDerived() {
+  function refreshClassDerived(previousMax = null) {
     const cls = selectedClass();
     if (!cls) return;
     state.hitDice = `${state.level}d${cls.hitDie}`;
     state.classFeatures = formatFeaturesNotes(cls, state.level);
-    refreshSpellcasting({ refillSlots: false, prune: true });
+    refreshSpellcasting({ refillSlots: false, prune: true, previousMax });
   }
 
   function pushLog(entry) {
@@ -664,14 +664,134 @@
   }
 
   /* ---------- Equipment ---------- */
-  function addEquipment() {
+  let gearPickerFilter = { search: "", category: "all" };
+
+  function formatEquipmentDescription(item) {
+    return window.codexEquipmentDetailText(item);
+  }
+
+  function openGearPicker() {
+    const sheet = $("#gearPicker");
+    if (!sheet) return;
+    gearPickerFilter = { search: "", category: "all" };
+    const catSel = $("#gearPickerCategory");
+    if (catSel && catSel.options.length <= 1) {
+      for (const cat of window.CODEX_EQUIPMENT_CATEGORIES || []) {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat;
+        catSel.appendChild(opt);
+      }
+    }
+    if ($("#gearPickerSearch")) $("#gearPickerSearch").value = "";
+    if (catSel) catSel.value = "all";
+    sheet.hidden = false;
+    renderGearPickerResults();
+    $("#gearPickerSearch")?.focus();
+  }
+
+  function closeGearPicker() {
+    const sheet = $("#gearPicker");
+    if (sheet) sheet.hidden = true;
+  }
+
+  function filteredCatalogEquipment() {
+    const q = String(gearPickerFilter.search || "")
+      .trim()
+      .toLowerCase();
+    const cat = gearPickerFilter.category || "all";
+    let list = window.CODEX_EQUIPMENT || [];
+    if (cat !== "all") list = list.filter((i) => i.category === cat);
+    if (q) {
+      list = list.filter((i) => {
+        const hay = [
+          i.name,
+          i.category,
+          i.rarity,
+          i.damage,
+          i.armorClass,
+          ...(i.desc || []),
+          ...(i.properties || []),
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        return hay.includes(q);
+      });
+    }
+    return list;
+  }
+
+  function renderGearPickerResults() {
+    const box = $("#gearPickerResults");
+    if (!box) return;
+    const list = filteredCatalogEquipment();
+    if (!list.length) {
+      box.innerHTML = `<p class="muted">No SRD items match.</p>`;
+      return;
+    }
+    const show = list.slice(0, 80);
+    box.innerHTML =
+      show
+        .map((item) => {
+          const summary = window.codexEquipmentSummary(item);
+          const badge =
+            item.source === "magic-item"
+              ? item.rarity || "Magic"
+              : item.category || "Gear";
+          return `<button type="button" class="gear-pick-row" data-add-catalog="${escapeAttr(
+            item.id
+          )}">
+            <span class="gear-pick-main">
+              <span class="gear-pick-name">${escapeText(item.name)}</span>
+              ${summary ? `<span class="muted tiny">${escapeText(summary)}</span>` : ""}
+            </span>
+            <span class="pill tiny-pill">${escapeText(badge)}</span>
+          </button>`;
+        })
+        .join("") +
+      (list.length > show.length
+        ? `<p class="muted tiny">Showing ${show.length} of ${list.length} — refine search.</p>`
+        : "");
+  }
+
+  function addEquipmentFromCatalog(catalogId) {
+    const cat = window.codexEquipmentById(catalogId);
+    if (!cat) {
+      toast("Item not found in SRD list", "warn");
+      return;
+    }
     state.equipment.unshift({
       id: `eq-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-      name: "New item",
-      description: "",
+      catalogId: cat.id,
+      name: cat.name,
+      description: formatEquipmentDescription(cat),
+      category: cat.category || "",
+      summary: window.codexEquipmentSummary(cat),
     });
+    closeGearPicker();
     persist();
     render();
+    toast(`Added ${cat.name}`, "ok");
+  }
+
+  function addCustomEquipment() {
+    state.equipment.unshift({
+      id: `eq-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      catalogId: "",
+      name: "Custom item",
+      description: "",
+      category: "",
+      summary: "",
+    });
+    closeGearPicker();
+    persist();
+    render();
+    toast("Custom item added", "info");
+  }
+
+  function addEquipment() {
+    openGearPicker();
   }
 
   function updateEquipment(id, field, value) {
@@ -1427,21 +1547,90 @@
     return list;
   }
 
+  function updatePowerTabLabels() {
+    const meta = window.codexClassPowerPanel(state.classId);
+    const tabBtn = document.querySelector('.tab[data-tab="spells"]');
+    if (tabBtn) tabBtn.textContent = meta.tab;
+    const title = $("#powerTitle");
+    if (title) title.textContent = meta.title;
+    const sub = $("#spellsSubtitle");
+    if (sub) sub.textContent = meta.subtitle;
+    const chrome = $("#spellCasterChrome");
+    if (chrome) chrome.hidden = meta.mode !== "spells";
+    return meta;
+  }
+
+  function renderFeaturePanel() {
+    const list = $("#spellList");
+    if (!list) return;
+    const cls = selectedClass();
+    const slotsCard = $("#spellSlotsCard");
+    if (slotsCard) {
+      slotsCard.hidden = true;
+      slotsCard.innerHTML = "";
+    }
+    if (!cls) {
+      list.innerHTML = `<p class="muted empty-spells">Select a class in Profile to load its features.</p>`;
+      return;
+    }
+    ensureSpellArrays();
+    const byLevel = {};
+    for (let lv = 1; lv <= state.level; lv++) {
+      const feats = cls.featuresByLevel?.[String(lv)] || [];
+      if (feats.length) byLevel[lv] = feats;
+    }
+    const levels = Object.keys(byLevel)
+      .map(Number)
+      .sort((a, b) => a - b);
+    if (!levels.length) {
+      list.innerHTML = `<p class="muted empty-spells">No class features unlocked at level ${state.level}.</p>`;
+      return;
+    }
+    list.innerHTML = levels
+      .map((lv) => {
+        const group = byLevel[lv];
+        const openKey = `feat-${lv}`;
+        const isOpen =
+          state.spellLevelOpen[openKey] != null
+            ? !!state.spellLevelOpen[openKey]
+            : lv === levels[0];
+        return `<details class="spell-level" data-spell-level="${openKey}" ${isOpen ? "open" : ""}>
+          <summary class="spell-level-summary">
+            <span class="spell-level-name">Level ${lv}</span>
+            <span class="muted tiny">${group.length} feature${group.length === 1 ? "" : "s"}</span>
+          </summary>
+          <div class="spell-level-body">
+            ${group
+              .map(
+                (f) => `<article class="feature-card">
+                  <header><h3>${escapeText(f.name)}</h3><span class="pill">L${lv}</span></header>
+                  <p class="feature-desc">${escapeText(f.description || "")}</p>
+                </article>`
+              )
+              .join("")}
+          </div>
+        </details>`;
+      })
+      .join("");
+  }
+
   function renderSpells() {
     ensureSpellArrays();
+    const meta = updatePowerTabLabels();
+    if (meta.mode === "features") {
+      renderFeaturePanel();
+      return;
+    }
+
     const cls = selectedClass();
     const limits = spellLimits();
     const counts = countSelectedByKind();
     const selectable = !!(cls && cls.spellcasting);
     const sub = $("#spellsSubtitle");
-    if (sub) {
-      if (!cls) {
-        sub.textContent = "Pick a class in Profile, then check spells to prepare or learn.";
-      } else if (!cls.spellcasting) {
-        sub.textContent = `${cls.name} has no spellcasting.`;
-      } else {
-        sub.textContent = `${cls.name} · expand a level, check spells (${limits.selectLabel.toLowerCase()}). Selected spells appear in Combat.`;
-      }
+    if (sub && cls && cls.spellcasting) {
+      sub.textContent = `${cls.name} · expand a level, check spells (${limits.selectLabel.toLowerCase()}). Selected spells appear in Combat.`;
+    } else if (sub && !cls) {
+      sub.textContent = meta.subtitle;
     }
 
     const schoolSel = $("#spellSchoolFilter");
@@ -1561,7 +1750,7 @@
 
   function renderGear() {
     if (!state.equipment.length) {
-      $("#equipmentList").innerHTML = `<p class="muted empty-gear">No items yet. Tap + Add.</p>`;
+      $("#equipmentList").innerHTML = `<p class="muted empty-gear">No items yet. Tap + Add to search the 5e SRD list.</p>`;
       return;
     }
     $("#equipmentList").innerHTML = state.equipment
@@ -1575,8 +1764,15 @@
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM8 9h2v9H8V9zm-1 12h10a1 1 0 0 0 1-1V8H6v12a1 1 0 0 0 1 1z"/></svg>
           </button>
         </div>
+        ${
+          item.category || item.summary
+            ? `<p class="equip-meta muted tiny">${escapeText(
+                [item.category, item.summary].filter(Boolean).join(" · ")
+              )}</p>`
+            : ""
+        }
         <hr class="equip-rule" />
-        <textarea class="equip-desc" data-equip-field="description" rows="3" placeholder="Description">${escapeText(
+        <textarea class="equip-desc" data-equip-field="description" rows="4" placeholder="Description">${escapeText(
           item.description
         )}</textarea>
       </article>`
@@ -1771,6 +1967,7 @@
   function render() {
     renderHeader();
     renderVitals();
+    updatePowerTabLabels();
     const tab = document.body.dataset.tab || "combat";
     if (tab === "combat") renderCombat();
     if (tab === "stats") renderStats();
@@ -1834,6 +2031,21 @@
     });
 
     $("#addItemBtn").addEventListener("click", addEquipment);
+    $("#gearPickerClose")?.addEventListener("click", closeGearPicker);
+    $("#gearPickerCustom")?.addEventListener("click", addCustomEquipment);
+    $("#gearPicker")?.addEventListener("click", (e) => {
+      if (e.target.id === "gearPicker") closeGearPicker();
+      const row = e.target.closest("[data-add-catalog]");
+      if (row) addEquipmentFromCatalog(row.dataset.addCatalog);
+    });
+    $("#gearPickerSearch")?.addEventListener("input", (e) => {
+      gearPickerFilter.search = e.target.value;
+      renderGearPickerResults();
+    });
+    $("#gearPickerCategory")?.addEventListener("change", (e) => {
+      gearPickerFilter.category = e.target.value;
+      renderGearPickerResults();
+    });
     $("#equipmentList").addEventListener("click", (e) => {
       const del = e.target.closest("[data-equip-del]");
       if (del) removeEquipment(del.dataset.equipDel);
@@ -1920,8 +2132,9 @@
       [
         "levelInput",
         (v) => {
+          const previousMax = maxSlotsMap();
           state.level = clamp(Number(v) || 1, 1, 20);
-          refreshClassDerived();
+          refreshClassDerived(previousMax);
         },
       ],
       ["xpInput", (v) => (state.xp = Math.max(0, Number(v) || 0))],

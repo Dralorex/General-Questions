@@ -144,3 +144,130 @@ window.codexWarlockPactLevel = function (classId, level) {
   }
   return 0;
 };
+
+/**
+ * Class-aware label for the middle “Spells” dock tab / panel.
+ * Martial classes get Features / Rage / Ki instead of Spellbook.
+ */
+window.codexClassPowerPanel = function (classId) {
+  const cls = window.codexClassById(classId);
+  if (cls && cls.spellcasting) {
+    return {
+      mode: "spells",
+      tab: "Spells",
+      title: "Spellbook",
+      subtitle: `${cls.name} · expand a level, check spells to prepare or know. Selected spells appear in Combat.`,
+    };
+  }
+  const martial = {
+    barbarian: {
+      mode: "features",
+      tab: "Rage",
+      title: "Rage & Features",
+      subtitle: "Barbarian class features by level — expand a level to read the full SRD text.",
+    },
+    fighter: {
+      mode: "features",
+      tab: "Features",
+      title: "Fighter Features",
+      subtitle: "Fighting Style, Second Wind, Action Surge, and more — expand a level to read them.",
+    },
+    monk: {
+      mode: "features",
+      tab: "Ki",
+      title: "Ki & Features",
+      subtitle: "Martial Arts, Ki, and monk features by level — expand a level to read the full SRD text.",
+    },
+    rogue: {
+      mode: "features",
+      tab: "Tricks",
+      title: "Rogue Features",
+      subtitle: "Expertise, Sneak Attack, and more — expand a level to read the full SRD text.",
+    },
+  };
+  if (classId && martial[classId]) return martial[classId];
+  if (cls) {
+    return {
+      mode: "features",
+      tab: "Features",
+      title: `${cls.name} Features`,
+      subtitle: `${cls.name} class features by level — expand a level to read the full SRD text.`,
+    };
+  }
+  return {
+    mode: "spells",
+    tab: "Spells",
+    title: "Spellbook",
+    subtitle: "Pick a class in Profile. Casters get a spellbook; martial classes get their features here.",
+  };
+};
+
+window.codexEquipmentById = function (id) {
+  return (window.CODEX_EQUIPMENT || []).find((e) => e.id === id) || null;
+};
+
+/** Build a readable description block from an SRD equipment / magic-item record. */
+window.codexEquipmentDetailText = function (item) {
+  if (!item) return "";
+  const lines = [];
+  const meta = [];
+  if (item.category) meta.push(item.category);
+  if (item.rarity) meta.push(item.rarity);
+  if (item.cost) meta.push(item.cost);
+  if (item.weight != null && item.weight !== "") meta.push(`${item.weight} lb`);
+  if (meta.length) lines.push(meta.join(" · "));
+
+  if (item.weaponCategory || item.categoryRange) {
+    lines.push(
+      [item.categoryRange || item.weaponCategory, item.weaponRange]
+        .filter(Boolean)
+        .join(" · ")
+    );
+  }
+  if (item.damage) lines.push(`Damage: ${item.damage}`);
+  if (item.twoHandedDamage) lines.push(`Two-handed: ${item.twoHandedDamage}`);
+  if (item.range) lines.push(`Range: ${item.range} ft`);
+  if (item.throwRange) lines.push(`Thrown: ${item.throwRange} ft`);
+  if (item.properties && item.properties.length) {
+    lines.push(`Properties: ${item.properties.join(", ")}`);
+  }
+  if (item.armorCategory) {
+    lines.push(`${item.armorCategory} armor`);
+  }
+  if (item.armorClass) lines.push(`AC: ${item.armorClass}`);
+  if (item.strMinimum) lines.push(`Str minimum: ${item.strMinimum}`);
+  if (item.stealthDisadvantage) lines.push("Stealth: disadvantage");
+  if (item.toolCategory) lines.push(item.toolCategory);
+  if (item.gearCategory) lines.push(item.gearCategory);
+  if (item.vehicleCategory) lines.push(item.vehicleCategory);
+  if (item.speed) lines.push(`Speed: ${item.speed}`);
+  if (item.capacity) lines.push(`Capacity: ${item.capacity}`);
+  if (item.contents && item.contents.length) {
+    lines.push(`Contains: ${item.contents.join(", ")}`);
+  }
+  if (item.variants && item.variants.length) {
+    lines.push(`Variants: ${item.variants.join(", ")}`);
+  }
+  const desc = Array.isArray(item.desc) ? item.desc.filter(Boolean) : [];
+  const special = Array.isArray(item.special) ? item.special.filter(Boolean) : [];
+  if (desc.length) {
+    if (lines.length) lines.push("");
+    lines.push(...desc);
+  }
+  if (special.length) {
+    if (lines.length) lines.push("");
+    lines.push(...special);
+  }
+  return lines.join("\n").trim();
+};
+
+window.codexEquipmentSummary = function (item) {
+  if (!item) return "";
+  const bits = [];
+  if (item.category) bits.push(item.category);
+  if (item.rarity) bits.push(item.rarity);
+  if (item.damage) bits.push(item.damage);
+  if (item.armorClass) bits.push(`AC ${item.armorClass}`);
+  if (item.cost) bits.push(item.cost);
+  return bits.join(" · ");
+};

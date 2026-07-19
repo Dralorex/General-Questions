@@ -129,6 +129,39 @@
         <div id="equipmentList" class="equip-list"></div>
       </section>
 
+      <!-- NOTES -->
+      <section class="panel" data-panel="notes">
+        <div class="section-head row-between">
+          <div>
+            <h2>Notes</h2>
+            <p>Folders, nested folders, tags, and freeform campaign notes.</p>
+          </div>
+        </div>
+
+        <div class="notes-toolbar">
+          <button type="button" id="noteAddFolderBtn" class="btn ghost tiny">+ Folder</button>
+          <button type="button" id="noteAddBtn" class="btn primary tiny">+ Note</button>
+        </div>
+
+        <nav id="notesBreadcrumb" class="notes-breadcrumb" aria-label="Folder path"></nav>
+
+        <div class="notes-filters">
+          <label class="field tight">
+            <span>Search</span>
+            <input id="notesSearch" type="search" placeholder="Search notes…" />
+          </label>
+          <label class="field tight">
+            <span>Tag</span>
+            <select id="notesTagFilter">
+              <option value="">All tags</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="notesBrowser" class="notes-browser"></div>
+        <div id="noteEditor" class="note-editor" hidden></div>
+      </section>
+
       <!-- PROFILE -->
       <section class="panel" data-panel="profile">
         <div class="section-head">
@@ -252,11 +285,12 @@
       </section>
     </main>
 
-    <nav class="dock dock-5" aria-label="Primary">
+    <nav class="dock dock-6" aria-label="Primary">
       <button type="button" class="tab active" data-tab="combat">Combat</button>
       <button type="button" class="tab" data-tab="stats">Stats</button>
       <button type="button" class="tab" data-tab="spells">Spells</button>
       <button type="button" class="tab" data-tab="gear">Gear</button>
+      <button type="button" class="tab" data-tab="notes">Notes</button>
       <button type="button" class="tab" data-tab="profile">Profile</button>
     </nav>
 

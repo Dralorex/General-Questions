@@ -67,6 +67,14 @@
         school: "all",
         classOnly: true,
       },
+      notes: {
+        folders: [],
+        items: [],
+        currentFolderId: null,
+        selectedNoteId: null,
+        search: "",
+        tagFilter: "",
+      },
       updatedAt: Date.now(),
     };
   }
@@ -94,6 +102,12 @@
         spellFilters: {
           ...base.spellFilters,
           ...(parsed.spellFilters || {}),
+        },
+        notes: {
+          ...base.notes,
+          ...(parsed.notes || {}),
+          folders: Array.isArray(parsed.notes?.folders) ? parsed.notes.folders : [],
+          items: Array.isArray(parsed.notes?.items) ? parsed.notes.items : [],
         },
       };
       if (!merged.classId && merged.className) {
@@ -430,6 +444,206 @@
     state.equipment = state.equipment.filter((e) => e.id !== id);
     persist();
     render();
+  }
+
+  /* ---------- Notes (folders + tags) ---------- */
+  function uid(prefix) {
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  }
+
+  function ensureNotes() {
+    if (!state.notes) {
+      state.notes = {
+        folders: [],
+        items: [],
+        currentFolderId: null,
+        selectedNoteId: null,
+        search: "",
+        tagFilter: "",
+      };
+    }
+    if (!Array.isArray(state.notes.folders)) state.notes.folders = [];
+    if (!Array.isArray(state.notes.items)) state.notes.items = [];
+    return state.notes;
+  }
+
+  function parseTags(raw) {
+    return String(raw || "")
+      .split(/[,#]+/)
+      .map((t) => t.trim().toLowerCase())
+      .filter(Boolean)
+      .filter((t, i, arr) => arr.indexOf(t) === i);
+  }
+
+  function folderById(id) {
+    return ensureNotes().folders.find((f) => f.id === id) || null;
+  }
+
+  function noteById(id) {
+    return ensureNotes().items.find((n) => n.id === id) || null;
+  }
+
+  function childFolders(parentId) {
+    return ensureNotes().folders.filter((f) => (f.parentId || null) === (parentId || null));
+  }
+
+  function notesInFolder(folderId) {
+    return ensureNotes().items.filter((n) => (n.folderId || null) === (folderId || null));
+  }
+
+  function folderPath(folderId) {
+    const path = [];
+    let cur = folderId;
+    const guard = new Set();
+    while (cur && !guard.has(cur)) {
+      guard.add(cur);
+      const f = folderById(cur);
+      if (!f) break;
+      path.unshift(f);
+      cur = f.parentId || null;
+    }
+    return path;
+  }
+
+  function collectFolderTreeIds(folderId) {
+    const ids = [folderId];
+    for (const child of childFolders(folderId)) {
+      ids.push(...collectFolderTreeIds(child.id));
+    }
+    return ids;
+  }
+
+  function allTags() {
+    const set = new Set();
+    for (const n of ensureNotes().items) {
+      for (const t of n.tags || []) set.add(t);
+    }
+    return [...set].sort();
+  }
+
+  function addFolder() {
+    const notes = ensureNotes();
+    const name = prompt("Folder name", "Tavern Talks");
+    if (name == null) return;
+    const trimmed = name.trim();
+    if (!trimmed) return toast("Folder needs a name", "warn");
+    notes.folders.push({
+      id: uid("folder"),
+      name: trimmed,
+      parentId: notes.currentFolderId || null,
+      createdAt: Date.now(),
+    });
+    notes.selectedNoteId = null;
+    persist();
+    render();
+    toast(`Folder “${trimmed}” created`, "ok");
+  }
+
+  function openFolder(folderId) {
+    const notes = ensureNotes();
+    notes.currentFolderId = folderId || null;
+    notes.selectedNoteId = null;
+    persist();
+    render();
+  }
+
+  function renameFolder(folderId) {
+    const folder = folderById(folderId);
+    if (!folder) return;
+    const name = prompt("Rename folder", folder.name);
+    if (name == null) return;
+    const trimmed = name.trim();
+    if (!trimmed) return toast("Folder needs a name", "warn");
+    folder.name = trimmed;
+    persist();
+    render();
+  }
+
+  function deleteFolder(folderId) {
+    const folder = folderById(folderId);
+    if (!folder) return;
+    const tree = collectFolderTreeIds(folderId);
+    const noteCount = ensureNotes().items.filter((n) => tree.includes(n.folderId)).length;
+    const msg =
+      noteCount > 0
+        ? `Delete “${folder.name}” and ${tree.length - 1} subfolder(s)? This also deletes ${noteCount} note(s).`
+        : `Delete folder “${folder.name}”${tree.length > 1 ? ` and ${tree.length - 1} subfolder(s)` : ""}?`;
+    if (!confirm(msg)) return;
+    const notes = ensureNotes();
+    notes.folders = notes.folders.filter((f) => !tree.includes(f.id));
+    notes.items = notes.items.filter((n) => !tree.includes(n.folderId));
+    if (tree.includes(notes.currentFolderId)) notes.currentFolderId = folder.parentId || null;
+    if (notes.selectedNoteId && !noteById(notes.selectedNoteId)) notes.selectedNoteId = null;
+    persist();
+    render();
+    toast("Folder deleted", "warn");
+  }
+
+  function addNote() {
+    const notes = ensureNotes();
+    const note = {
+      id: uid("note"),
+      folderId: notes.currentFolderId || null,
+      title: "New note",
+      body: "",
+      tags: [],
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    notes.items.unshift(note);
+    notes.selectedNoteId = note.id;
+    persist();
+    render();
+    toast("Note created", "ok");
+  }
+
+  function openNote(noteId) {
+    ensureNotes().selectedNoteId = noteId;
+    persist();
+    render();
+  }
+
+  function closeNoteEditor() {
+    ensureNotes().selectedNoteId = null;
+    persist();
+    render();
+  }
+
+  function updateNoteField(noteId, field, value) {
+    const note = noteById(noteId);
+    if (!note) return;
+    if (field === "tags") note.tags = parseTags(value);
+    else note[field] = value;
+    note.updatedAt = Date.now();
+    persist();
+  }
+
+  function deleteNote(noteId) {
+    const note = noteById(noteId);
+    if (!note) return;
+    if (!confirm(`Delete note “${note.title || "Untitled"}”?`)) return;
+    const notes = ensureNotes();
+    notes.items = notes.items.filter((n) => n.id !== noteId);
+    if (notes.selectedNoteId === noteId) notes.selectedNoteId = null;
+    persist();
+    render();
+    toast("Note deleted", "warn");
+  }
+
+  function filteredNotesForCurrentFolder() {
+    const notes = ensureNotes();
+    const q = String(notes.search || "")
+      .trim()
+      .toLowerCase();
+    const tag = String(notes.tagFilter || "")
+      .trim()
+      .toLowerCase();
+    return notesInFolder(notes.currentFolderId).filter((n) => {
+      if (tag && !(n.tags || []).includes(tag)) return false;
+      if (!q) return true;
+      const hay = `${n.title}\n${n.body}\n${(n.tags || []).join(" ")}`.toLowerCase();
+      return hay.includes(q);
+    });
   }
 
   /* ---------- Portrait ---------- */
@@ -1047,6 +1261,132 @@
       "Progress is stored in this phone’s browser storage. Closing the app keeps it. Clearing site data erases it — use Export Backup.";
   }
 
+  function renderNotes() {
+    const notes = ensureNotes();
+    const browser = $("#notesBrowser");
+    const editor = $("#noteEditor");
+    const crumb = $("#notesBreadcrumb");
+    if (!browser || !editor || !crumb) return;
+
+    if ($("#notesSearch")) $("#notesSearch").value = notes.search || "";
+    const tagSel = $("#notesTagFilter");
+    if (tagSel) {
+      const tags = allTags();
+      const current = notes.tagFilter || "";
+      tagSel.innerHTML =
+        `<option value="">All tags</option>` +
+        tags.map((t) => `<option value="${escapeAttr(t)}">#${escapeText(t)}</option>`).join("");
+      tagSel.value = current;
+    }
+
+    const path = folderPath(notes.currentFolderId);
+    crumb.innerHTML =
+      `<button type="button" class="crumb" data-open-folder="">Root</button>` +
+      path
+        .map(
+          (f) =>
+            `<span class="crumb-sep">/</span><button type="button" class="crumb" data-open-folder="${f.id}">${escapeText(
+              f.name
+            )}</button>`
+        )
+        .join("");
+
+    const selected = notes.selectedNoteId ? noteById(notes.selectedNoteId) : null;
+    if (selected) {
+      browser.hidden = true;
+      editor.hidden = false;
+      editor.innerHTML = `
+        <div class="note-editor-top">
+          <button type="button" class="btn ghost tiny" data-close-note>← Back</button>
+          <button type="button" class="btn danger tiny" data-del-note="${selected.id}">Delete</button>
+        </div>
+        <label class="field">
+          <span>Title</span>
+          <input id="noteTitleInput" type="text" value="${escapeAttr(selected.title)}" />
+        </label>
+        <label class="field">
+          <span>Tags (comma-separated)</span>
+          <input id="noteTagsInput" type="text" value="${escapeAttr((selected.tags || []).join(", "))}" placeholder="quest, npc, tavern" />
+        </label>
+        <label class="field">
+          <span>Note</span>
+          <textarea id="noteBodyInput" rows="12" placeholder="Write your note…">${escapeText(
+            selected.body
+          )}</textarea>
+        </label>
+        <p class="muted tiny">Saved on this phone · Updated ${new Date(
+          selected.updatedAt || selected.createdAt
+        ).toLocaleString()}</p>
+      `;
+      return;
+    }
+
+    editor.hidden = true;
+    editor.innerHTML = "";
+    browser.hidden = false;
+
+    const folders = childFolders(notes.currentFolderId).sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+    const items = filteredNotesForCurrentFolder().sort(
+      (a, b) => (b.updatedAt || 0) - (a.updatedAt || 0)
+    );
+
+    if (!folders.length && !items.length) {
+      browser.innerHTML = `<p class="muted empty-notes">No folders or notes here yet. Tap + Folder or + Note.</p>`;
+      return;
+    }
+
+    browser.innerHTML =
+      (folders.length
+        ? `<div class="notes-section">
+            <p class="label">Folders</p>
+            <div class="notes-folder-list">
+              ${folders
+                .map((f) => {
+                  const subCount = childFolders(f.id).length;
+                  const noteCount = notesInFolder(f.id).length;
+                  return `<div class="folder-row" data-folder-row="${f.id}">
+                    <button type="button" class="folder-open" data-open-folder="${f.id}">
+                      <span class="folder-icon" aria-hidden="true"></span>
+                      <span class="folder-name">${escapeText(f.name)}</span>
+                      <span class="muted tiny">${subCount ? `${subCount} sub · ` : ""}${noteCount} note${
+                        noteCount === 1 ? "" : "s"
+                      }</span>
+                    </button>
+                    <button type="button" class="icon-btn" data-rename-folder="${f.id}" title="Rename" aria-label="Rename folder">Rename</button>
+                    <button type="button" class="icon-btn danger-text" data-del-folder="${f.id}" title="Delete" aria-label="Delete folder">Del</button>
+                  </div>`;
+                })
+                .join("")}
+            </div>
+          </div>`
+        : "") +
+      (items.length
+        ? `<div class="notes-section">
+            <p class="label">Notes</p>
+            <div class="notes-list">
+              ${items
+                .map((n) => {
+                  const preview = String(n.body || "")
+                    .trim()
+                    .split("\n")[0]
+                    .slice(0, 90);
+                  const tags = (n.tags || [])
+                    .map((t) => `<span class="tag-pill">#${escapeText(t)}</span>`)
+                    .join("");
+                  return `<button type="button" class="note-row" data-open-note="${n.id}">
+                    <span class="note-title">${escapeText(n.title || "Untitled")}</span>
+                    ${preview ? `<span class="note-preview muted">${escapeText(preview)}</span>` : ""}
+                    ${tags ? `<span class="note-tags">${tags}</span>` : ""}
+                  </button>`;
+                })
+                .join("")}
+            </div>
+          </div>`
+        : "");
+  }
+
   function render() {
     renderHeader();
     renderVitals();
@@ -1055,6 +1395,7 @@
     if (tab === "stats") renderStats();
     if (tab === "spells") renderSpells();
     if (tab === "gear") renderGear();
+    if (tab === "notes") renderNotes();
     if (tab === "profile") renderProfile();
   }
 
@@ -1100,6 +1441,75 @@
       const field = e.target.dataset.equipField;
       if (!field) return;
       updateEquipment(card.dataset.equip, field, e.target.value);
+    });
+
+    $("#noteAddFolderBtn")?.addEventListener("click", addFolder);
+    $("#noteAddBtn")?.addEventListener("click", addNote);
+    $("#notesSearch")?.addEventListener("input", (e) => {
+      ensureNotes().search = e.target.value;
+      persist();
+      renderNotes();
+    });
+    $("#notesTagFilter")?.addEventListener("change", (e) => {
+      ensureNotes().tagFilter = e.target.value;
+      persist();
+      renderNotes();
+    });
+
+    $("#notesBreadcrumb")?.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-open-folder]");
+      if (!btn) return;
+      openFolder(btn.dataset.openFolder || null);
+    });
+
+    $("#notesBrowser")?.addEventListener("click", (e) => {
+      const openFolderBtn = e.target.closest("[data-open-folder]");
+      if (openFolderBtn) {
+        openFolder(openFolderBtn.dataset.openFolder || null);
+        return;
+      }
+      const renameBtn = e.target.closest("[data-rename-folder]");
+      if (renameBtn) {
+        renameFolder(renameBtn.dataset.renameFolder);
+        return;
+      }
+      const delFolderBtn = e.target.closest("[data-del-folder]");
+      if (delFolderBtn) {
+        deleteFolder(delFolderBtn.dataset.delFolder);
+        return;
+      }
+      const openNoteBtn = e.target.closest("[data-open-note]");
+      if (openNoteBtn) openNote(openNoteBtn.dataset.openNote);
+    });
+
+    $("#noteEditor")?.addEventListener("click", (e) => {
+      if (e.target.closest("[data-close-note]")) {
+        closeNoteEditor();
+        return;
+      }
+      const del = e.target.closest("[data-del-note]");
+      if (del) deleteNote(del.dataset.delNote);
+    });
+    $("#noteEditor")?.addEventListener("input", (e) => {
+      const notes = ensureNotes();
+      const id = notes.selectedNoteId;
+      if (!id) return;
+      if (e.target.id === "noteTitleInput") updateNoteField(id, "title", e.target.value);
+      if (e.target.id === "noteBodyInput") updateNoteField(id, "body", e.target.value);
+      if (e.target.id === "noteTagsInput") {
+        updateNoteField(id, "tags", e.target.value);
+        // Refresh tag filter options without leaving the editor.
+        const tagSel = $("#notesTagFilter");
+        if (tagSel) {
+          const current = notes.tagFilter || "";
+          tagSel.innerHTML =
+            `<option value="">All tags</option>` +
+            allTags()
+              .map((t) => `<option value="${escapeAttr(t)}">#${escapeText(t)}</option>`)
+              .join("");
+          tagSel.value = current;
+        }
+      }
     });
 
     const profileMap = [

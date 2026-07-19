@@ -5,21 +5,24 @@ This is for my random questions so I can see things anywhere.
 ## Projects
 
 ### [Codex — 5e Character Sheet (PWA)](codex-5e/)
-Professional D&D 5e sheet with SRD spell database, class picker, auto-applied features/saves/hit dice, and offline phone saves.
+Professional D&D 5e sheet with SRD spell database, class picker, auto-applied features/saves/hit dice, Notes (folders + tags), and offline phone saves.
+
+**Phone web app:** https://dralorex.github.io/General-Questions/
 
 | Link | What it is |
 |---|---|
-| [Open the app](codex-5e/index.html) | Source UI in git |
-| [App README](codex-5e/README.md) | Preview + data notes |
+| [Live app (phone)](https://dralorex.github.io/General-Questions/) | Tap-ready web app |
+| [Open the app (repo files)](codex-5e/index.html) | Source UI in git |
+| [App README](codex-5e/README.md) | Install + how to use |
 
 ### [Aincrad Mana — Phone App (PWA)](kirito-mana-app/)
 Installable phone web app for combat mana, full D&D character sheet, skills, and training. **Saves on your phone** even after a full close.
 
-**Live phone link (after Pages deploy):** https://dralorex.github.io/General-Questions/
+**Live mana app:** https://dralorex.github.io/General-Questions/mana/
 
 | Link | What it is |
 |---|---|
-| [Live app](https://dralorex.github.io/General-Questions/) | Tap-ready phone URL |
+| [Live mana app](https://dralorex.github.io/General-Questions/mana/) | Original Aincrad Mana URL |
 | [Open the app (repo files)](kirito-mana-app/index.html) | Source UI in git |
 | [App README](kirito-mana-app/README.md) | Pages setup + install + save notes |
 

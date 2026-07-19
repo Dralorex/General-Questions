@@ -4,6 +4,14 @@ This is for my random questions so I can see things anywhere.
 
 ## Projects
 
+### [Codex — 5e Character Sheet (PWA)](codex-5e/)
+Professional D&D 5e sheet with SRD spell database, class picker, auto-applied features/saves/hit dice, and offline phone saves.
+
+| Link | What it is |
+|---|---|
+| [Open the app](codex-5e/index.html) | Source UI in git |
+| [App README](codex-5e/README.md) | Preview + data notes |
+
 ### [Aincrad Mana — Phone App (PWA)](kirito-mana-app/)
 Installable phone web app for combat mana, full D&D character sheet, skills, and training. **Saves on your phone** even after a full close.
 

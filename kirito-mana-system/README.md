@@ -2,7 +2,7 @@
 
 Google Sheets–friendly homebrew for a D&D-style Kirito kit: **sword skills cost mana**, not spell slots. Start at **100 mana**.
 
-Skills are **level-gated**, then must be **trained** before you can use them. Dual wield is hard-locked until **Level 10**.
+Skills are **level-gated**, then must be **trained** before you can use them. Dual wield is hard-locked until **Level 3**.
 
 **Master table (best GitHub view):** [MASTER-SKILLS.md](MASTER-SKILLS.md)
 
@@ -87,9 +87,11 @@ Every skill has two gates:
 | Training | At least 1 session invested, not finished | No |
 | Learned | Training complete | Yes |
 
-Starter kit at Level 1:
-- **Horizontal** and **Vertical** → auto-Learned
-- **Slant** → Unlocked, needs 1 training session
+Starter kit at Level 1 (all **Learned**):
+- **Horizontal**, **Vertical**, **Slant** → free (**0 mana**)
+- **Retreat**, **Deflect**, **Rage Spike**
+
+Full drill times live in [TRAINING.md](TRAINING.md).
 
 ### How to earn training sessions
 
@@ -121,39 +123,32 @@ If you level past a skill but lack the prereq, it stays **Locked** until the pre
 
 ---
 
-## Dual wield level lock (Level 10)
+## Dual wield level lock (Level 3)
 
-Dual-wield sword skills are **fully locked before Level 10**.
-
-Until all three are true, you cannot:
-- fight with two swords for Dual Blades skills
-- train Double Circular / Cross Block / Starburst / Eclipse
-- mark Dual Blades as Learned
+Dual-wield sword skills are **fully locked before Level 3**.
 
 ### Unlock checklist
-1. Reach **Level 10**
-2. Have **Vorpal Strike** Learned
+1. Reach **Level 3**
+2. Have **Uppercut** Learned
 3. Complete the **Reaction Trial** (below)
-4. Spend **5 training sessions** on `Dual Blades (Unique Skill)`
-5. Then Double Circular becomes Unlocked and can be trained (3 sessions)
+4. Spend **4 training sessions** (~6 hours) on `Dual Blades (Unique Skill)`
+5. Then Double Circular (and the rest of the dual tree) can be trained
 
 ### Reaction Trial (table option)
-Once at Level 10, the GM runs one of these:
-
-- **Duel test:** win or survive 5 rounds against a tough sparring partner / floor elite while using only one sword  
-- **Initiative trial:** win 3 contested Initiative checks in a row (`d20 + DEX + proficiency`) against a CR-appropriate foe  
-- **Story beat:** clear a named mid-tier boss / floor event the table treats as your “system recognition” moment
-
-On success, set `Progress! Dual Blades` path open and begin the 5-session Unique Skill training.
+- **Duel test:** survive 5 rounds one-sword vs a tough spar  
+- **Initiative trial:** win 3 contested Initiatives in a row  
+- **Story beat:** system-recognition fight the table agrees on  
 
 ### Dual progression after the gate
 
 | Level | Dual content |
 |---:|---|
-| 10 | Dual Blades Unique Skill + Double Circular |
-| 11 | Cross Block |
-| 14 | Starburst Stream (train 6 sessions) |
-| 18 | The Eclipse (train 8 sessions) |
+| 3 | Dual Blades gate + Double Circular |
+| 4 | Cross Block |
+| 10–13 | Twin Meteor · Scarlet Orbit · Hollow Fang |
+| 14–18 | Starburst · Ashen Requiem · Black Orbit · Eclipse Prelude · The Eclipse |
+
+See [TRAINING.md](TRAINING.md) for every drill and hour count.
 
 ---
 
@@ -161,20 +156,14 @@ On success, set `Progress! Dual Blades` path open and begin the 5-session Unique
 
 | Level | Becomes trainable |
 |---:|---|
-| 1 | Horizontal, Vertical (known); Slant |
-| 2 | Uppercut, Single Shot |
-| 3 | Rage Spike |
-| 4 | Sonic Leap, Vertical Arc |
-| 5 | Horizontal Arc |
-| 6 | Snake Bite, Sharp Nail |
-| 7 | Horizontal Square, Vertical Square |
-| 8 | Embracer (+ Martial Arts slot) |
-| 9 | Vorpal Strike |
-| 10 | **Dual Blades gate** + Double Circular |
-| 11 | Cross Block |
-| 12 | Meteor Break |
-| 14 | Starburst Stream |
-| 18 | The Eclipse |
+| 1 | Starters (Learned) |
+| 2 | Uppercut · Night Needle |
+| 3 | **Dual Blades gate** · Double Circular · Fade Slash |
+| 4 | Sonic Leap · Vertical Arc · Cross Block |
+| 5 | Horizontal Arc · Bolt Spiral |
+| 6–9 | Snake Bite · Sharp Nail · Squares · Embracer · Grave Bind · Vorpal |
+| 10–13 | Twin Meteor · Scarlet Orbit · Meteor Break · Hollow Fang |
+| 14–18 | Starburst · Ashen Requiem · Black Orbit · Eclipse Prelude · Eclipse |
 
 Full row detail is in `level-unlocks.csv`.
 
@@ -357,7 +346,7 @@ Set `Progress!B6` (`Reaction Trial Completed?`) to `YES` manually when the trial
 2. Announce a **Learned** skill → pay mana → resolve hits / post-motion.
 3. Apply regen package each turn.
 4. If mana is too low, use normal attacks (0 mana) and keep training progress for later.
-5. Dual skills stay illegal until the Level 10 gate is fully cleared.
+5. Dual skills stay illegal until the Level 3 gate is fully cleared.
 
 ## Suggested post-motion (D&D translation)
 
@@ -381,8 +370,8 @@ That keeps Ultimates scary for *you* as well as the boss.
 | Starburst cost | 40 | 55–60 |
 | Eclipse uses | 1/short rest | 1/long rest only |
 | Basic cost | 3 | 5 |
-| Dual Blades unlock level | 8–9 | 10–12 |
+| Dual Blades unlock level | 3 | 4–5 |
 | Training sessions / skill | −1 across board | +1 or harder DCs |
 | Sessions per long rest | 3 | 1–2 |
 
-Default pack targets **anime boss drama** on a **100** pool, Package A regen, and a **Level 10 dual-wield lock** with train-to-learn after each level unlock.
+Default pack targets **anime boss drama** on a **100** pool, Package A regen, and a **Level 3 dual-wield lock** with train-to-learn after each level unlock.

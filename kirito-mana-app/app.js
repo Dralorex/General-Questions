@@ -197,12 +197,7 @@
   }
 
   function dualGateOpen() {
-    return (
-      state.level >= 10 &&
-      isLearned("vorpal-strike") &&
-      state.reactionTrial &&
-      isLearned("dual-blades")
-    );
+    return state.level >= 3 && state.reactionTrial && isLearned("dual-blades");
   }
 
   function skillStatus(skill) {
@@ -210,7 +205,7 @@
     if (skill.dual || skill.isGate) {
       if (skill.isGate) {
         if (state.level < skill.levelRequired) return "locked";
-        if (!isLearned("vorpal-strike") || !state.reactionTrial) return "locked";
+        if (!state.reactionTrial || !prereqsMet(skill)) return "locked";
         return "unlocked";
       }
       if (!dualGateOpen() && skill.id !== "dual-blades") return "locked";
@@ -709,13 +704,33 @@
       skill.mana === 0 ? "Free" : `${skill.mana} mana`,
       skill.range,
     ].join(" · ");
+    const totalHours = (skill.trainingNeeded || 0) * (skill.hoursEach || 1);
     const trainBits =
-      mode === "train" && status !== "learned" && status !== "locked"
-        ? `<div class="train-row"><span>${sessions}/${skill.trainingNeeded} sessions</span>
+      mode === "train"
+        ? `<div class="train-detail">
+            <p><strong>Unlock:</strong> Level ${skill.levelRequired}</p>
+            <p><strong>Time:</strong> ${
+              skill.trainingNeeded
+                ? `${skill.trainingNeeded} sessions · ~${totalHours} hr total`
+                : "None (starter)"
+            }</p>
+            <p><strong>DC:</strong> ${skill.trainDc || "—"} · <strong>Prereq:</strong> ${
+              (skill.prerequisite || []).length
+                ? skill.prerequisite.join(", ")
+                : "—"
+            }</p>
+            <p><strong>Drill:</strong> ${skill.drill || "—"}</p>
+            <p><strong>Field goal:</strong> ${skill.fieldGoal || "—"}</p>
+          </div>
+          ${
+            status !== "learned" && status !== "locked"
+              ? `<div class="train-row"><span>${sessions}/${skill.trainingNeeded} sessions</span>
            <button type="button" class="btn tiny" data-train="${skill.id}">Train +1</button></div>`
-        : mode === "train" && status === "learned"
-          ? `<div class="train-row muted">Complete</div>`
-          : "";
+              : status === "learned"
+                ? `<div class="train-row muted">Complete</div>`
+                : `<div class="train-row muted">Locked</div>`
+          }`
+        : "";
     return `<article class="skill-card status-${status}" data-id="${skill.id}">
       <header>
         <h3>${skill.name}</h3>
@@ -831,20 +846,29 @@
   }
 
   function renderTrain() {
+    const rules = window.TRAINING_RULES || {};
+    const rulesBox = $("#trainRules");
+    if (rulesBox) {
+      rulesBox.innerHTML = `
+        <p><strong>1 session</strong> ≈ ${rules.sessionHoursDefault || 1} hour focused drill.</p>
+        <p><strong>Cap:</strong> ${rules.maxSessionsPerLongRest || 2} sessions per long rest.</p>
+        <p class="muted">${rules.checkPackage || ""}</p>
+        <p class="muted">${rules.fieldPackage || ""}</p>`;
+    }
     $("#trainSkills").innerHTML = SKILLS.filter((s) => !s.starter)
       .map((s) => skillCardHTML(s, "train"))
       .join("");
     $("#trialToggle").checked = !!state.reactionTrial;
     $("#dualStatus").textContent = dualGateOpen()
       ? "Dual Blades OPEN"
-      : state.level < 10
-        ? "Dual locked until Level 10"
+      : state.level < 3
+        ? "Dual locked until Level 3"
         : !state.reactionTrial
           ? "Need Reaction Trial"
-          : !isLearned("vorpal-strike")
-            ? "Need Vorpal Strike learned"
+          : !isLearned("uppercut")
+            ? "Need Uppercut learned"
             : !isLearned("dual-blades")
-              ? "Train Dual Blades Unique Skill"
+              ? "Train Dual Blades Unique Skill (4 sessions)"
               : "Dual Blades OPEN";
   }
 

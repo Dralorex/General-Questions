@@ -368,13 +368,24 @@
         <header class="sheet-head">
           <div>
             <h2>Adjust photo</h2>
-            <p class="muted tiny">Pinch zoom or use the slider · drag to move · then accept</p>
+            <p class="muted tiny">Gold outline = exact portrait shape on your sheet</p>
           </div>
           <button type="button" id="portraitEditCancel" class="btn ghost tiny">Cancel</button>
         </header>
         <div class="portrait-crop-stage">
-          <div id="portraitCropFrame" class="portrait-crop-frame">
+          <div id="portraitCropFrame" class="portrait-crop-frame" aria-label="Portrait outline">
             <img id="portraitEditImg" alt="Portrait being cropped" draggable="false" />
+            <div class="portrait-crop-outline" aria-hidden="true"></div>
+          </div>
+          <p class="portrait-crop-caption muted tiny">Everything inside this outline is saved</p>
+        </div>
+        <div class="portrait-final-row">
+          <div>
+            <p class="label">Final look</p>
+            <p class="muted tiny">Same shape as Profile</p>
+          </div>
+          <div class="portrait-live-preview" aria-hidden="true">
+            <canvas id="portraitLiveCanvas" width="96" height="96"></canvas>
           </div>
         </div>
         <label class="field tight portrait-zoom-field">

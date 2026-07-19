@@ -1,22 +1,24 @@
-Skill,Mana,Tier,Level Required,Training Sessions,Learned At Start?
-Horizontal,4,Basic,1,0,YES
-Vertical,4,Basic,1,0,YES
-Slant,4,Basic,1,1,NO
-Uppercut,5,Basic,2,1,NO
-Single Shot,6,Utility,2,2,NO
-Rage Spike,8,Mobility,3,2,NO
-Sonic Leap,10,Mobility,4,2,NO
-Vertical Arc,10,Combo,4,2,NO
-Horizontal Arc,10,Combo,5,2,NO
-Snake Bite,12,Utility,6,3,NO
-Sharp Nail,14,Combo,6,3,NO
-Horizontal Square,18,Mid,7,3,NO
-Vertical Square,18,Mid,7,3,NO
-Embracer,14,Utility,8,3,NO
-Vorpal Strike,22,Power,9,4,NO
-Dual Blades (Unique Skill),0,Gate,10,5,NO
-Double Circular,16,Dual,10,3,NO
-Cross Block,8,Defense,11,3,NO
-Meteor Break,28,Power,12,5,NO
-Starburst Stream,48,Ultimate,14,6,NO
-The Eclipse,80,Ultimate,18,8,NO
+Skill,Mana,Action Type,Range,Shape,AoE,Use Limit,Tier,Level Required,Training Sessions,Learned At Start?
+Horizontal,4,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,YES
+Vertical,4,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,YES
+Slant,4,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,1,NO
+Retreat,2,Bonus Action,Self,Line (backward),None,1/turn,Mobility,1,1,NO
+Uppercut,5,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,2,1,NO
+Single Shot,6,Action,30/90 ft,Projectile,None,1/Action,Utility,2,2,NO
+Rage Spike,8,Action,15 ft charge,Line (forward),None,1/Action,Mobility,3,2,NO
+Deflect,10,Special Reaction,Melee (5 ft),Melee guard,None,Unlimited/turn,Defense,3,2,NO
+Sonic Leap,10,Action,20 ft charge,Line (forward),None,1/Action,Mobility,4,2,NO
+Vertical Arc,10,Action,Melee (5 ft),V-shape,None,1/Action,Combo,4,2,NO
+Horizontal Arc,10,Action,Melee (5 ft),Horizontal sweep,None,1/Action,Combo,5,2,NO
+Snake Bite,12,Action,Melee (5 ft),Melee arc,None,1/Action,Utility,6,3,NO
+Sharp Nail,14,Action,Melee (5 ft),Zigzag slash,None,1/Action,Combo,6,3,NO
+Horizontal Square,18,Action,Melee (5 ft),Square / rhombus,5-ft square pattern,1/Action,Mid,7,3,NO
+Vertical Square,18,Action,Melee (5 ft),Square,5-ft square pattern,1/Action,Mid,7,3,NO
+Embracer,14,Action,Touch (5 ft),Thrust (unarmed),None,1/Action,Utility,8,3,NO
+Vorpal Strike,22,Action,10 ft (reach),Line thrust,None,1/Action,Power,9,4,NO
+Dual Blades (Unique Skill),0,Passive Unlock,—,—,None,—,Gate,10,5,NO
+Double Circular,16,Action,15 ft charge,Line (forward),None,1/Action,Dual,10,3,NO
+Cross Block,8,Reaction,Melee (5 ft),Cross guard,None,1/Reaction,Defense,11,3,NO
+Meteor Break,28,Action,Melee + tackle,Line / chain,None,1/Action,Power,12,5,NO
+Starburst Stream,48,Action,Melee (5 ft),Multi-slash storm,None,1/fight,Ultimate,14,6,NO
+The Eclipse,80,Action,Melee (5 ft),Multi-slash storm,None,1/long rest,Ultimate,18,8,NO

@@ -49,15 +49,24 @@ Canon does **not** publish a full skillbook dump for anime-only Kirito. This lis
 | Embracer | 1 | Unarmed pierce |
 | Single Shot | 1 | Blade throw |
 
+### Utility (homebrew / anime movement)
+| Skill | Mana | Action Type | Role |
+|---|---:|---|---|
+| Retreat | 2 | Bonus Action | Backstep / “switch”; 15 ft backward, no OA, 1/turn |
+| Deflect | 10 | Special Reaction | Guard a melee hit; **unlimited/turn** while you have mana |
+
 ### Dual Blades (Unique Skill)
 | Skill | Hits | Role |
 |---|---:|---|
 | Double Circular | 2 | Dual opener |
-| Cross Block | — | Dual defense |
+| Cross Block | — | Dual defense (uses normal Reaction) |
 | Starburst Stream | 16 | High ultimate |
 | The Eclipse | 27 | Peak ultimate |
 
 Kirito estimates Dual Blades has **20+** techniques; only these are clearly documented for Aincrad.
+
+### Skills CSV columns
+`skills.csv` now includes: **Action Type**, **Range**, **Shape**, **AoE**, **Target**, **Duration**, **Use Limit**, plus level/training/prereq/effect.
 
 ---
 

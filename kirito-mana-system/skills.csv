@@ -1,0 +1,21 @@
+Skill,Category,Hits,Tier,Mana Cost,Suggested D&D Effect,Notes / Source
+Horizontal,One-Handed Sword,1,Basic,4,Melee weapon attack +1d4,Simple horizontal slash
+Vertical,One-Handed Sword,1,Basic,4,Melee weapon attack +1d4,Simple vertical slash
+Slant,One-Handed Sword,1,Basic,4,Melee weapon attack +1d4,Simple diagonal slash
+Uppercut,One-Handed Sword,1,Basic,5,Melee weapon attack +1d6,Upward cut; slightly stronger basic
+Rage Spike,One-Handed Sword,1,Mobility,8,"Dash up to 15 ft; melee +1d6",Leap + upward strike
+Sonic Leap,One-Handed Sword,1,Mobility,10,"Dash up to 20 ft; melee +1d8",Charge downward strike; Kirito staple
+Vertical Arc,One-Handed Sword,2,Combo,10,Two melee attacks (+1d4 each),V-shaped trajectory
+Horizontal Arc,One-Handed Sword,2,Combo,10,Two melee attacks (+1d4 each),Left-right horizontal pair
+Snake Bite,One-Handed Sword,2,Utility,12,"Two attacks; on hit DC 13 Str save or weapon disadvantage until end of next turn",Weapon-break style skill; more prominent later but fits kit
+Sharp Nail,One-Handed Sword,3,Combo,14,Three melee attacks (+1d4 each),Progressive Aincrad; optional for season-1 anime table
+Horizontal Square,One-Handed Sword,4,Mid,18,"Four melee attacks; +2 AC until start of next turn if all hit",4-hit square; anime sometimes uses this
+Vertical Square,One-Handed Sword,4,Mid,18,Four melee attacks (+1d6 each),LN Aincrad mid skill
+Vorpal Strike,One-Handed Sword,1,Power,22,"Melee attack with reach +5 ft; +2d8 damage; long post-motion (skip reaction until next turn)",Kirito signature heavy thrust
+Meteor Break,Composite (Sword + Martial Arts),7,Power,28,"Seven-hit combo: treat as Attack action that deals 4d8 + STR; shove target 10 ft",Used vs Demonic Servant (Aincrad)
+Embracer,Martial Arts,1,Utility,14,"Unarmed strike +2d8; ignore nonmagical armor bonus to AC",Used to finish Kuradeel
+Single Shot,Blade Throwing,1,Utility,6,Ranged weapon attack 30/90; +1d6,Thrown blade skill
+Double Circular,Dual Blades,2,Dual,16,"Dash 15 ft; two melee attacks with both weapons (+1d6 each)",Entry dual-wield combo
+Cross Block,Dual Blades,0,Defense,8,"Reaction: impose disadvantage on one melee attack; if miss you may riposte once",Defensive dual-blade cross
+Starburst Stream,Dual Blades,16,Ultimate,48,"Full-round multiattack: 6 attacks at +2 to hit; +3d8 bonus damage once; you are vulnerable until your next turn (post-motion)",Boss-killer; Gleam Eyes
+The Eclipse,Dual Blades,27,Ultimate,80,"Once per long rest: 8 attacks; +6d8 bonus damage; after use your speed is 0 and attacks against you have advantage until end of next turn",Finale vs Heathcliff; nearly empties the bar

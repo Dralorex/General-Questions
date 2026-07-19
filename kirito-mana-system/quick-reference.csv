@@ -1,0 +1,21 @@
+Skill,Mana,Tier
+Horizontal,4,Basic
+Vertical,4,Basic
+Slant,4,Basic
+Uppercut,5,Basic
+Single Shot,6,Utility
+Rage Spike,8,Mobility
+Cross Block,8,Defense
+Sonic Leap,10,Mobility
+Vertical Arc,10,Combo
+Horizontal Arc,10,Combo
+Snake Bite,12,Utility
+Embracer,14,Utility
+Sharp Nail,14,Combo
+Double Circular,16,Dual
+Horizontal Square,18,Mid
+Vertical Square,18,Mid
+Vorpal Strike,22,Power
+Meteor Break,28,Power
+Starburst Stream,48,Ultimate
+The Eclipse,80,Ultimate

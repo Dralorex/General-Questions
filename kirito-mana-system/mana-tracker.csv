@@ -1,0 +1,12 @@
+Field,Value,Notes
+Character Name,Kirito / Your PC,
+Max Mana,100,Starting pool
+Current Mana,100,"Do not type over formula cells if you import the formulas sheet"
+Mana Regen Mode,Combat Tick,"Options: Combat Tick / Short Rest / Long Rest / Out of Combat"
+Combat Round,1,
+Last Skill Used,,
+Last Mana Spent,0,
+Mana After Spend,,
+Regen This Tick,0,
+Mana After Regen,,
+Status Notes,,

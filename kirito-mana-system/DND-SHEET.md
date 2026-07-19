@@ -33,11 +33,11 @@ Full 5e-style sheet fields live in the phone PWA (`kirito-mana-app/`), saved on-
 
 ## Hit points
 
-- **Current** may go **above max** when healing with +1 / +5
-- **Temp HP** is separate; set manually
-- **Displayed total** = current + temp
-- Damage removes **temp first**, then current
-- Buttons: `−5` `−1` **Heal All** `+1` `+5`
+- **Total Health** at top = current + temp (display only)
+- **Current HP** and **Temp HP** are separate pools with their own buttons
+- Current buttons: `-5` `-1` **Heal All** `+1` `+5` (current may go above max)
+- Temp buttons: `-5` `-1` **Clear** `+1` `+5` (temp cannot go below 0)
+- Buttons never move damage between pools
 - **You've been healed!** clears death saves (does not wipe other data)
 
 ## Death saves

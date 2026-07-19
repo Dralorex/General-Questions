@@ -340,52 +340,53 @@
     render();
   }
 
-  /* ---------- HP / death saves ---------- */
-  function applyDamage(amount) {
-    const requested = Math.max(0, Math.floor(Number(amount) || 0));
-    if (!requested) return;
-    let remaining = requested;
-    let fromTemp = 0;
-    if (state.hp.temp > 0) {
-      fromTemp = Math.min(state.hp.temp, remaining);
-      state.hp.temp -= fromTemp;
-      remaining -= fromTemp;
-    }
-    const fromHp = remaining;
-    if (fromHp > 0) state.hp.current = Math.max(0, state.hp.current - fromHp);
-    persist();
-    render();
-    if (fromTemp && fromHp) {
-      toast(`−${requested}: ${fromTemp} temp, then ${fromHp} HP`, "warn");
-    } else if (fromTemp) {
-      toast(`−${requested} from temp HP`, "warn");
-    } else {
-      toast(`−${requested} HP`, "warn");
+  /* ---------- HP / death saves (pools are fully separate) ---------- */
+  let hpActionLock = false;
+  function withHpLock(fn) {
+    if (hpActionLock) return;
+    hpActionLock = true;
+    try {
+      fn();
+    } finally {
+      setTimeout(() => {
+        hpActionLock = false;
+      }, 180);
     }
   }
 
-  function applyHeal(amount) {
-    const heal = Math.max(0, Math.floor(Number(amount) || 0));
-    if (!heal) return;
-    state.hp.current += heal; // may exceed max; does not touch temp
-    persist();
-    render();
-    toast(`+${heal} HP`, "ok");
-  }
-
-  function healAll() {
-    state.hp.current = state.hp.max;
-    persist();
-    render();
-    toast("Healed to max HP (temp unchanged)", "ok");
-  }
-
-  function adjustTemp(delta) {
+  /** Current HP only. Negative delta damages; positive heals (may exceed max). */
+  function adjustCurrentHp(delta) {
     const n = Math.floor(Number(delta) || 0);
+    if (!n) return;
+    if (n < 0) state.hp.current = Math.max(0, state.hp.current + n);
+    else state.hp.current += n;
+    persist();
+    render();
+    toast(n < 0 ? `Current HP ${n}` : `Current HP +${n}`, n < 0 ? "warn" : "ok");
+  }
+
+  /** Temp HP only. Never touches current HP. Cannot go below 0. */
+  function adjustTempHp(delta) {
+    const n = Math.floor(Number(delta) || 0);
+    if (!n) return;
     state.hp.temp = Math.max(0, (Number(state.hp.temp) || 0) + n);
     persist();
     render();
-    toast(n >= 0 ? `Temp HP ${n >= 0 ? "+" : ""}${n}` : `Temp HP ${n}`, "ok");
+    toast(n < 0 ? `Temp HP ${n}` : `Temp HP +${n}`, n < 0 ? "warn" : "ok");
+  }
+
+  function healAllCurrent() {
+    state.hp.current = state.hp.max;
+    persist();
+    render();
+    toast("Current HP → max", "ok");
+  }
+
+  function clearTempHp() {
+    state.hp.temp = 0;
+    persist();
+    render();
+    toast("Temp HP cleared", "ok");
   }
 
   function checkDeathSaveCompletions() {
@@ -585,48 +586,58 @@
         </div>
 
         <div class="hp-block">
-          <div class="hp-head">
-            <div>
-              <p class="label">Hit Points</p>
-              <p class="hp-readout">
-                <span class="${over ? "over-max" : ""}">${state.hp.current}</span>
-                <span class="slash">/</span>${state.hp.max}
-                ${
-                  state.hp.temp
-                    ? `<span class="temp-tag">+${state.hp.temp} temp</span>`
-                    : ""
-                }
-              </p>
-              <p class="muted tiny">Total with temp: <strong>${total}</strong>${
-                over ? " · current above max" : ""
-              }</p>
-            </div>
-            <div class="hp-max-edit">
+          <div class="total-health">
+            <p class="label">Total Health</p>
+            <p class="hp-readout total-readout">${total}</p>
+            <p class="muted tiny">Current ${state.hp.current} + Temp ${state.hp.temp}</p>
+          </div>
+
+          <div class="hp-pool current-pool">
+            <div class="pool-head">
+              <div>
+                <p class="label">Current HP</p>
+                <p class="pool-readout">
+                  <span class="${over ? "over-max" : ""}">${state.hp.current}</span>
+                  <span class="slash">/</span>${state.hp.max}
+                </p>
+              </div>
               <label class="field tight"><span>Max HP</span>
                 <input type="number" inputmode="numeric" data-vit="hpMax" value="${state.hp.max}" />
               </label>
-              <label class="field tight"><span>Temp HP</span>
+            </div>
+            <div class="hp-bar" aria-hidden="true">
+              <div class="hp-fill" style="width:${Math.min(
+                100,
+                (state.hp.current / Math.max(1, state.hp.max)) * 100
+              )}%"></div>
+            </div>
+            <div class="hp-buttons">
+              <button type="button" class="btn ghost" data-pool="current" data-delta="-5">-5</button>
+              <button type="button" class="btn ghost" data-pool="current" data-delta="-1">-1</button>
+              <button type="button" class="btn primary" data-pool="current" data-delta="healall">Heal All</button>
+              <button type="button" class="btn ghost" data-pool="current" data-delta="1">+1</button>
+              <button type="button" class="btn ghost" data-pool="current" data-delta="5">+5</button>
+            </div>
+          </div>
+
+          <div class="hp-pool temp-pool">
+            <div class="pool-head">
+              <div>
+                <p class="label">Temp HP</p>
+                <p class="pool-readout temp-readout">${state.hp.temp}</p>
+              </div>
+              <label class="field tight"><span>Set Temp</span>
                 <input type="number" inputmode="numeric" data-vit="hpTemp" value="${state.hp.temp}" />
               </label>
             </div>
-          </div>
-          <div class="hp-bar" aria-hidden="true">
-            <div class="hp-fill" style="width:${Math.min(
-              100,
-              (state.hp.current / Math.max(1, state.hp.max)) * 100
-            )}%"></div>
-          </div>
-          <div class="hp-buttons">
-            <button type="button" class="btn ghost" data-hp="-5">−5</button>
-            <button type="button" class="btn ghost" data-hp="-1">−1</button>
-            <button type="button" class="btn primary" data-hp="healall">Heal All</button>
-            <button type="button" class="btn ghost" data-hp="1">+1</button>
-            <button type="button" class="btn ghost" data-hp="5">+5</button>
-          </div>
-          <div class="temp-row">
-            <button type="button" class="btn ghost tiny" data-temp="-1">Temp −1</button>
-            <button type="button" class="btn ghost tiny" data-temp="1">Temp +1</button>
-            <button type="button" class="btn ghost tiny" data-temp="5">Temp +5</button>
+            <div class="hp-buttons">
+              <button type="button" class="btn ghost" data-pool="temp" data-delta="-5">-5</button>
+              <button type="button" class="btn ghost" data-pool="temp" data-delta="-1">-1</button>
+              <button type="button" class="btn ghost" data-pool="temp" data-delta="clear">Clear</button>
+              <button type="button" class="btn ghost" data-pool="temp" data-delta="1">+1</button>
+              <button type="button" class="btn ghost" data-pool="temp" data-delta="5">+5</button>
+            </div>
+            <p class="muted tiny hp-hint">Temp and current are separate. Buttons never move damage between pools.</p>
           </div>
         </div>
 
@@ -688,25 +699,21 @@
     const root = e.target.closest(".vitals-root");
     if (!root) return;
 
-    const hpBtn = e.target.closest("[data-hp]");
-    if (hpBtn) {
+    const poolBtn = e.target.closest("[data-pool][data-delta]");
+    if (poolBtn) {
       e.preventDefault();
-      const v = String(hpBtn.getAttribute("data-hp") || "");
-      if (v === "healall") {
-        healAll();
-        return;
-      }
-      const n = Number(v);
-      if (!Number.isFinite(n) || n === 0) return;
-      if (n < 0) applyDamage(-n);
-      else applyHeal(n);
-      return;
-    }
-
-    const tempBtn = e.target.closest("[data-temp]");
-    if (tempBtn) {
-      e.preventDefault();
-      adjustTemp(Number(tempBtn.getAttribute("data-temp")));
+      e.stopPropagation();
+      const pool = poolBtn.getAttribute("data-pool");
+      const delta = poolBtn.getAttribute("data-delta");
+      withHpLock(() => {
+        if (pool === "current") {
+          if (delta === "healall") healAllCurrent();
+          else adjustCurrentHp(Number(delta));
+        } else if (pool === "temp") {
+          if (delta === "clear") clearTempHp();
+          else adjustTempHp(Number(delta));
+        }
+      });
       return;
     }
 

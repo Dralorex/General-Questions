@@ -1067,26 +1067,128 @@ body {
 }
 
 .portrait-preview {
-  width: 100%;
-  aspect-ratio: 1;
-  max-height: 220px;
+  /* Hard lock to the same 1:1 square as the crop outline — no rectangle crop. */
+  --portrait-side: min(100%, 280px);
+  width: var(--portrait-side);
+  max-width: 280px;
+  margin: 0 auto 10px;
+  position: relative;
   border-radius: 14px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.35);
+  color: var(--muted);
+  border: 2px solid rgba(230, 196, 122, 0.55);
+  box-shadow: 0 0 0 3px rgba(230, 196, 122, 0.12);
+}
+
+.portrait-preview::before {
+  content: "";
+  display: block;
+  padding-bottom: 100%; /* forces square even if aspect-ratio is ignored */
+}
+
+.portrait-preview > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.portrait-preview.empty {
+  display: block;
+}
+
+.portrait-preview.empty::after {
+  content: "No photo";
+  position: absolute;
+  inset: 0;
   display: grid;
   place-items: center;
-  color: var(--muted);
-  margin-bottom: 10px;
+  pointer-events: none;
 }
 
 .portrait-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .portrait-actions {
   display: flex;
+  gap: 8px;
+}
+
+.portrait-editor-panel {
+  max-height: min(92vh, 760px);
+}
+
+.portrait-crop-stage {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 4px 0 2px;
+}
+
+.portrait-crop-frame {
+  /* Same square as Profile .portrait-preview. */
+  --portrait-side: min(100%, 280px);
+  width: var(--portrait-side);
+  max-width: 280px;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  background: rgba(0, 0, 0, 0.45);
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  box-shadow:
+    0 0 0 2px var(--gold),
+    0 0 0 6px rgba(230, 196, 122, 0.18),
+    0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.portrait-crop-outline {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  border: 2px solid rgba(230, 196, 122, 0.95);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.portrait-crop-caption {
+  margin: 0;
+  text-align: center;
+}
+
+.portrait-crop-frame:active {
+  cursor: grabbing;
+}
+
+.portrait-crop-frame img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: none;
+  transform-origin: 0 0;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.portrait-zoom-field {
+  margin: 0;
+}
+
+.portrait-zoom-field input[type="range"] {
+  width: 100%;
+  accent-color: var(--gold);
+}
+
+.portrait-editor-actions {
+  display: grid;
   gap: 8px;
 }
 

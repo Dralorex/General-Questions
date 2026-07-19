@@ -455,23 +455,7 @@
       return;
     }
     ensureSpellArrays();
-    syncSpellSlots({ refill: false });
     const { counts, limits } = selectionSlotsLeft();
-    const max = maxSlotsMap();
-    const isWarlock = window.codexIsWarlock(cls.id);
-    const castBits = [];
-    for (let i = 1; i <= 9; i++) {
-      const cap = max[i] || 0;
-      if (cap <= 0) continue;
-      const rem = state.spellSlots[String(i)] ?? cap;
-      const label = isWarlock
-        ? `Pact ${window.codexSlotLevelShort(i)}`
-        : window.codexSlotLevelShort(i);
-      castBits.push(`${label} ${rem}/${cap}`);
-    }
-    const restNote = isWarlock
-      ? "Cast slots: short or long rest"
-      : "Cast slots: long rest";
     slotsCard.hidden = false;
     slotsCard.innerHTML = `
       <p class="label">${limits.selectLabel} at level ${state.level}</p>
@@ -479,14 +463,7 @@
         ${limits.cantripsLabel}: <strong>${counts.cantrips}</strong>/${limits.cantrips}
         · ${limits.leveledLabel}: <strong>${counts.leveled}</strong>/${limits.leveled}
       </p>
-      ${
-        castBits.length
-          ? `<p><strong>Cast slots:</strong> ${castBits.join(" · ")}</p>`
-          : `<p class="muted">No cast slots yet.</p>`
-      }
-      <p class="muted tiny">${escapeText(restNote)} · Ability: ${escapeText(
-        cls.spellcasting.abilityName || ""
-      )}</p>
+      <p class="muted tiny">Ability: ${escapeText(cls.spellcasting.abilityName || "")}</p>
     `;
   }
 
@@ -1129,28 +1106,209 @@
   }
 
   /* ---------- Portrait ---------- */
-  function resizeImageFile(file, maxSize = 512) {
+  const PORTRAIT_OUT = 512;
+  let portraitEdit = null;
+
+  function loadImageFromFile(file) {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = () => {
-        const img = new Image();
-        img.onload = () => {
-          const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
-          const w = Math.round(img.width * scale);
-          const h = Math.round(img.height * scale);
-          const canvas = document.createElement("canvas");
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, w, h);
-          resolve(canvas.toDataURL("image/jpeg", 0.85));
-        };
-        img.onerror = reject;
-        img.src = reader.result;
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => resolve({ img, url });
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("bad image"));
       };
-      reader.readAsDataURL(file);
+      img.src = url;
     });
+  }
+
+  function portraitFrameSize() {
+    const frame = $("#portraitCropFrame");
+    if (!frame) return 280;
+    return Math.max(120, Math.round(frame.clientWidth || 280));
+  }
+
+  function portraitCoverScale(imgW, imgH, frame) {
+    return Math.max(frame / imgW, frame / imgH);
+  }
+
+  function clampPortraitPan() {
+    if (!portraitEdit) return;
+    const frame = portraitFrameSize();
+    const drawW = portraitEdit.img.width * portraitEdit.scale;
+    const drawH = portraitEdit.img.height * portraitEdit.scale;
+    const minX = Math.min(0, frame - drawW);
+    const minY = Math.min(0, frame - drawH);
+    portraitEdit.x = clamp(portraitEdit.x, minX, 0);
+    portraitEdit.y = clamp(portraitEdit.y, minY, 0);
+  }
+
+  function applyPortraitTransform() {
+    if (!portraitEdit) return;
+    const el = $("#portraitEditImg");
+    if (!el) return;
+    clampPortraitPan();
+    el.style.width = `${portraitEdit.img.width * portraitEdit.scale}px`;
+    el.style.height = `${portraitEdit.img.height * portraitEdit.scale}px`;
+    el.style.transform = `translate(${portraitEdit.x}px, ${portraitEdit.y}px)`;
+  }
+
+  function syncPortraitZoomSlider() {
+    const slider = $("#portraitZoom");
+    if (!slider || !portraitEdit) return;
+    const ratio = portraitEdit.scale / portraitEdit.baseScale;
+    slider.value = String(Math.round(clamp(ratio, 1, 3) * 100));
+  }
+
+  function openPortraitEditor(file) {
+    return loadImageFromFile(file).then(({ img, url }) => {
+      closePortraitEditor(false);
+      const frame = portraitFrameSize();
+      const baseScale = portraitCoverScale(img.width, img.height, frame);
+      portraitEdit = {
+        img,
+        url,
+        baseScale,
+        scale: baseScale,
+        x: 0,
+        y: 0,
+        pointers: new Map(),
+        pinchStartDist: 0,
+        pinchStartScale: baseScale,
+      };
+      const sheet = $("#portraitEditor");
+      const el = $("#portraitEditImg");
+      if (!sheet || !el) return;
+      el.src = url;
+      sheet.hidden = false;
+      // Layout, then center cover crop.
+      requestAnimationFrame(() => {
+        const f = portraitFrameSize();
+        portraitEdit.baseScale = portraitCoverScale(img.width, img.height, f);
+        portraitEdit.scale = portraitEdit.baseScale;
+        portraitEdit.x = (f - img.width * portraitEdit.scale) / 2;
+        portraitEdit.y = (f - img.height * portraitEdit.scale) / 2;
+        syncPortraitZoomSlider();
+        applyPortraitTransform();
+      });
+    });
+  }
+
+  function closePortraitEditor(revoke = true) {
+    const sheet = $("#portraitEditor");
+    if (sheet) sheet.hidden = true;
+    if (portraitEdit?.url && revoke) URL.revokeObjectURL(portraitEdit.url);
+    portraitEdit = null;
+    const el = $("#portraitEditImg");
+    if (el) {
+      el.removeAttribute("src");
+      el.style.width = "";
+      el.style.height = "";
+      el.style.transform = "";
+    }
+  }
+
+  function setPortraitZoomRatio(ratio) {
+    if (!portraitEdit) return;
+    const frame = portraitFrameSize();
+    const prev = portraitEdit.scale;
+    const next = portraitEdit.baseScale * clamp(ratio, 1, 3);
+    const cx = frame / 2;
+    const cy = frame / 2;
+    // Zoom toward frame center.
+    const imgX = (cx - portraitEdit.x) / prev;
+    const imgY = (cy - portraitEdit.y) / prev;
+    portraitEdit.scale = next;
+    portraitEdit.x = cx - imgX * next;
+    portraitEdit.y = cy - imgY * next;
+    applyPortraitTransform();
+  }
+
+  function exportPortraitCrop() {
+    if (!portraitEdit) return null;
+    const frame = portraitFrameSize();
+    const canvas = document.createElement("canvas");
+    canvas.width = PORTRAIT_OUT;
+    canvas.height = PORTRAIT_OUT;
+    const ctx = canvas.getContext("2d");
+    const scale = portraitEdit.scale;
+    // Source rect in image pixels corresponding to the visible frame.
+    const sx = -portraitEdit.x / scale;
+    const sy = -portraitEdit.y / scale;
+    const sw = frame / scale;
+    const sh = frame / scale;
+    ctx.drawImage(portraitEdit.img, sx, sy, sw, sh, 0, 0, PORTRAIT_OUT, PORTRAIT_OUT);
+    return canvas.toDataURL("image/jpeg", 0.88);
+  }
+
+  function acceptPortraitEdit() {
+    const dataUrl = exportPortraitCrop();
+    if (!dataUrl) {
+      toast("Could not crop photo", "warn");
+      return;
+    }
+    state.portraitDataUrl = dataUrl;
+    closePortraitEditor(true);
+    persist(true);
+    render();
+    toast("Portrait saved", "ok");
+  }
+
+  function pointerDist(a, b) {
+    const dx = a.clientX - b.clientX;
+    const dy = a.clientY - b.clientY;
+    return Math.hypot(dx, dy);
+  }
+
+  function onPortraitPointerDown(e) {
+    if (!portraitEdit) return;
+    const frame = $("#portraitCropFrame");
+    if (!frame) return;
+    frame.setPointerCapture?.(e.pointerId);
+    portraitEdit.pointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+    if (portraitEdit.pointers.size === 2) {
+      const [a, b] = [...portraitEdit.pointers.values()];
+      portraitEdit.pinchStartDist = pointerDist(a, b);
+      portraitEdit.pinchStartScale = portraitEdit.scale;
+    }
+    e.preventDefault();
+  }
+
+  function onPortraitPointerMove(e) {
+    if (!portraitEdit || !portraitEdit.pointers.has(e.pointerId)) return;
+    const prev = portraitEdit.pointers.get(e.pointerId);
+    portraitEdit.pointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+    if (portraitEdit.pointers.size === 2) {
+      const [a, b] = [...portraitEdit.pointers.values()];
+      const dist = pointerDist(a, b);
+      if (portraitEdit.pinchStartDist > 0) {
+        const ratio =
+          (portraitEdit.pinchStartScale / portraitEdit.baseScale) *
+          (dist / portraitEdit.pinchStartDist);
+        setPortraitZoomRatio(ratio);
+        syncPortraitZoomSlider();
+      }
+    } else if (portraitEdit.pointers.size === 1) {
+      const dx = e.clientX - prev.clientX;
+      const dy = e.clientY - prev.clientY;
+      portraitEdit.x += dx;
+      portraitEdit.y += dy;
+      applyPortraitTransform();
+    }
+    e.preventDefault();
+  }
+
+  function onPortraitPointerUp(e) {
+    if (!portraitEdit) return;
+    portraitEdit.pointers.delete(e.pointerId);
+    if (portraitEdit.pointers.size < 2) {
+      portraitEdit.pinchStartDist = 0;
+    }
+    if (portraitEdit.pointers.size === 1) {
+      // Reset pinch baseline if one finger remains.
+      const only = [...portraitEdit.pointers.values()][0];
+      portraitEdit.pointers.set([...portraitEdit.pointers.keys()][0], only);
+    }
   }
 
   /* ---------- Backup ---------- */
@@ -1810,10 +1968,7 @@
             ? !!state.spellLevelOpen[openKey]
             : lv === levels[0];
         const lockedLevel = selectable && (lv === 0 ? cantripFull : leveledFull);
-        const slotMax = lv > 0 ? maxSlotsMap()[lv] || 0 : 0;
-        const slotRem = lv > 0 ? state.spellSlots[String(lv)] ?? slotMax : 0;
         const metaParts = [`${selectedInGroup} selected`, `${group.length} listed`];
-        if (lv > 0 && slotMax > 0) metaParts.push(`cast ${slotRem}/${slotMax}`);
         return `<details class="spell-level" data-spell-level="${lv}" ${isOpen ? "open" : ""}>
           <summary class="spell-level-summary">
             <span class="spell-level-name">${window.codexSpellLevelLabel(lv)}</span>
@@ -1924,7 +2079,7 @@
       preview.innerHTML = `<img src="${state.portraitDataUrl}" alt="Character portrait" />`;
     } else {
       preview.classList.add("empty");
-      preview.textContent = "No photo";
+      preview.innerHTML = "";
     }
     $("#lastSaved").textContent = state.updatedAt
       ? new Date(state.updatedAt).toLocaleString()
@@ -2310,10 +2465,7 @@
       const file = e.target.files?.[0];
       if (!file) return;
       try {
-        state.portraitDataUrl = await resizeImageFile(file);
-        persist(true);
-        render();
-        toast("Portrait saved", "ok");
+        await openPortraitEditor(file);
       } catch {
         toast("Could not load image", "warn");
       }
@@ -2324,6 +2476,33 @@
       persist();
       render();
     });
+    $("#portraitEditCancel")?.addEventListener("click", () => closePortraitEditor(true));
+    $("#portraitEditAccept")?.addEventListener("click", acceptPortraitEdit);
+    $("#portraitZoom")?.addEventListener("input", (e) => {
+      setPortraitZoomRatio((Number(e.target.value) || 100) / 100);
+    });
+    $("#portraitEditor")?.addEventListener("click", (e) => {
+      if (e.target.id === "portraitEditor") closePortraitEditor(true);
+    });
+    const cropFrame = $("#portraitCropFrame");
+    if (cropFrame) {
+      cropFrame.addEventListener("pointerdown", onPortraitPointerDown);
+      cropFrame.addEventListener("pointermove", onPortraitPointerMove);
+      cropFrame.addEventListener("pointerup", onPortraitPointerUp);
+      cropFrame.addEventListener("pointercancel", onPortraitPointerUp);
+      cropFrame.addEventListener(
+        "wheel",
+        (e) => {
+          if (!portraitEdit) return;
+          e.preventDefault();
+          const cur = portraitEdit.scale / portraitEdit.baseScale;
+          const next = cur * (e.deltaY < 0 ? 1.06 : 0.94);
+          setPortraitZoomRatio(next);
+          syncPortraitZoomSlider();
+        },
+        { passive: false }
+      );
+    }
 
     $("#exportBtn").addEventListener("click", exportBackup);
     $("#importBtn").addEventListener("click", () => $("#importFile").click());

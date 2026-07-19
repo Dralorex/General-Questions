@@ -185,10 +185,10 @@
         </div>
 
         <div class="portrait-card">
-          <div id="portraitPreview" class="portrait-preview empty">No photo</div>
+          <div id="portraitPreview" class="portrait-preview empty" aria-label="Character portrait"></div>
           <div class="portrait-actions">
             <label class="btn ghost file-btn">
-              Upload PNG
+              Upload photo
               <input id="portraitInput" type="file" accept="image/png,image/jpeg,image/*" hidden />
             </label>
             <button type="button" id="portraitClear" class="btn ghost">Remove</button>
@@ -360,6 +360,32 @@
         </div>
         <div id="gearPickerResults" class="sheet-results"></div>
         <button type="button" id="gearPickerCustom" class="btn ghost sheet-custom">+ Custom blank item</button>
+      </div>
+    </div>
+
+    <div id="portraitEditor" class="sheet" hidden>
+      <div class="sheet-panel portrait-editor-panel">
+        <header class="sheet-head">
+          <div>
+            <h2>Adjust photo</h2>
+            <p class="muted tiny">Drag and size inside the square — Profile shows the same square</p>
+          </div>
+          <button type="button" id="portraitEditCancel" class="btn ghost tiny">Cancel</button>
+        </header>
+        <div class="portrait-crop-stage">
+          <div id="portraitCropFrame" class="portrait-crop-frame" aria-label="Portrait outline">
+            <img id="portraitEditImg" alt="Portrait being cropped" draggable="false" />
+            <div class="portrait-crop-outline" aria-hidden="true"></div>
+          </div>
+          <p class="portrait-crop-caption muted tiny">Square outline = how it appears after you accept</p>
+        </div>
+        <label class="field tight portrait-zoom-field">
+          <span>Size</span>
+          <input id="portraitZoom" type="range" min="100" max="300" value="100" step="1" />
+        </label>
+        <div class="portrait-editor-actions">
+          <button type="button" id="portraitEditAccept" class="btn primary">Use photo</button>
+        </div>
       </div>
     </div>
 

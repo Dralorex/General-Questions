@@ -5,7 +5,8 @@ One-page GitHub view of the Kirito Aincrad mana kit.
 **Max Mana:** 100 · **Flow:** Level unlocks → train sessions → Learned → usable · **Dual wield:** locked until Level 10  
 **No projectile skills.** Melee / movement / defense only.
 
-→ Full rules: [README.md](README.md) · Import CSV: [skills.csv](skills.csv)
+→ Full rules: [README.md](README.md) · Import CSV: [skills.csv](skills.csv)  
+→ D&D sheet (stats, HP, death saves, gear): [DND-SHEET.md](DND-SHEET.md) · Phone app: [../kirito-mana-app/](../kirito-mana-app/)
 
 ---
 

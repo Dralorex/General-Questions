@@ -7,10 +7,13 @@ This is for my random questions so I can see things anywhere.
 ### [Aincrad Mana — Phone App (PWA)](kirito-mana-app/)
 Installable phone web app for combat mana, skills, and training. **Saves on your phone** even after a full close.
 
+**Live phone link (after Pages deploy):** https://dralorex.github.io/General-Questions/
+
 | Link | What it is |
 |---|---|
-| [Open the app](kirito-mana-app/index.html) | Combat tracker UI |
-| [App README](kirito-mana-app/README.md) | Install steps (iPhone / Android) + save notes |
+| [Live app](https://dralorex.github.io/General-Questions/) | Tap-ready phone URL |
+| [Open the app (repo files)](kirito-mana-app/index.html) | Source UI in git |
+| [App README](kirito-mana-app/README.md) | Pages setup + install + save notes |
 
 ### [Kirito Mana System](kirito-mana-system/)
 Aincrad / season 1 sword-skill mana homebrew for D&D-style play (Google Sheets CSVs).

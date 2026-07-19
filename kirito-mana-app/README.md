@@ -9,27 +9,34 @@ Mobile-first Progressive Web App for the Kirito mana system.
 - Offline-capable after first load (service worker)
 - Install to Home Screen (iPhone & Android)
 
-## Open on your phone
+## Phone link (GitHub Pages)
 
-PWAs need a secure origin (`https://` or `localhost`).
+**App URL (after first deploy):**  
+https://dralorex.github.io/General-Questions/
 
-### Option A — GitHub Pages (after merge)
-1. Enable Pages on this repo (Settings → Pages → Deploy from `main` / `/kirito-mana-app` or root).
-2. Open the app URL on your phone.
-3. **iPhone (Safari):** Share → **Add to Home Screen**
-4. **Android (Chrome):** menu → **Install app** / **Add to Home screen**
+### One-time setup (repo owner)
+This agent can’t flip the Pages switch for you (API permission). Do this once:
 
-### Option B — Local network preview
-From the repo root:
+1. Merge the PWA PR into `main`.
+2. GitHub → **Settings → Pages**
+3. Under **Build and deployment → Source**, choose **GitHub Actions**
+4. Open **Actions** → workflow **Deploy Aincrad Mana PWA** → **Run workflow**
+5. When it’s green, open: https://dralorex.github.io/General-Questions/
 
+Later pushes that touch `kirito-mana-app/` auto-redeploy.
+
+### Install on your phone
+1. Open the Pages URL above on your phone.
+2. **iPhone (Safari):** Share → **Add to Home Screen**
+3. **Android (Chrome):** menu → **Install app** / **Add to Home screen**
+
+### Local preview (optional)
 ```bash
 cd kirito-mana-app
 python3 -m http.server 4173
 ```
-
-Then on your phone (same Wi‑Fi): `http://YOUR_COMPUTER_IP:4173`
-
-> Note: some iOS install features work best over HTTPS. For daily use, GitHub Pages is smoother.
+Then on your phone (same Wi‑Fi): `http://YOUR_COMPUTER_IP:4173`  
+Daily use should be the HTTPS Pages link.
 
 ## What gets saved
 

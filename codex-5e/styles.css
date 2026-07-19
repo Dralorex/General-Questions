@@ -189,12 +189,167 @@ body {
   letter-spacing: 0.02em;
 }
 
+.spell-accordion {
+  gap: 8px;
+}
+
+.spell-level {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 0;
+  overflow: hidden;
+}
+
+.spell-level-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  user-select: none;
+}
+
+.spell-level-summary::-webkit-details-marker {
+  display: none;
+}
+
+.spell-level-summary::before {
+  content: "▸";
+  color: var(--gold);
+  margin-right: 0.35rem;
+  display: inline-block;
+  transition: transform 140ms ease;
+}
+
+.spell-level[open] > .spell-level-summary::before {
+  transform: rotate(90deg);
+}
+
+.spell-level-name {
+  font-weight: 700;
+}
+
+.spell-level-body {
+  display: grid;
+  gap: 10px;
+  padding: 0 10px 12px;
+}
+
 .spell-card,
 .feature-card {
   background: var(--panel);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius);
   padding: 12px;
+}
+
+.spell-card.is-selected {
+  border-color: rgba(230, 196, 122, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(230, 196, 122, 0.18);
+}
+
+.spell-card.is-locked {
+  opacity: 0.42;
+}
+
+.spell-check {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+}
+
+.spell-check input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--gold);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.slot-track {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.slot-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(230, 196, 122, 0.35);
+  background: rgba(230, 196, 122, 0.08);
+  font-size: 0.86rem;
+  color: var(--text);
+}
+
+.slot-pill strong {
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.slot-pill.is-empty {
+  opacity: 0.4;
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.quick {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(230, 196, 122, 0.12), rgba(255, 255, 255, 0.02));
+  border-radius: 14px;
+  padding: 0.75rem 0.45rem;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+
+.quick:active {
+  transform: scale(0.96);
+}
+
+.q-name {
+  font-weight: 700;
+  font-size: 0.86rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.q-cost {
+  color: var(--gold);
+  font-size: 0.78rem;
 }
 
 .spell-card header,
@@ -766,6 +921,10 @@ body {
   padding: 0.2rem 0;
 }
 
+.equip-meta {
+  margin: 4px 2px 0;
+}
+
 .equip-rule {
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.45);
@@ -781,6 +940,103 @@ body {
   font: inherit;
   resize: vertical;
   min-height: 4rem;
+}
+
+/* Gear picker sheet */
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(6, 10, 14, 0.72);
+  display: grid;
+  align-items: end;
+  padding: 0;
+}
+
+.sheet[hidden] {
+  display: none !important;
+}
+
+.sheet-panel {
+  background: linear-gradient(180deg, #1a2433, #121820);
+  border-radius: 18px 18px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 0;
+  max-height: min(88vh, 720px);
+  display: flex;
+  flex-direction: column;
+  padding: 14px 14px calc(14px + env(safe-area-inset-bottom, 0px));
+  gap: 10px;
+}
+
+.sheet-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: start;
+}
+
+.sheet-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+.sheet-filters {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 8px;
+}
+
+.sheet-results {
+  overflow: auto;
+  display: grid;
+  gap: 6px;
+  min-height: 12rem;
+  max-height: 48vh;
+  padding-right: 2px;
+}
+
+.gear-pick-row {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 0.7rem 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  font: inherit;
+  cursor: pointer;
+}
+
+.gear-pick-row:active {
+  transform: scale(0.99);
+}
+
+.gear-pick-main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.gear-pick-name {
+  font-weight: 700;
+  font-family: var(--font-display);
+}
+
+.tiny-pill {
+  font-size: 0.68rem;
+  padding: 0.2rem 0.45rem;
+  white-space: nowrap;
+}
+
+.sheet-custom {
+  width: 100%;
 }
 
 .icon-trash {

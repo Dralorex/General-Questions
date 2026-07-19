@@ -110,9 +110,22 @@
     return (arr || []).map((on) => (on ? "●" : "○")).join(" ");
   }
 
+  function moneyLabel(player) {
+    const coins = player.coins || {};
+    const parts = [
+      ["pp", coins.pp],
+      ["gp", coins.gp],
+      ["ep", coins.ep],
+      ["sp", coins.sp],
+      ["cp", coins.cp],
+    ].map(([k, n]) => `${Math.max(0, Number(n) || 0)} ${k}`);
+    return parts.join(" · ");
+  }
+
   function playerCardHTML(code, player, open) {
     const name = player.name || "Adventurer";
     const fresh = flashCode === code ? " is-fresh" : "";
+    const pct = hpPct(player);
     return `<article class="player-card${open ? " is-open" : ""}${fresh}" data-code="${escapeText(code)}">
       <button type="button" class="player-tab" data-toggle="${escapeText(code)}" aria-expanded="${open ? "true" : "false"}">
         <span class="player-name">${escapeText(name)}</span>
@@ -124,11 +137,14 @@
         </span>
       </button>
       <div class="player-body">
-        <div class="hp-bar" aria-hidden="true"><span style="width:${hpPct(player)}%;background-position:${100 - hpPct(player)}% 0"></span></div>
+        <div class="hp-hero ${hpClass(player)}">
+          <span class="hp-hero-label">Health</span>
+          <span class="hp-hero-value">${escapeText(hpLabel(player))}</span>
+          <div class="hp-bar" aria-hidden="true"><span style="width:${pct}%;background-position:${100 - pct}% 0"></span></div>
+        </div>
         <div class="stat-grid">
           <div class="stat"><span class="k">Level</span><span class="v">${escapeText(player.level || 1)}</span></div>
           <div class="stat"><span class="k">AC</span><span class="v">${escapeText(player.ac ?? 10)}</span></div>
-          <div class="stat"><span class="k">Health</span><span class="v">${escapeText(hpLabel(player))}</span></div>
           <div class="stat"><span class="k">Class</span><span class="v">${escapeText(classLine(player))}</span></div>
           <div class="stat"><span class="k">Race</span><span class="v">${escapeText(player.race || "—")}</span></div>
           <div class="stat"><span class="k">Speed</span><span class="v">${escapeText(player.speed ?? 30)} ft</span></div>
@@ -155,6 +171,10 @@
         <div class="death-row">
           <span>Death successes ${escapeText(deathMarks(player.deathSaves?.success))}</span>
           <span>Fails ${escapeText(deathMarks(player.deathSaves?.fail))}</span>
+        </div>
+        <div class="money-row">
+          <span class="k">Money</span>
+          <span class="v">${escapeText(moneyLabel(player))}</span>
         </div>
         <div class="card-actions">
           <span class="source-pill">${escapeText(sourceLabel(player.source))} · ${escapeText(code)}</span>
@@ -209,6 +229,13 @@
       deathSaves: {
         success: (snapshot.deathSaves?.success || [false, false, false]).slice(0, 3),
         fail: (snapshot.deathSaves?.fail || [false, false, false]).slice(0, 3),
+      },
+      coins: {
+        cp: Math.max(0, Number(snapshot.coins?.cp) || 0),
+        sp: Math.max(0, Number(snapshot.coins?.sp) || 0),
+        ep: Math.max(0, Number(snapshot.coins?.ep) || 0),
+        gp: Math.max(0, Number(snapshot.coins?.gp) || 0),
+        pp: Math.max(0, Number(snapshot.coins?.pp) || 0),
       },
     };
     persist();

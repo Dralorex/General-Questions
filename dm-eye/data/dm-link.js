@@ -69,6 +69,13 @@
         success: (state.deathSaves?.success || [false, false, false]).slice(0, 3).map(Boolean),
         fail: (state.deathSaves?.fail || [false, false, false]).slice(0, 3).map(Boolean),
       },
+      coins: {
+        cp: Math.max(0, Number(state.coins?.cp) || 0),
+        sp: Math.max(0, Number(state.coins?.sp) || 0),
+        ep: Math.max(0, Number(state.coins?.ep) || 0),
+        gp: Math.max(0, Number(state.coins?.gp) || 0),
+        pp: Math.max(0, Number(state.coins?.pp) || 0),
+      },
       hitDice: String(state.hitDice || "").slice(0, 24),
       updatedAt: Number(state.updatedAt) || Date.now(),
     };

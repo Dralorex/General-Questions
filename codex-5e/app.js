@@ -1683,10 +1683,7 @@
     const selectable = !!(cls && cls.spellcasting);
     const sub = $("#spellsSubtitle");
     if (sub && cls && cls.spellcasting) {
-      const left = selectionSlotsLeft();
-      sub.textContent = `${cls.name} · ${left.leveledLeft} spell slot${
-        left.leveledLeft === 1 ? "" : "s"
-      } left to ${limits.kind === "known" ? "know" : "prepare"} · selected spells appear in Combat.`;
+      sub.textContent = `${cls.name} · expand a level, check spells (${limits.selectLabel.toLowerCase()}). Selected spells appear in Combat.`;
     } else if (sub && !cls) {
       sub.textContent = meta.subtitle;
     }
@@ -1745,11 +1742,7 @@
         const lockedLevel = selectable && (lv === 0 ? cantripFull : leveledFull);
         const slotMax = lv > 0 ? maxSlotsMap()[lv] || 0 : 0;
         const slotRem = lv > 0 ? state.spellSlots[String(lv)] ?? slotMax : 0;
-        const picksLeft = lv === 0 ? left.cantripsLeft : left.leveledLeft;
-        const metaParts = [
-          `${selectedInGroup} selected`,
-          selectable ? `${picksLeft} left` : `${group.length} listed`,
-        ];
+        const metaParts = [`${selectedInGroup} selected`, `${group.length} listed`];
         if (lv > 0 && slotMax > 0) metaParts.push(`cast ${slotRem}/${slotMax}`);
         return `<details class="spell-level" data-spell-level="${lv}" ${isOpen ? "open" : ""}>
           <summary class="spell-level-summary">

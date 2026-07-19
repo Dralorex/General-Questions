@@ -1,14 +1,9 @@
-const CACHE = "codex-5e-v6";
+const CACHE = "dm-eye-v1";
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
-  "./data/dnd.js",
-  "./data/spells.js",
-  "./data/classes.js",
-  "./data/equipment.js",
-  "./data/codex.js",
   "./data/dm-link.js",
   "./manifest.webmanifest",
   "./icons/icon-180.png",

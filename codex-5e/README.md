@@ -38,6 +38,7 @@ Open **http://localhost:4174**
 - **Notes** tab: nested folders, tags, search
 - Combat vitals, death saves, gear, portrait, backup/export
 - Offline saves on this device (`localStorage`)
+- **DM Link** (Profile): share a 6-character code so [DM Eye](../dm-eye/) can track your sheet live
 
 ## Quick start in the app
 
@@ -46,6 +47,7 @@ Open **http://localhost:4174**
 3. **Spells** → open a level dropdown → check spells until your known/prepared limit fills (rest gray out)
 4. **Combat** → tap selected spells to spend slots; use Short/Long Rest to recover per 5e
 5. **Notes** → `+ Folder` → `+ Note` → add tags like `npc, quest`
+6. **DM Link** → turn **Share with DM** on → give the code to your DM
 
 ## Tabs
 
@@ -65,5 +67,6 @@ Spell, class, equipment, and magic-item content comes from the **D&D 5e SRD 5.1*
 ## Related
 
 - Original mana / sword-skill app: [kirito-mana-app](../kirito-mana-app/)
+- DM live tracker: [dm-eye](../dm-eye/)
 - Homebrew CSVs: [kirito-mana-system](../kirito-mana-system/)
 - Pages URLs: [PAGES-SETUP.md](PAGES-SETUP.md)

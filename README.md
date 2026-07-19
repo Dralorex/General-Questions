@@ -4,16 +4,17 @@ This is for my random questions so I can see things anywhere.
 
 ## Projects
 
-### Phone apps (two separate live sites)
+### Phone apps (three separate live sites)
 
 | App | Live URL |
 |---|---|
 | **Hub** (pick one) | https://dralorex.github.io/General-Questions/ |
 | **Codex** (5e sheet) | https://dralorex.github.io/General-Questions/codex/ |
 | **Aincrad Mana** | https://dralorex.github.io/General-Questions/mana/ |
+| **DM Eye** (party tracker) | https://dralorex.github.io/General-Questions/dm-eye/ |
 
 ### [Codex — 5e Character Sheet (PWA)](codex-5e/)
-Professional D&D 5e sheet with SRD spell database, class picker, auto-applied features/saves/hit dice, Notes (folders + tags), and offline phone saves.
+Professional D&D 5e sheet with SRD spell database, class picker, auto-applied features/saves/hit dice, Notes (folders + tags), offline phone saves, and **DM Link** codes for live tracking.
 
 **Phone web app:** https://dralorex.github.io/General-Questions/codex/
 
@@ -24,7 +25,7 @@ Professional D&D 5e sheet with SRD spell database, class picker, auto-applied fe
 | [App README](codex-5e/README.md) | Install + how to use |
 
 ### [Aincrad Mana — Phone App (PWA)](kirito-mana-app/)
-Installable phone web app for combat mana, full D&D character sheet, skills, and training. **Saves on your phone** even after a full close.
+Installable phone web app for combat mana, full D&D character sheet, skills, and training. **Saves on your phone** even after a full close. Includes **DM Link** for live DM Eye tracking.
 
 **Live mana app:** https://dralorex.github.io/General-Questions/mana/
 
@@ -33,6 +34,17 @@ Installable phone web app for combat mana, full D&D character sheet, skills, and
 | [Live mana app](https://dralorex.github.io/General-Questions/mana/) | Sword-skill mana tracker |
 | [Open the app (repo files)](kirito-mana-app/index.html) | Source UI in git |
 | [App README](kirito-mana-app/README.md) | Pages setup + install + save notes |
+
+### [DM Eye — Live Party Tracker (PWA)](dm-eye/)
+DM-facing app: enter player link codes from Codex or Aincrad Mana and watch name, level, AC, health, class/subclass, and more update live. Collapsible player tabs keep the table view clean.
+
+**Live DM Eye:** https://dralorex.github.io/General-Questions/dm-eye/
+
+| Link | What it is |
+|---|---|
+| [Live DM Eye](https://dralorex.github.io/General-Questions/dm-eye/) | Party vitals board |
+| [Open the app (repo files)](dm-eye/index.html) | Source UI in git |
+| [App README](dm-eye/README.md) | How link codes work |
 
 ### [Kirito Mana System](kirito-mana-system/)
 Aincrad / season 1 sword-skill mana homebrew for D&D-style play (Google Sheets CSVs).

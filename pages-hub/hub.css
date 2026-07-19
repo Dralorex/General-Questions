@@ -5,6 +5,7 @@
   --muted: #9aabbf;
   --codex: #6eb6ff;
   --mana: #e2b45a;
+  --dmeye: #3eb8c2;
   --line: rgba(232, 238, 247, 0.12);
 }
 
@@ -104,6 +105,14 @@ h1 {
 
 .app-link.mana .app-name {
   color: var(--mana);
+}
+
+.app-link.dmeye {
+  border-color: color-mix(in srgb, var(--dmeye) 45%, var(--line));
+}
+
+.app-link.dmeye .app-name {
+  color: var(--dmeye);
 }
 
 .hint {

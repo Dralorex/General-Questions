@@ -30,6 +30,7 @@
       level: 1,
       xp: 0,
       className: "",
+      subclass: "",
       race: "",
       background: "",
       alignment: "",
@@ -66,6 +67,8 @@
       otherNotes: "",
       portraitDataUrl: "",
       equipment: [],
+      dmLinkCode: "",
+      dmLinkEnabled: false,
       updatedAt: Date.now(),
     };
   }
@@ -119,9 +122,70 @@
   let toastTimer = null;
   let deathPopupShown = false;
   let livedPopupShown = false;
+  let dmPublisher = null;
+  let dmLinkStatus = "offline";
 
   function clamp(n, min, max) {
     return Math.max(min, Math.min(max, n));
+  }
+
+  function ensureDmLinkCode() {
+    const Link = window.DmEyeLink;
+    if (!Link) return;
+    if (!Link.isValidCode(state.dmLinkCode)) {
+      state.dmLinkCode = Link.generateCode();
+    }
+  }
+
+  function setDmLinkStatusText(status) {
+    dmLinkStatus = status || "offline";
+    const el = $("#dmLinkStatus");
+    if (!el) return;
+    if (!state.dmLinkEnabled) {
+      el.textContent = "Sharing off — DM Eye will not see updates";
+      return;
+    }
+    const map = {
+      online: "Sharing on · live",
+      connecting: "Sharing on · connecting…",
+      offline: "Sharing on · reconnecting…",
+      error: "Sharing on · link error, retrying…",
+    };
+    el.textContent = map[dmLinkStatus] || "Sharing on";
+  }
+
+  function stopDmPublisher() {
+    if (!dmPublisher) return;
+    try {
+      dmPublisher.stop();
+    } catch (_) {}
+    dmPublisher = null;
+  }
+
+  function syncDmLink() {
+    const Link = window.DmEyeLink;
+    if (!Link) return;
+    ensureDmLinkCode();
+    if (!state.dmLinkEnabled) {
+      stopDmPublisher();
+      setDmLinkStatusText("offline");
+      return;
+    }
+    if (!dmPublisher || dmPublisher.code !== state.dmLinkCode) {
+      stopDmPublisher();
+      dmPublisher = new Link.DmLinkPublisher({
+        source: "mana",
+        onStatus: setDmLinkStatusText,
+      });
+      try {
+        dmPublisher.start(state.dmLinkCode);
+      } catch (err) {
+        console.warn(err);
+        setDmLinkStatusText("error");
+        return;
+      }
+    }
+    dmPublisher.publish(Link.snapshotFromState(state, "mana"));
   }
 
   function persist(immediate = false) {
@@ -130,6 +194,7 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         setSaveBadge(true);
+        syncDmLink();
       } catch (err) {
         setSaveBadge(false, "Save failed — storage full?");
         console.error(err);
@@ -948,6 +1013,7 @@
     $("#xpInput").value = String(state.xp || 0);
     $("#maxManaInput").value = String(state.maxMana);
     $("#classInput").value = state.className || "";
+    $("#subclassInput").value = state.subclass || "";
     $("#raceInput").value = state.race || "";
     $("#backgroundInput").value = state.background || "";
     $("#alignmentInput").value = state.alignment || "";
@@ -965,6 +1031,12 @@
     $("#featsInput").value = state.feats || "";
     $("#profTextInput").value = state.proficienciesText || "";
     $("#otherNotesInput").value = state.otherNotes || "";
+    ensureDmLinkCode();
+    const codeEl = $("#dmLinkCode");
+    if (codeEl) codeEl.textContent = state.dmLinkCode || "————";
+    const toggle = $("#dmLinkToggle");
+    if (toggle) toggle.checked = !!state.dmLinkEnabled;
+    setDmLinkStatusText(dmLinkStatus);
     const preview = $("#portraitPreview");
     if (state.portraitDataUrl) {
       preview.classList.remove("empty");
@@ -1072,6 +1144,7 @@
         state.mana = clamp(state.mana, 0, state.maxMana);
       }],
       ["classInput", (v) => (state.className = v)],
+      ["subclassInput", (v) => (state.subclass = v)],
       ["raceInput", (v) => (state.race = v)],
       ["backgroundInput", (v) => (state.background = v)],
       ["alignmentInput", (v) => (state.alignment = v)],
@@ -1099,6 +1172,30 @@
         render();
       });
     }
+
+    $("#dmLinkToggle")?.addEventListener("change", (e) => {
+      state.dmLinkEnabled = !!e.target.checked;
+      persist(true);
+      renderProfile();
+      toast(state.dmLinkEnabled ? "DM Link sharing on" : "DM Link sharing off", "ok");
+    });
+    $("#dmLinkCopy")?.addEventListener("click", async () => {
+      ensureDmLinkCode();
+      try {
+        await navigator.clipboard.writeText(state.dmLinkCode);
+        toast("Code copied", "ok");
+      } catch {
+        toast(state.dmLinkCode, "info");
+      }
+    });
+    $("#dmLinkRegen")?.addEventListener("click", () => {
+      if (!window.DmEyeLink) return;
+      if (state.dmLinkEnabled) stopDmPublisher();
+      state.dmLinkCode = window.DmEyeLink.generateCode();
+      persist(true);
+      renderProfile();
+      toast("New DM Link code ready", "ok");
+    });
 
     $("#portraitInput").addEventListener("change", async (e) => {
       const file = e.target.files?.[0];
@@ -1172,5 +1269,7 @@
   setSaveBadge(true);
   setupInstall();
   registerSW();
+  ensureDmLinkCode();
+  if (state.dmLinkEnabled) syncDmLink();
   render();
 })();

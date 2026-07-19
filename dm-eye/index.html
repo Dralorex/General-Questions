@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0d171c" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="DM Eye" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icons/icon-180.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>DM Eye — Live Player Tracker</title>
+  </head>
+  <body>
+    <div class="bg" aria-hidden="true"></div>
+
+    <header class="top">
+      <div class="brand-block">
+        <p class="brand">DM Eye</p>
+        <p class="tagline">Live player vitals from Codex &amp; Aincrad Mana</p>
+      </div>
+      <div class="top-actions">
+        <span id="linkStatus" class="save" data-ok="0">Connecting…</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel active">
+        <div class="section-head">
+          <h2>Link a player</h2>
+          <p>
+            Ask the player for their DM Link code from Codex or Aincrad Mana
+            (Profile → DM Link), then enter it here.
+          </p>
+        </div>
+
+        <form id="linkForm" class="link-form" autocomplete="off">
+          <label class="field grow">
+            <span>Player link code</span>
+            <input
+              id="codeInput"
+              type="text"
+              inputmode="text"
+              maxlength="8"
+              placeholder="e.g. K7M2QX"
+              aria-label="Player link code"
+              required
+            />
+          </label>
+          <button type="submit" class="btn primary">Link</button>
+        </form>
+        <p id="linkError" class="error-line" hidden></p>
+
+        <div class="section-head tight row-between">
+          <h2>Party</h2>
+          <span id="partyCount" class="muted tiny">0 linked</span>
+        </div>
+        <div id="partyEmpty" class="info-card">
+          <p class="label">No players yet</p>
+          <p class="muted">
+            Linked characters appear here and update live when players change HP
+            and other sheet stats.
+          </p>
+        </div>
+        <div id="partyList" class="party-list" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <p id="toast" class="toast" hidden></p>
+
+    <script src="./data/dm-link.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

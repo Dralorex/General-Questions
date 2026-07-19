@@ -1,4 +1,4 @@
-name: Deploy phone apps (Codex + Mana)
+name: Deploy phone apps (Codex + Mana + DM Eye)
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
     paths:
       - "codex-5e/**"
       - "kirito-mana-app/**"
+      - "dm-eye/**"
+      - "shared/**"
       - "pages-hub/**"
       - ".github/workflows/deploy-codex.yml"
   workflow_dispatch:
@@ -27,15 +29,21 @@ jobs:
       - name: Prepare publish folder
         run: |
           mkdir -p publish
-          # Hub at site root — pick Codex or Mana
+          # Hub at site root — pick Codex, Mana, or DM Eye
           cp -R pages-hub/. publish/
-          # Two separate apps on separate paths (separate SW scopes)
-          mkdir -p publish/codex publish/mana
+          # Separate apps on separate paths (separate SW scopes)
+          mkdir -p publish/codex publish/mana publish/dm-eye
           cp -R codex-5e/. publish/codex/
           cp -R kirito-mana-app/. publish/mana/
+          cp -R dm-eye/. publish/dm-eye/
+          # Keep shared DM link module in sync for all apps
+          cp shared/dm-link.js publish/codex/data/dm-link.js
+          cp shared/dm-link.js publish/mana/data/dm-link.js
+          cp shared/dm-link.js publish/dm-eye/data/dm-link.js
           touch publish/.nojekyll
           touch publish/codex/.nojekyll
           touch publish/mana/.nojekyll
+          touch publish/dm-eye/.nojekyll
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4

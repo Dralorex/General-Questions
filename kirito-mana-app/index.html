@@ -188,6 +188,10 @@
             <input id="classInput" type="text" />
           </label>
           <label class="field">
+            <span>Subclass</span>
+            <input id="subclassInput" type="text" placeholder="Optional" />
+          </label>
+          <label class="field">
             <span>Race</span>
             <input id="raceInput" type="text" />
           </label>
@@ -250,6 +254,28 @@
           <textarea id="otherNotesInput" rows="3"></textarea>
         </label>
 
+        <div class="section-head tight">
+          <h2>DM Link</h2>
+          <p>Give this code to your DM so DM Eye can track your sheet live.</p>
+        </div>
+        <div class="info-card dm-link-card">
+          <div class="dm-link-row">
+            <div>
+              <p class="label">Your link code</p>
+              <p id="dmLinkCode" class="dm-link-code">————</p>
+            </div>
+            <label class="dm-toggle">
+              <input id="dmLinkToggle" type="checkbox" />
+              <span>Share with DM</span>
+            </label>
+          </div>
+          <p id="dmLinkStatus" class="muted tiny">Sharing off</p>
+          <div class="dm-link-actions">
+            <button type="button" id="dmLinkCopy" class="btn ghost tiny">Copy code</button>
+            <button type="button" id="dmLinkRegen" class="btn ghost tiny">New code</button>
+          </div>
+        </div>
+
         <div class="info-card">
           <p class="label">Last saved</p>
           <p id="lastSaved">—</p>
@@ -304,6 +330,7 @@
 
     <script src="./data/skills.js"></script>
     <script src="./data/dnd.js"></script>
+    <script src="./data/dm-link.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

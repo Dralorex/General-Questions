@@ -4,6 +4,8 @@ Google Sheets–friendly homebrew for a D&D-style Kirito kit: **sword skills cos
 
 Skills are **level-gated**, then must be **trained** before you can use them. Dual wield is hard-locked until **Level 10**.
 
+**Master table (best GitHub view):** [MASTER-SKILLS.md](MASTER-SKILLS.md)
+
 ## Import into Google Sheets
 
 1. Create a new Google Sheet.

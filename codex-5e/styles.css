@@ -1090,6 +1090,57 @@ body {
   gap: 8px;
 }
 
+.portrait-editor-panel {
+  max-height: min(92vh, 760px);
+}
+
+.portrait-crop-stage {
+  display: grid;
+  place-items: center;
+  padding: 4px 0 2px;
+}
+
+.portrait-crop-frame {
+  width: min(78vw, 320px);
+  aspect-ratio: 1;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(230, 196, 122, 0.35);
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.portrait-crop-frame:active {
+  cursor: grabbing;
+}
+
+.portrait-crop-frame img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: none;
+  transform-origin: 0 0;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.portrait-zoom-field {
+  margin: 0;
+}
+
+.portrait-zoom-field input[type="range"] {
+  width: 100%;
+  accent-color: var(--gold);
+}
+
+.portrait-editor-actions {
+  display: grid;
+  gap: 8px;
+}
+
 .file-btn {
   display: inline-flex;
   align-items: center;

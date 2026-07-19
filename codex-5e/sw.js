@@ -1,4 +1,4 @@
-const CACHE = "codex-5e-v6";
+const CACHE = "codex-5e-v7";
 const ASSETS = [
   "./",
   "./index.html",

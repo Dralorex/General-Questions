@@ -5,7 +5,7 @@ This is for my random questions so I can see things anywhere.
 ## Projects
 
 ### [Aincrad Mana — Phone App (PWA)](kirito-mana-app/)
-Installable phone web app for combat mana, skills, and training. **Saves on your phone** even after a full close.
+Installable phone web app for combat mana, full D&D character sheet, skills, and training. **Saves on your phone** even after a full close.
 
 **Live phone link (after Pages deploy):** https://dralorex.github.io/General-Questions/
 
@@ -23,6 +23,7 @@ Aincrad / season 1 sword-skill mana homebrew for D&D-style play (Google Sheets C
 | Link | What it is |
 |---|---|
 | [Master Skills Sheet](kirito-mana-system/MASTER-SKILLS.md) | One-page readable skill table for GitHub |
+| [D&D Sheet reference](kirito-mana-system/DND-SHEET.md) | Stats, HP, death saves, gear, profile fields |
 | [System rules & Sheets formulas](kirito-mana-system/README.md) | Full rules: mana, regen, level locks, training, dual-wield gate |
 | [Skills list (CSV)](kirito-mana-system/skills.csv) | Importable sheet data |
 | [Quick reference](kirito-mana-system/quick-reference.csv) | Compact skill / mana / level table |

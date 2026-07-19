@@ -1,7 +1,18 @@
 (() => {
   const ABILITIES = window.DND_ABILITIES;
-  const STORAGE_KEY = "kirito-sheet-pwa-v2";
-  const APP_VERSION = "3.0.0";
+  const CLASSES = window.CODEX_CLASSES || [];
+  const SPELLS = window.CODEX_SPELLS || [];
+  const STORAGE_KEY = "codex-5e-pwa-v1";
+  const APP_VERSION = "4.0.0";
+
+  const SAVE_ID_BY_KEY = {
+    str: "str-save",
+    dex: "dex-save",
+    con: "con-save",
+    int: "int-save",
+    wis: "wis-save",
+    cha: "cha-save",
+  };
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -17,9 +28,10 @@
   function defaultState() {
     return {
       version: APP_VERSION,
-      name: "Kirito",
+      name: "Adventurer",
       level: 1,
       xp: 0,
+      classId: "",
       className: "",
       race: "",
       background: "",
@@ -28,6 +40,7 @@
       combatLog: [],
       abilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 },
       proficiencies: emptyProficiencies(),
+      autoSaveKeys: [],
       hp: { current: 10, max: 10, temp: 0 },
       speed: 30,
       ac: 10,
@@ -48,6 +61,12 @@
       otherNotes: "",
       portraitDataUrl: "",
       equipment: [],
+      spellFilters: {
+        search: "",
+        level: "all",
+        school: "all",
+        classOnly: true,
+      },
       updatedAt: Date.now(),
     };
   }
@@ -71,7 +90,18 @@
         coins: { ...base.coins, ...(parsed.coins || {}) },
         equipment: Array.isArray(parsed.equipment) ? parsed.equipment : [],
         combatLog: Array.isArray(parsed.combatLog) ? parsed.combatLog : [],
+        autoSaveKeys: Array.isArray(parsed.autoSaveKeys) ? parsed.autoSaveKeys : [],
+        spellFilters: {
+          ...base.spellFilters,
+          ...(parsed.spellFilters || {}),
+        },
       };
+      if (!merged.classId && merged.className) {
+        const match = CLASSES.find(
+          (c) => c.name.toLowerCase() === String(merged.className).toLowerCase()
+        );
+        if (match) merged.classId = match.id;
+      }
       while (merged.deathSaves.success.length < 3) merged.deathSaves.success.push(false);
       while (merged.deathSaves.fail.length < 3) merged.deathSaves.fail.push(false);
       merged.deathSaves.success = merged.deathSaves.success.slice(0, 3);
@@ -168,6 +198,89 @@
 
   function hpTotalDisplay() {
     return state.hp.current + state.hp.temp;
+  }
+
+  function selectedClass() {
+    return window.codexClassById(state.classId);
+  }
+
+  function formatFeaturesNotes(cls, level) {
+    const feats = window.codexFeaturesUpToLevel(cls.id, level);
+    if (!feats.length) return "";
+    return feats
+      .map((f) => `L${f.level} · ${f.name}`)
+      .join("\n");
+  }
+
+  function applyClass(classId, { toastMsg = true } = {}) {
+    // Clear previously auto-applied save proficiencies.
+    for (const key of state.autoSaveKeys || []) {
+      const saveId = SAVE_ID_BY_KEY[key];
+      if (saveId) state.proficiencies[saveId] = false;
+    }
+    state.autoSaveKeys = [];
+
+    if (!classId) {
+      state.classId = "";
+      state.className = "";
+      persist();
+      render();
+      if (toastMsg) toast("Class cleared", "info");
+      return;
+    }
+
+    const cls = window.codexClassById(classId);
+    if (!cls) return;
+
+    state.classId = cls.id;
+    state.className = cls.name;
+    state.hitDice = `${state.level}d${cls.hitDie}`;
+
+    const saveKeys = [];
+    for (const st of cls.savingThrows || []) {
+      if (!st.key) continue;
+      saveKeys.push(st.key);
+      const saveId = SAVE_ID_BY_KEY[st.key];
+      if (saveId) state.proficiencies[saveId] = true;
+    }
+    state.autoSaveKeys = saveKeys;
+
+    const profLines = [];
+    if (cls.proficiencies?.length) {
+      profLines.push(cls.proficiencies.join(", "));
+    }
+    if (cls.skillChoices) {
+      const names = (cls.skillChoices.options || [])
+        .map((o) => (o.name || "").replace(/^Skill:\s*/i, ""))
+        .filter(Boolean);
+      profLines.push(
+        `Choose ${cls.skillChoices.choose} skill${cls.skillChoices.choose === 1 ? "" : "s"}: ${names.join(", ")}`
+      );
+    }
+    if (cls.spellcasting?.abilityName) {
+      profLines.push(`Spellcasting ability: ${cls.spellcasting.abilityName}`);
+    }
+    state.proficienciesText = profLines.join("\n");
+    state.classFeatures = formatFeaturesNotes(cls, state.level);
+
+    persist();
+    render();
+    if (toastMsg) {
+      const n = window.codexSpellsForClass(cls.id).length;
+      toast(
+        n
+          ? `${cls.name} applied · ${n} spells in list`
+          : `${cls.name} applied · no spell list`,
+        "ok"
+      );
+    }
+  }
+
+  function refreshClassDerived() {
+    const cls = selectedClass();
+    if (!cls) return;
+    state.hitDice = `${state.level}d${cls.hitDie}`;
+    state.classFeatures = formatFeaturesNotes(cls, state.level);
   }
 
   function pushLog(entry) {
@@ -362,7 +475,7 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `aincrad-sheet-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `codex-5e-backup-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
     toast("Backup exported", "ok");
@@ -567,8 +680,10 @@
   }
 
   function renderHeader() {
+    const cls = selectedClass();
     $("#levelChip").textContent = `Lv ${state.level}`;
-    $("#nameChip").textContent = state.name || "Kirito";
+    $("#nameChip").textContent = state.name || "Adventurer";
+    $("#classChip").textContent = cls ? cls.name : "No class";
     $("#hpChip").textContent = `HP ${hpTotalDisplay()}`;
     $("#profBonusLabel").textContent = `(${window.formatMod(pb())})`;
   }
@@ -581,7 +696,73 @@
     }
   }
 
+  function renderClassSummary() {
+    const box = $("#classSummary");
+    if (!box) return;
+    const cls = selectedClass();
+    if (!cls) {
+      box.hidden = true;
+      box.innerHTML = "";
+      return;
+    }
+    box.hidden = false;
+    const saves = (cls.savingThrows || []).map((s) => s.name).join(", ") || "—";
+    const sc = cls.spellcasting;
+    const slots = window.codexSpellSlotsAtLevel(cls.id, state.level);
+    const slotBits = slots
+      ? Object.keys(slots)
+          .filter((k) => k.startsWith("spell_slots_level_") && slots[k] > 0)
+          .map((k) => {
+            const n = k.replace("spell_slots_level_", "");
+            return `${n}: ${slots[k]}`;
+          })
+          .join(" · ")
+      : "";
+    box.innerHTML = `
+      <p class="label">${cls.name} · Level ${state.level}</p>
+      <p><strong>Hit die:</strong> d${cls.hitDie} · <strong>Saves:</strong> ${saves}</p>
+      ${
+        sc
+          ? `<p><strong>Spellcasting:</strong> ${sc.abilityName || "—"} (starts at class level ${sc.level || 1})</p>`
+          : `<p class="muted">This class has no spellcasting.</p>`
+      }
+      ${slotBits ? `<p><strong>Spell slots:</strong> ${slotBits}</p>` : ""}
+      ${
+        cls.skillChoices
+          ? `<p class="muted">Choose ${cls.skillChoices.choose} class skills (see Profile → Proficiencies).</p>`
+          : ""
+      }
+    `;
+  }
+
+  function renderFeatures() {
+    const root = $("#featureList");
+    if (!root) return;
+    const cls = selectedClass();
+    if (!cls) {
+      root.innerHTML = `<p class="muted">Select a class in Profile to load features.</p>`;
+      return;
+    }
+    const feats = window.codexFeaturesUpToLevel(cls.id, state.level);
+    if (!feats.length) {
+      root.innerHTML = `<p class="muted">No features at this level.</p>`;
+      return;
+    }
+    root.innerHTML = feats
+      .map(
+        (f) => `<article class="feature-card">
+        <header>
+          <h3>${escapeText(f.name)}</h3>
+          <span class="pill">L${f.level}</span>
+        </header>
+        <p class="feature-desc">${escapeText(f.description || "—")}</p>
+      </article>`
+      )
+      .join("");
+  }
+
   function renderStats() {
+    renderClassSummary();
     $("#abilityBlocks").innerHTML = ABILITIES.map((ab) => {
       const score = state.abilities[ab.key];
       const mod = modFor(ab.key);
@@ -589,9 +770,13 @@
         .map((sk) => {
           const total = skillTotal(ab.key, sk.id);
           const checked = state.proficiencies[sk.id] ? "checked" : "";
-          return `<label class="skill-row">
+          const auto =
+            sk.isSave && (state.autoSaveKeys || []).includes(ab.key)
+              ? " data-auto-save=\"1\""
+              : "";
+          return `<label class="skill-row"${auto}>
             <input type="checkbox" data-prof="${sk.id}" ${checked} />
-            <span class="sk-name">${sk.name}${sk.isSave ? "" : ""}</span>
+            <span class="sk-name">${sk.name}</span>
             <span class="sk-mod">${window.formatMod(total)}</span>
           </label>`;
         })
@@ -610,21 +795,173 @@
         <div class="skill-rows">${rows}</div>
       </article>`;
     }).join("");
+    renderFeatures();
   }
 
   function renderCombat() {
     $("#combatLog").innerHTML = state.combatLog.length
       ? state.combatLog
           .slice(0, 12)
-          .map((e) => `<li>${e.text || "—"}</li>`)
+          .map((e) => `<li>${escapeText(e.text || "—")}</li>`)
           .join("")
       : `<li class="muted">No combat actions yet.</li>`;
   }
 
+  function spellCardHTML(spell) {
+    const levelLabel = window.codexSpellLevelLabel(spell.level);
+    const comps = (spell.components || []).join(", ");
+    const flags = [
+      spell.ritual ? "Ritual" : "",
+      spell.concentration ? "Concentration" : "",
+    ]
+      .filter(Boolean)
+      .join(" · ");
+    const classNames = (spell.classes || [])
+      .map((id) => {
+        const c = window.codexClassById(id);
+        return c ? c.name : id;
+      })
+      .join(", ");
+    return `<article class="spell-card" data-spell="${spell.id}">
+      <header>
+        <div>
+          <h3>${escapeText(spell.name)}</h3>
+          <p class="meta">${levelLabel} · ${escapeText(spell.school)}${
+            flags ? ` · ${flags}` : ""
+          }</p>
+        </div>
+        <span class="pill">${spell.level === 0 ? "Cantrip" : `L${spell.level}`}</span>
+      </header>
+      <p class="spell-how"><strong>Cast:</strong> ${escapeText(
+        spell.castingTime
+      )} · <strong>Range:</strong> ${escapeText(
+        spell.range
+      )} · <strong>Components:</strong> ${escapeText(comps)}${
+        spell.material ? ` (${escapeText(spell.material)})` : ""
+      } · <strong>Duration:</strong> ${escapeText(spell.duration)}</p>
+      ${
+        spell.dc || spell.attackType || spell.damageType
+          ? `<p class="spell-how"><strong>Attack/Save:</strong> ${escapeText(
+              [spell.attackType, spell.dc ? `${spell.dc} save` : "", spell.damageType]
+                .filter(Boolean)
+                .join(" · ")
+            )}</p>`
+          : ""
+      }
+      <p class="spell-desc">${escapeText(spell.description)}</p>
+      ${
+        spell.higherLevel
+          ? `<p class="spell-higher"><strong>At higher levels:</strong> ${escapeText(
+              spell.higherLevel
+            )}</p>`
+          : ""
+      }
+      <p class="muted tiny">Lists: ${escapeText(classNames || "—")}</p>
+    </article>`;
+  }
+
+  function filteredSpells() {
+    const f = state.spellFilters || {};
+    const q = String(f.search || "")
+      .trim()
+      .toLowerCase();
+    let list = SPELLS;
+    if (f.classOnly && state.classId) {
+      list = window.codexSpellsForClass(state.classId);
+    }
+    if (f.level !== "all" && f.level !== undefined && f.level !== "") {
+      const lv = Number(f.level);
+      list = list.filter((s) => s.level === lv);
+    }
+    if (f.school && f.school !== "all") {
+      list = list.filter((s) => s.school === f.school);
+    }
+    if (q) {
+      list = list.filter(
+        (s) =>
+          s.name.toLowerCase().includes(q) ||
+          (s.description || "").toLowerCase().includes(q) ||
+          (s.school || "").toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }
+
   function renderSpells() {
+    const cls = selectedClass();
+    const sub = $("#spellsSubtitle");
+    if (sub) {
+      sub.textContent = cls
+        ? `${cls.name} spell list · full casting details from the 5e SRD`
+        : "Full 5e SRD catalog — pick a class in Profile, or browse everything.";
+    }
+
+    const schoolSel = $("#spellSchoolFilter");
+    if (schoolSel && schoolSel.options.length <= 1) {
+      for (const school of window.CODEX_SCHOOLS || []) {
+        const opt = document.createElement("option");
+        opt.value = school;
+        opt.textContent = school;
+        schoolSel.appendChild(opt);
+      }
+    }
+
+    const f = state.spellFilters;
+    if ($("#spellSearch")) $("#spellSearch").value = f.search || "";
+    if ($("#spellLevelFilter")) $("#spellLevelFilter").value = f.level || "all";
+    if ($("#spellSchoolFilter")) $("#spellSchoolFilter").value = f.school || "all";
+    if ($("#spellClassOnly")) $("#spellClassOnly").checked = !!f.classOnly;
+
+    const slotsCard = $("#spellSlotsCard");
+    if (slotsCard) {
+      const slots = cls ? window.codexSpellSlotsAtLevel(cls.id, state.level) : null;
+      if (slots) {
+        const cantrips = slots.cantrips_known != null ? `Cantrips known: ${slots.cantrips_known}` : "";
+        const known = slots.spells_known != null ? `Spells known: ${slots.spells_known}` : "";
+        const slotBits = Object.keys(slots)
+          .filter((k) => k.startsWith("spell_slots_level_") && slots[k] > 0)
+          .map((k) => `${k.replace("spell_slots_level_", "")}→${slots[k]}`)
+          .join(" · ");
+        slotsCard.hidden = false;
+        slotsCard.innerHTML = `
+          <p class="label">Spellcasting at level ${state.level}</p>
+          <p>${[cantrips, known].filter(Boolean).join(" · ") || "Prepared caster — see class features"}</p>
+          ${slotBits ? `<p><strong>Slots:</strong> ${slotBits}</p>` : ""}
+        `;
+      } else {
+        slotsCard.hidden = true;
+        slotsCard.innerHTML = "";
+      }
+    }
+
     const list = $("#spellList");
     if (!list) return;
-    list.innerHTML = `<p class="muted empty-spells">No spells yet.</p>`;
+    if (f.classOnly && !state.classId) {
+      list.innerHTML = `<p class="muted empty-spells">Select a class in Profile to load its spell list, or uncheck “Class list only”.</p>`;
+      return;
+    }
+    const spells = filteredSpells();
+    if (!spells.length) {
+      list.innerHTML = `<p class="muted empty-spells">No spells match these filters.</p>`;
+      return;
+    }
+
+    const byLevel = {};
+    for (const s of spells) {
+      (byLevel[s.level] || (byLevel[s.level] = [])).push(s);
+    }
+    const levels = Object.keys(byLevel)
+      .map(Number)
+      .sort((a, b) => a - b);
+    list.innerHTML = levels
+      .map((lv) => {
+        const group = byLevel[lv];
+        return `<div class="spell-group">
+          <h3 class="spell-group-title">${window.codexSpellLevelLabel(lv)} <span class="muted">(${group.length})</span></h3>
+          ${group.map(spellCardHTML).join("")}
+        </div>`;
+      })
+      .join("");
   }
 
   function renderGear() {
@@ -664,10 +1001,20 @@
   }
 
   function renderProfile() {
+    const classSelect = $("#classSelect");
+    if (classSelect && classSelect.options.length <= 1) {
+      for (const c of CLASSES) {
+        const opt = document.createElement("option");
+        opt.value = c.id;
+        opt.textContent = c.name;
+        classSelect.appendChild(opt);
+      }
+    }
+    if (classSelect) classSelect.value = state.classId || "";
+
     $("#nameInput").value = state.name || "";
     $("#levelInput").value = String(state.level);
     $("#xpInput").value = String(state.xp || 0);
-    $("#classInput").value = state.className || "";
     $("#raceInput").value = state.race || "";
     $("#backgroundInput").value = state.background || "";
     $("#alignmentInput").value = state.alignment || "";
@@ -756,10 +1103,15 @@
     });
 
     const profileMap = [
-      ["nameInput", (v) => (state.name = v.trim() || "Kirito")],
-      ["levelInput", (v) => (state.level = clamp(Number(v) || 1, 1, 20))],
+      ["nameInput", (v) => (state.name = v.trim() || "Adventurer")],
+      [
+        "levelInput",
+        (v) => {
+          state.level = clamp(Number(v) || 1, 1, 20);
+          refreshClassDerived();
+        },
+      ],
       ["xpInput", (v) => (state.xp = Math.max(0, Number(v) || 0))],
-      ["classInput", (v) => (state.className = v)],
       ["raceInput", (v) => (state.race = v)],
       ["backgroundInput", (v) => (state.background = v)],
       ["alignmentInput", (v) => (state.alignment = v)],
@@ -787,6 +1139,25 @@
         render();
       });
     }
+
+    $("#classSelect")?.addEventListener("change", (e) => {
+      applyClass(e.target.value);
+    });
+
+    const syncSpellFilter = () => {
+      state.spellFilters = {
+        search: $("#spellSearch")?.value || "",
+        level: $("#spellLevelFilter")?.value || "all",
+        school: $("#spellSchoolFilter")?.value || "all",
+        classOnly: !!$("#spellClassOnly")?.checked,
+      };
+      persist();
+      renderSpells();
+    };
+    $("#spellSearch")?.addEventListener("input", syncSpellFilter);
+    $("#spellLevelFilter")?.addEventListener("change", syncSpellFilter);
+    $("#spellSchoolFilter")?.addEventListener("change", syncSpellFilter);
+    $("#spellClassOnly")?.addEventListener("change", syncSpellFilter);
 
     $("#portraitInput").addEventListener("change", async (e) => {
       const file = e.target.files?.[0];

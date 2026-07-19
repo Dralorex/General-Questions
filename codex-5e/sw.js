@@ -1,10 +1,13 @@
-const CACHE = "aincrad-sheet-v5";
+const CACHE = "codex-5e-v1";
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
   "./data/dnd.js",
+  "./data/spells.js",
+  "./data/classes.js",
+  "./data/codex.js",
   "./manifest.webmanifest",
   "./icons/icon-180.png",
   "./icons/icon-192.png",

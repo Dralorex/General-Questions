@@ -1,7 +1,7 @@
 {
-  "name": "Kirito Spells",
-  "short_name": "Kirito Spells",
-  "description": "Kirito D&D character sheet with a Spells tab and offline saves on your phone.",
+  "name": "Codex",
+  "short_name": "Codex",
+  "description": "Professional 5e D&D character sheet with SRD spells, classes, and offline saves.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

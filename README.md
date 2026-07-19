@@ -4,6 +4,14 @@ This is for my random questions so I can see things anywhere.
 
 ## Projects
 
+### [Codex — 5e Character Sheet (PWA)](codex-5e/)
+Professional D&D 5e sheet with SRD spell database, class picker, auto-applied features/saves/hit dice, and offline phone saves.
+
+| Link | What it is |
+|---|---|
+| [Open the app](codex-5e/index.html) | Source UI in git |
+| [App README](codex-5e/README.md) | Preview + data notes |
+
 ### [Aincrad Mana — Phone App (PWA)](kirito-mana-app/)
 Installable phone web app for combat mana, full D&D character sheet, skills, and training. **Saves on your phone** even after a full close.
 
@@ -14,14 +22,6 @@ Installable phone web app for combat mana, full D&D character sheet, skills, and
 | [Live app](https://dralorex.github.io/General-Questions/) | Tap-ready phone URL |
 | [Open the app (repo files)](kirito-mana-app/index.html) | Source UI in git |
 | [App README](kirito-mana-app/README.md) | Pages setup + install + save notes |
-
-### [Kirito Spells — Phone App (PWA)](kirito-spells-app/)
-Duplicate of the mana app with mana, sword skills, and training removed. Keeps the sheet and an empty **Spells** tab. Original `kirito-mana-app/` is unchanged.
-
-| Link | What it is |
-|---|---|
-| [Open the app (repo files)](kirito-spells-app/index.html) | Source UI in git |
-| [App README](kirito-spells-app/README.md) | Local preview + save notes |
 
 ### [Kirito Mana System](kirito-mana-system/)
 Aincrad / season 1 sword-skill mana homebrew for D&D-style play (Google Sheets CSVs).

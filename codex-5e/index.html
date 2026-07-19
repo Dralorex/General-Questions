@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#121820" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Kirito Spells" />
+    <meta name="apple-mobile-web-app-title" content="Codex" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="apple-touch-icon" href="./icons/icon-180.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
@@ -20,16 +20,17 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
-    <title>Kirito Spells</title>
+    <title>Codex — 5e Character Sheet</title>
   </head>
   <body data-tab="combat">
     <div class="bg" aria-hidden="true"></div>
 
     <header class="top">
       <div class="brand-block">
-        <p class="brand">Kirito Spells</p>
+        <p class="brand">Codex</p>
         <div class="chips">
-          <span id="nameChip" class="chip">Kirito</span>
+          <span id="nameChip" class="chip">Adventurer</span>
+          <span id="classChip" class="chip">No class</span>
           <span id="levelChip" class="chip">Lv 1</span>
           <span id="hpChip" class="chip">HP 10</span>
         </div>
@@ -60,21 +61,59 @@
         <div class="section-head">
           <h2>Stats</h2>
           <p>
-            Edit ability scores. Check proficiency to add your bonus
-            <span id="profBonusLabel">(+2)</span>.
+            Edit ability scores. Class save proficiencies apply automatically.
+            Bonus <span id="profBonusLabel">(+2)</span>.
           </p>
         </div>
+        <div id="classSummary" class="info-card class-summary" hidden></div>
         <div id="abilityBlocks" class="ability-list"></div>
+        <div class="section-head tight"><h2>Class Features</h2></div>
+        <div id="featureList" class="card-list">
+          <p class="muted">Select a class in Profile to load features.</p>
+        </div>
       </section>
 
       <!-- SPELLS -->
       <section class="panel" data-panel="spells">
         <div class="section-head">
-          <h2>Spells</h2>
-          <p>Your spellbook. Nothing prepared yet.</p>
+          <h2>Spellbook</h2>
+          <p id="spellsSubtitle">Full 5e SRD catalog — filter by class, level, or school.</p>
         </div>
+        <div class="spell-filters">
+          <label class="field tight">
+            <span>Search</span>
+            <input id="spellSearch" type="search" placeholder="Fireball, shield…" />
+          </label>
+          <label class="field tight">
+            <span>Level</span>
+            <select id="spellLevelFilter">
+              <option value="all">All levels</option>
+              <option value="0">Cantrips</option>
+              <option value="1">1st</option>
+              <option value="2">2nd</option>
+              <option value="3">3rd</option>
+              <option value="4">4th</option>
+              <option value="5">5th</option>
+              <option value="6">6th</option>
+              <option value="7">7th</option>
+              <option value="8">8th</option>
+              <option value="9">9th</option>
+            </select>
+          </label>
+          <label class="field tight">
+            <span>School</span>
+            <select id="spellSchoolFilter">
+              <option value="all">All schools</option>
+            </select>
+          </label>
+          <label class="switch-inline">
+            <input type="checkbox" id="spellClassOnly" checked />
+            <span>Class list only</span>
+          </label>
+        </div>
+        <div id="spellSlotsCard" class="info-card" hidden></div>
         <div id="spellList" class="card-list">
-          <p class="muted empty-spells">No spells yet.</p>
+          <p class="muted empty-spells">Select a class to see its spell list.</p>
         </div>
       </section>
 
@@ -94,7 +133,7 @@
       <section class="panel" data-panel="profile">
         <div class="section-head">
           <h2>Profile</h2>
-          <p>Character sheet + save controls. Stored on this phone.</p>
+          <p>Pick your class to auto-apply features, saves, hit dice, and spell list.</p>
         </div>
 
         <div class="portrait-card">
@@ -123,7 +162,9 @@
           </label>
           <label class="field">
             <span>Class</span>
-            <input id="classInput" type="text" />
+            <select id="classSelect">
+              <option value="">Select a class…</option>
+            </select>
           </label>
           <label class="field">
             <span>Race</span>
@@ -172,7 +213,7 @@
           <textarea id="languagesInput" rows="2"></textarea>
         </label>
         <label class="field">
-          <span>Class Features</span>
+          <span>Class Features (editable notes)</span>
           <textarea id="classFeaturesInput" rows="4"></textarea>
         </label>
         <label class="field">
@@ -192,6 +233,9 @@
           <p class="label">Last saved</p>
           <p id="lastSaved">—</p>
           <p id="storageNote" class="muted"></p>
+          <p class="muted tiny" style="margin-top:0.6rem">
+            Spell &amp; class data from the 5e SRD (CC-BY-4.0, Wizards of the Coast).
+          </p>
         </div>
         <div class="stack">
           <button type="button" id="exportBtn" class="btn primary">Export Backup</button>
@@ -218,7 +262,6 @@
 
     <div id="toast" class="toast" hidden></div>
 
-    <!-- Dark Souls / lived overlays -->
     <div id="diedOverlay" class="overlay died" hidden>
       <div class="overlay-inner">
         <p class="you-died">YOU DIED</p>
@@ -240,6 +283,9 @@
     </div>
 
     <script src="./data/dnd.js"></script>
+    <script src="./data/spells.js"></script>
+    <script src="./data/classes.js"></script>
+    <script src="./data/codex.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

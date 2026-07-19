@@ -455,23 +455,7 @@
       return;
     }
     ensureSpellArrays();
-    syncSpellSlots({ refill: false });
     const { counts, limits } = selectionSlotsLeft();
-    const max = maxSlotsMap();
-    const isWarlock = window.codexIsWarlock(cls.id);
-    const castBits = [];
-    for (let i = 1; i <= 9; i++) {
-      const cap = max[i] || 0;
-      if (cap <= 0) continue;
-      const rem = state.spellSlots[String(i)] ?? cap;
-      const label = isWarlock
-        ? `Pact ${window.codexSlotLevelShort(i)}`
-        : window.codexSlotLevelShort(i);
-      castBits.push(`${label} ${rem}/${cap}`);
-    }
-    const restNote = isWarlock
-      ? "Cast slots: short or long rest"
-      : "Cast slots: long rest";
     slotsCard.hidden = false;
     slotsCard.innerHTML = `
       <p class="label">${limits.selectLabel} at level ${state.level}</p>
@@ -479,14 +463,9 @@
         ${limits.cantripsLabel}: <strong>${counts.cantrips}</strong>/${limits.cantrips}
         · ${limits.leveledLabel}: <strong>${counts.leveled}</strong>/${limits.leveled}
       </p>
-      ${
-        castBits.length
-          ? `<p><strong>Cast slots:</strong> ${castBits.join(" · ")}</p>`
-          : `<p class="muted">No cast slots yet.</p>`
-      }
-      <p class="muted tiny">${escapeText(restNote)} · Ability: ${escapeText(
+      <p class="muted tiny">Ability: ${escapeText(
         cls.spellcasting.abilityName || ""
-      )}</p>
+      )} · Cast slots are tracked in Combat</p>
     `;
   }
 

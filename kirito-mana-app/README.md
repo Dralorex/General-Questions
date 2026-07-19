@@ -11,17 +11,19 @@ Mobile-first Progressive Web App for the Kirito mana system.
 
 ## Phone link (GitHub Pages)
 
-**App URL (after first deploy):**  
+**App URL (once Pages is enabled):**  
 https://dralorex.github.io/General-Questions/
 
-### One-time setup (repo owner)
-Pages must be enabled manually once. Full steps: [PAGES-SETUP.md](PAGES-SETUP.md)
+### Important: this repo is private
+Free GitHub Pages **does not host private repos**. That’s why GitHub says there’s no Pages site.
 
-Short version:
+**Easiest fix:** make the repo **public**, then point Pages at the `gh-pages` branch.  
+Full steps: [PAGES-SETUP.md](PAGES-SETUP.md)
 
-1. **Actions → Deploy Aincrad Mana PWA → Run workflow** (creates `gh-pages` branch)
-2. **Settings → Pages → Source = Deploy from a branch → `gh-pages` / root → Save**
-3. Open: https://dralorex.github.io/General-Questions/
+Short version after it’s public:
+
+1. **Settings → Pages → Deploy from a branch → `gh-pages` / root → Save**
+2. Open: https://dralorex.github.io/General-Questions/
 
 Later pushes that touch `kirito-mana-app/` auto-redeploy.
 

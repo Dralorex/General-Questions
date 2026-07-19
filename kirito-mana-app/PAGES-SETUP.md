@@ -1,33 +1,33 @@
-# GitHub Pages setup (required once)
+# GitHub Pages setup
 
-The deploy failed before because **Pages was not enabled** on the repo.  
-GitHub Actions cannot flip that switch by itself.
+## Why you see “no GitHub Pages site”
 
-## Do this once (takes ~30 seconds)
+This repository is **private**.
 
-1. Merge / pull the latest fix onto `main` (or wait for the Pages fix PR).
-2. Open: https://github.com/Dralorex/General-Questions/settings/pages
-3. Under **Build and deployment**:
-   - **Source:** Deploy from a branch
-   - **Branch:** `gh-pages`
-   - **Folder:** `/ (root)`
-4. Click **Save**.
-5. Run the workflow:
-   - https://github.com/Dralorex/General-Questions/actions/workflows/deploy-aincrad-mana.yml
-   - **Run workflow** → branch `main`
+On a free GitHub account, **GitHub Pages only works for public repos**.  
+Private Pages needs GitHub Pro / Team / Enterprise.
 
-If `gh-pages` is not in the branch dropdown yet, run the workflow first (step 5), wait for it to finish, then come back and pick `gh-pages` in step 3.
+That’s why Settings shows no Pages site even though the `gh-pages` branch exists and the deploy workflow is green.
 
-## Your phone URL
+## Fix option A — make the repo public (easiest free hosting)
 
-https://dralorex.github.io/General-Questions/
+1. Open https://github.com/Dralorex/General-Questions/settings  
+2. Scroll to **Danger Zone → Change repository visibility → Change to public**  
+3. Then open https://github.com/Dralorex/General-Questions/settings/pages  
+4. **Source:** Deploy from a branch  
+5. **Branch:** `gh-pages` / `/ (root)` → **Save**  
+6. Wait 1–2 minutes, open: https://dralorex.github.io/General-Questions/
 
-Give GitHub 1–2 minutes after a green deploy before refreshing.
+Your mana save still lives **on your phone**, not in the repo. Making the repo public only publishes the app files + homebrew sheets.
 
-## Why it failed earlier
+## Fix option B — keep the repo private
 
-```
-Get Pages site failed ... Pages enabled and configured to build using GitHub Actions
-```
+Use another free host for the static app (Netlify / Cloudflare Pages / Vercel), or upgrade GitHub for private Pages.
 
-That means Pages wasn’t turned on yet. The workflow now publishes to the `gh-pages` branch instead, which is the reliable setup.
+If you want, ask and we can wire one of those next.
+
+## After Pages is live
+
+- Phone URL: https://dralorex.github.io/General-Questions/
+- iPhone: Safari → Share → **Add to Home Screen**
+- Android: Chrome → **Install app**

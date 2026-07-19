@@ -1,11 +1,11 @@
-name: Deploy Aincrad Mana PWA
+name: Deploy Codex 5e PWA
 
 on:
   push:
     branches: [main]
     paths:
-      - "kirito-mana-app/**"
-      - ".github/workflows/deploy-aincrad-mana.yml"
+      - "codex-5e/**"
+      - ".github/workflows/deploy-codex.yml"
   workflow_dispatch:
 
 permissions:
@@ -25,8 +25,12 @@ jobs:
       - name: Prepare publish folder
         run: |
           mkdir -p publish
-          cp -R kirito-mana-app/. publish/
+          cp -R codex-5e/. publish/
+          # Keep original mana app available at /mana/
+          mkdir -p publish/mana
+          cp -R kirito-mana-app/. publish/mana/
           touch publish/.nojekyll
+          touch publish/mana/.nojekyll
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4

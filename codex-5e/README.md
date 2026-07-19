@@ -4,27 +4,25 @@ Professional D&D 5th Edition character sheet for phone and desktop. Built as a n
 
 ## How to run it
 
-### On your computer (easiest)
+### On your phone (web app — use this now)
 
-1. Open a terminal in this repo.
-2. Start a local server:
+**Open:** https://dralorex.github.io/General-Questions/
+
+Then optionally **Add to Home Screen** so it opens like an app.
+
+- iPhone (Safari): Share → **Add to Home Screen**
+- Android (Chrome): Install app / Add to Home screen
+
+Your progress saves on that phone’s browser.
+
+### On your computer (local)
 
 ```bash
 cd codex-5e
 python3 -m http.server 4174
 ```
 
-3. In your browser, open: **http://localhost:4174**
-
-Leave the terminal open while you use the app. Press `Ctrl+C` to stop the server.
-
-### On your phone (same Wi‑Fi)
-
-1. Find your computer’s local IP (example: `192.168.1.20`).
-2. On your phone’s browser open: `http://YOUR_IP:4174`
-3. Optional: **Add to Home Screen** so it feels like an app.
-
-Progress saves in that browser on that device. Use **Profile → Export Backup** for a JSON copy.
+Open **http://localhost:4174**
 
 ## What’s inside
 

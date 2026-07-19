@@ -1174,6 +1174,31 @@
     el.style.width = `${portraitEdit.img.width * portraitEdit.scale}px`;
     el.style.height = `${portraitEdit.img.height * portraitEdit.scale}px`;
     el.style.transform = `translate(${portraitEdit.x}px, ${portraitEdit.y}px)`;
+    schedulePortraitLivePreview();
+  }
+
+  let portraitLiveRaf = 0;
+  function schedulePortraitLivePreview() {
+    if (portraitLiveRaf) return;
+    portraitLiveRaf = requestAnimationFrame(() => {
+      portraitLiveRaf = 0;
+      updatePortraitLivePreview();
+    });
+  }
+
+  function updatePortraitLivePreview() {
+    const canvas = $("#portraitLiveCanvas");
+    if (!canvas || !portraitEdit) return;
+    const frame = portraitFrameSize();
+    const size = canvas.width;
+    const ctx = canvas.getContext("2d");
+    const scale = portraitEdit.scale;
+    const sx = -portraitEdit.x / scale;
+    const sy = -portraitEdit.y / scale;
+    const sw = frame / scale;
+    const sh = frame / scale;
+    ctx.clearRect(0, 0, size, size);
+    ctx.drawImage(portraitEdit.img, sx, sy, sw, sh, 0, 0, size, size);
   }
 
   function syncPortraitZoomSlider() {

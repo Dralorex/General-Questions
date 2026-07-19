@@ -13,7 +13,13 @@ Mobile-first Progressive Web App for the Kirito mana system.
 
 ## Phone link (GitHub Pages)
 
-**App URL (once Pages is enabled):**  
+**Aincrad Mana URL:**  
+https://dralorex.github.io/General-Questions/mana/
+
+**Codex (separate 5e sheet):**  
+https://dralorex.github.io/General-Questions/codex/
+
+**Hub (pick either app):**  
 https://dralorex.github.io/General-Questions/
 
 ### Important: this repo is private
@@ -25,9 +31,9 @@ Full steps: [PAGES-SETUP.md](PAGES-SETUP.md)
 Short version after it’s public:
 
 1. **Settings → Pages → Deploy from a branch → `gh-pages` / root → Save**
-2. Open: https://dralorex.github.io/General-Questions/
+2. Open Mana: https://dralorex.github.io/General-Questions/mana/
 
-Later pushes that touch `kirito-mana-app/` auto-redeploy.
+Later pushes that touch `kirito-mana-app/` or `codex-5e/` auto-redeploy both apps.
 
 ### Install on your phone
 1. Open the Pages URL above on your phone.

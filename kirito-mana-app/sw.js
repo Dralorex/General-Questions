@@ -1,4 +1,4 @@
-const CACHE = "aincrad-mana-v4";
+const CACHE = "aincrad-mana-v5";
 const ASSETS = [
   "./",
   "./index.html",

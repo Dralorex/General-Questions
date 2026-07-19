@@ -369,6 +369,68 @@
     render();
   }
 
+  function selectionSlotsLeft() {
+    const limits = spellLimits();
+    const counts = countSelectedByKind();
+    return {
+      cantripsLeft: Math.max(0, limits.cantrips - counts.cantrips),
+      leveledLeft: Math.max(0, limits.leveled - counts.leveled),
+      counts,
+      limits,
+    };
+  }
+
+  function renderSpellSlotsCard() {
+    const slotsCard = $("#spellSlotsCard");
+    if (!slotsCard) return;
+    const cls = selectedClass();
+    if (!cls || !cls.spellcasting) {
+      slotsCard.hidden = true;
+      slotsCard.innerHTML = "";
+      return;
+    }
+    ensureSpellArrays();
+    syncSpellSlots({ refill: false });
+    const { cantripsLeft, leveledLeft, counts, limits } = selectionSlotsLeft();
+    const max = maxSlotsMap();
+    const isWarlock = window.codexIsWarlock(cls.id);
+    const castBits = [];
+    for (let i = 1; i <= 9; i++) {
+      const cap = max[i] || 0;
+      if (cap <= 0) continue;
+      const rem = state.spellSlots[String(i)] ?? cap;
+      const label = isWarlock
+        ? `Pact ${window.codexSlotLevelShort(i)}`
+        : window.codexSlotLevelShort(i);
+      castBits.push(`${label} ${rem}/${cap}`);
+    }
+    const restNote = isWarlock
+      ? "Cast slots: short or long rest"
+      : "Cast slots: long rest";
+    const pickWord = limits.kind === "known" ? "know" : "prepare";
+    slotsCard.hidden = false;
+    slotsCard.innerHTML = `
+      <p class="label">${limits.selectLabel} at level ${state.level}</p>
+      <p>
+        ${limits.cantripsLabel}: <strong>${counts.cantrips}</strong>/${limits.cantrips}
+        · ${limits.leveledLabel}: <strong>${counts.leveled}</strong>/${limits.leveled}
+      </p>
+      <p>
+        <strong>Slots left:</strong>
+        ${leveledLeft} to ${pickWord}
+        · ${cantripsLeft} cantrip${cantripsLeft === 1 ? "" : "s"}
+      </p>
+      ${
+        castBits.length
+          ? `<p><strong>Cast slots:</strong> ${castBits.join(" · ")}</p>`
+          : `<p class="muted">No cast slots yet.</p>`
+      }
+      <p class="muted tiny">${escapeText(restNote)} · Ability: ${escapeText(
+        cls.spellcasting.abilityName || ""
+      )}</p>
+    `;
+  }
+
   /**
    * Slot level to spend for a spell (5e):
    * - Cantrips: none
@@ -1624,11 +1686,13 @@
 
     const cls = selectedClass();
     const limits = spellLimits();
-    const counts = countSelectedByKind();
     const selectable = !!(cls && cls.spellcasting);
     const sub = $("#spellsSubtitle");
     if (sub && cls && cls.spellcasting) {
-      sub.textContent = `${cls.name} · expand a level, check spells (${limits.selectLabel.toLowerCase()}). Selected spells appear in Combat.`;
+      const left = selectionSlotsLeft();
+      sub.textContent = `${cls.name} · ${left.leveledLeft} spell slot${
+        left.leveledLeft === 1 ? "" : "s"
+      } left to ${limits.kind === "known" ? "know" : "prepare"} · selected spells appear in Combat.`;
     } else if (sub && !cls) {
       sub.textContent = meta.subtitle;
     }
@@ -1649,45 +1713,7 @@
     if ($("#spellSchoolFilter")) $("#spellSchoolFilter").value = f.school || "all";
     if ($("#spellClassOnly")) $("#spellClassOnly").checked = !!f.classOnly;
 
-    const slotsCard = $("#spellSlotsCard");
-    if (slotsCard) {
-      if (cls && cls.spellcasting) {
-        const max = maxSlotsMap();
-        const isWarlock = window.codexIsWarlock(cls.id);
-        const slotBits = [];
-        for (let i = 1; i <= 9; i++) {
-          const cap = max[i] || 0;
-          if (cap <= 0) continue;
-          const rem = state.spellSlots[String(i)] ?? cap;
-          const label = isWarlock
-            ? `Pact ${window.codexSlotLevelShort(i)}`
-            : window.codexSlotLevelShort(i);
-          slotBits.push(`${label} ${rem}/${cap}`);
-        }
-        const restNote = isWarlock
-          ? "Pact slots: short or long rest"
-          : "Slots: long rest";
-        slotsCard.hidden = false;
-        slotsCard.innerHTML = `
-          <p class="label">${limits.selectLabel} at level ${state.level}</p>
-          <p>
-            ${limits.cantripsLabel}: <strong>${counts.cantrips}</strong>/${limits.cantrips}
-            · ${limits.leveledLabel}: <strong>${counts.leveled}</strong>/${limits.leveled}
-          </p>
-          ${
-            slotBits.length
-              ? `<p><strong>Slots left:</strong> ${slotBits.join(" · ")}</p>`
-              : `<p class="muted">No spell slots yet.</p>`
-          }
-          <p class="muted tiny">${escapeText(restNote)} · Ability: ${escapeText(
-            cls.spellcasting.abilityName || ""
-          )}</p>
-        `;
-      } else {
-        slotsCard.hidden = true;
-        slotsCard.innerHTML = "";
-      }
-    }
+    renderSpellSlotsCard();
 
     const list = $("#spellList");
     if (!list) return;
@@ -1709,8 +1735,9 @@
       .map(Number)
       .sort((a, b) => a - b);
 
-    const cantripFull = selectable && counts.cantrips >= limits.cantrips;
-    const leveledFull = selectable && counts.leveled >= limits.leveled;
+    const left = selectionSlotsLeft();
+    const cantripFull = selectable && left.counts.cantrips >= left.limits.cantrips;
+    const leveledFull = selectable && left.counts.leveled >= left.limits.leveled;
 
     list.innerHTML = levels
       .map((lv) => {
@@ -1724,8 +1751,12 @@
         const lockedLevel = selectable && (lv === 0 ? cantripFull : leveledFull);
         const slotMax = lv > 0 ? maxSlotsMap()[lv] || 0 : 0;
         const slotRem = lv > 0 ? state.spellSlots[String(lv)] ?? slotMax : 0;
-        const metaParts = [`${selectedInGroup} selected`, `${group.length} listed`];
-        if (lv > 0 && slotMax > 0) metaParts.push(`slots ${slotRem}/${slotMax}`);
+        const picksLeft = lv === 0 ? left.cantripsLeft : left.leveledLeft;
+        const metaParts = [
+          `${selectedInGroup} selected`,
+          selectable ? `${picksLeft} left` : `${group.length} listed`,
+        ];
+        if (lv > 0 && slotMax > 0) metaParts.push(`cast ${slotRem}/${slotMax}`);
         return `<details class="spell-level" data-spell-level="${lv}" ${isOpen ? "open" : ""}>
           <summary class="spell-level-summary">
             <span class="spell-level-name">${window.codexSpellLevelLabel(lv)}</span>

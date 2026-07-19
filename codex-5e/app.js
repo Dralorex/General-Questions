@@ -463,9 +463,7 @@
         ${limits.cantripsLabel}: <strong>${counts.cantrips}</strong>/${limits.cantrips}
         · ${limits.leveledLabel}: <strong>${counts.leveled}</strong>/${limits.leveled}
       </p>
-      <p class="muted tiny">Ability: ${escapeText(
-        cls.spellcasting.abilityName || ""
-      )} · Cast slots are tracked in Combat</p>
+      <p class="muted tiny">Ability: ${escapeText(cls.spellcasting.abilityName || "")}</p>
     `;
   }
 
@@ -1970,10 +1968,7 @@
             ? !!state.spellLevelOpen[openKey]
             : lv === levels[0];
         const lockedLevel = selectable && (lv === 0 ? cantripFull : leveledFull);
-        const slotMax = lv > 0 ? maxSlotsMap()[lv] || 0 : 0;
-        const slotRem = lv > 0 ? state.spellSlots[String(lv)] ?? slotMax : 0;
         const metaParts = [`${selectedInGroup} selected`, `${group.length} listed`];
-        if (lv > 0 && slotMax > 0) metaParts.push(`cast ${slotRem}/${slotMax}`);
         return `<details class="spell-level" data-spell-level="${lv}" ${isOpen ? "open" : ""}>
           <summary class="spell-level-summary">
             <span class="spell-level-name">${window.codexSpellLevelLabel(lv)}</span>

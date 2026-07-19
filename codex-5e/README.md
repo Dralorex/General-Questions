@@ -29,7 +29,9 @@ Open **http://localhost:4174**
 ## What’s inside
 
 - Full **5e SRD spell database** (319 spells) with casting details
-- Spells categorized by level + filters (school / search / class list)
+- Spells by level in **dropdowns**, with **checkboxes** to prepare / know spells (5e limits)
+- **Spell slots** tracked in Combat; quick-cast buttons spend slots like skill buttons
+- Long rest restores all slots; warlock **pact slots** also restore on short rest
 - All **12 SRD classes** in a Profile dropdown with auto-applied features, saves, hit dice, and spell list
 - **Notes** tab: nested folders, tags, search
 - Combat vitals, death saves, gear, portrait, backup/export
@@ -38,18 +40,18 @@ Open **http://localhost:4174**
 ## Quick start in the app
 
 1. **Profile** → pick a **Class** (e.g. Sorcerer) and set your **Level**
-2. **Stats** → see auto save proficiencies + class features
-3. **Spells** → browse that class’s spell list (or uncheck “Class list only”)
-4. **Notes** → `+ Folder` (e.g. Tavern Talks) → open it → `+ Note` → add tags like `npc, quest`
-5. Nested folders: open a folder, then `+ Folder` again for a subfolder
+2. **Stats** → set ability scores (prepared casters use the casting ability for how many you can prepare)
+3. **Spells** → open a level dropdown → check spells until your known/prepared limit fills (rest gray out)
+4. **Combat** → tap selected spells to spend slots; use Short/Long Rest to recover per 5e
+5. **Notes** → `+ Folder` → `+ Note` → add tags like `npc, quest`
 
 ## Tabs
 
 | Tab | What it is |
 |---|---|
-| Combat | Vitals, death saves, long rest, log |
+| Combat | Vitals, spell slots, quick-cast, short/long rest, log |
 | Stats | Abilities + auto class saves + feature list |
-| Spells | SRD spellbook with filters & casting details |
+| Spells | SRD spellbook with level dropdowns + prepare/known checkboxes |
 | Gear | Equipment list |
 | Notes | Nested folders + tagged notes |
 | Profile | Class picker + sheet fields + backup |

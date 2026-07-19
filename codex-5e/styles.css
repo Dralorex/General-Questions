@@ -189,12 +189,167 @@ body {
   letter-spacing: 0.02em;
 }
 
+.spell-accordion {
+  gap: 8px;
+}
+
+.spell-level {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 0;
+  overflow: hidden;
+}
+
+.spell-level-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  user-select: none;
+}
+
+.spell-level-summary::-webkit-details-marker {
+  display: none;
+}
+
+.spell-level-summary::before {
+  content: "▸";
+  color: var(--gold);
+  margin-right: 0.35rem;
+  display: inline-block;
+  transition: transform 140ms ease;
+}
+
+.spell-level[open] > .spell-level-summary::before {
+  transform: rotate(90deg);
+}
+
+.spell-level-name {
+  font-weight: 700;
+}
+
+.spell-level-body {
+  display: grid;
+  gap: 10px;
+  padding: 0 10px 12px;
+}
+
 .spell-card,
 .feature-card {
   background: var(--panel);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius);
   padding: 12px;
+}
+
+.spell-card.is-selected {
+  border-color: rgba(230, 196, 122, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(230, 196, 122, 0.18);
+}
+
+.spell-card.is-locked {
+  opacity: 0.42;
+}
+
+.spell-check {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+}
+
+.spell-check input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--gold);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.slot-track {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.slot-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(230, 196, 122, 0.35);
+  background: rgba(230, 196, 122, 0.08);
+  font-size: 0.86rem;
+  color: var(--text);
+}
+
+.slot-pill strong {
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.slot-pill.is-empty {
+  opacity: 0.4;
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.quick {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(230, 196, 122, 0.12), rgba(255, 255, 255, 0.02));
+  border-radius: 14px;
+  padding: 0.75rem 0.45rem;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+
+.quick:active {
+  transform: scale(0.96);
+}
+
+.q-name {
+  font-weight: 700;
+  font-size: 0.86rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.q-cost {
+  color: var(--gold);
+  font-size: 0.78rem;
 }
 
 .spell-card header,

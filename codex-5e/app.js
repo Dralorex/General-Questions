@@ -391,7 +391,7 @@
     }
     ensureSpellArrays();
     syncSpellSlots({ refill: false });
-    const { cantripsLeft, leveledLeft, counts, limits } = selectionSlotsLeft();
+    const { counts, limits } = selectionSlotsLeft();
     const max = maxSlotsMap();
     const isWarlock = window.codexIsWarlock(cls.id);
     const castBits = [];
@@ -407,18 +407,12 @@
     const restNote = isWarlock
       ? "Cast slots: short or long rest"
       : "Cast slots: long rest";
-    const pickWord = limits.kind === "known" ? "know" : "prepare";
     slotsCard.hidden = false;
     slotsCard.innerHTML = `
       <p class="label">${limits.selectLabel} at level ${state.level}</p>
       <p>
         ${limits.cantripsLabel}: <strong>${counts.cantrips}</strong>/${limits.cantrips}
         · ${limits.leveledLabel}: <strong>${counts.leveled}</strong>/${limits.leveled}
-      </p>
-      <p>
-        <strong>Slots left:</strong>
-        ${leveledLeft} to ${pickWord}
-        · ${cantripsLeft} cantrip${cantripsLeft === 1 ? "" : "s"}
       </p>
       ${
         castBits.length

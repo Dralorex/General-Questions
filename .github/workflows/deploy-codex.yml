@@ -1,10 +1,12 @@
-name: Deploy Codex 5e PWA
+name: Deploy phone apps (Codex + Mana)
 
 on:
   push:
     branches: [main]
     paths:
       - "codex-5e/**"
+      - "kirito-mana-app/**"
+      - "pages-hub/**"
       - ".github/workflows/deploy-codex.yml"
   workflow_dispatch:
 
@@ -25,11 +27,14 @@ jobs:
       - name: Prepare publish folder
         run: |
           mkdir -p publish
-          cp -R codex-5e/. publish/
-          # Keep original mana app available at /mana/
-          mkdir -p publish/mana
+          # Hub at site root — pick Codex or Mana
+          cp -R pages-hub/. publish/
+          # Two separate apps on separate paths (separate SW scopes)
+          mkdir -p publish/codex publish/mana
+          cp -R codex-5e/. publish/codex/
           cp -R kirito-mana-app/. publish/mana/
           touch publish/.nojekyll
+          touch publish/codex/.nojekyll
           touch publish/mana/.nojekyll
 
       - name: Deploy to gh-pages

@@ -6,14 +6,16 @@ Professional D&D 5th Edition character sheet for phone and desktop. Built as a n
 
 ### On your phone (web app — use this now)
 
-**Open:** https://dralorex.github.io/General-Questions/
+**Open Codex:** https://dralorex.github.io/General-Questions/codex/
+
+**Hub (both apps):** https://dralorex.github.io/General-Questions/
 
 Then optionally **Add to Home Screen** so it opens like an app.
 
 - iPhone (Safari): Share → **Add to Home Screen**
 - Android (Chrome): Install app / Add to Home screen
 
-Your progress saves on that phone’s browser.
+Your progress saves on that phone’s browser. Mana lives at a **separate** URL: [/mana/](https://dralorex.github.io/General-Questions/mana/).
 
 ### On your computer (local)
 
@@ -60,3 +62,4 @@ Spell and class content comes from the **D&D 5e SRD 5.1** (via [dnd5eapi.co](htt
 
 - Original mana / sword-skill app: [kirito-mana-app](../kirito-mana-app/)
 - Homebrew CSVs: [kirito-mana-system](../kirito-mana-system/)
+- Pages URLs: [PAGES-SETUP.md](PAGES-SETUP.md)

@@ -4,14 +4,22 @@ This is for my random questions so I can see things anywhere.
 
 ## Projects
 
+### Phone apps (two separate live sites)
+
+| App | Live URL |
+|---|---|
+| **Hub** (pick one) | https://dralorex.github.io/General-Questions/ |
+| **Codex** (5e sheet) | https://dralorex.github.io/General-Questions/codex/ |
+| **Aincrad Mana** | https://dralorex.github.io/General-Questions/mana/ |
+
 ### [Codex — 5e Character Sheet (PWA)](codex-5e/)
 Professional D&D 5e sheet with SRD spell database, class picker, auto-applied features/saves/hit dice, Notes (folders + tags), and offline phone saves.
 
-**Phone web app:** https://dralorex.github.io/General-Questions/
+**Phone web app:** https://dralorex.github.io/General-Questions/codex/
 
 | Link | What it is |
 |---|---|
-| [Live app (phone)](https://dralorex.github.io/General-Questions/) | Tap-ready web app |
+| [Live Codex (phone)](https://dralorex.github.io/General-Questions/codex/) | Tap-ready 5e sheet |
 | [Open the app (repo files)](codex-5e/index.html) | Source UI in git |
 | [App README](codex-5e/README.md) | Install + how to use |
 
@@ -22,7 +30,7 @@ Installable phone web app for combat mana, full D&D character sheet, skills, and
 
 | Link | What it is |
 |---|---|
-| [Live mana app](https://dralorex.github.io/General-Questions/mana/) | Original Aincrad Mana URL |
+| [Live mana app](https://dralorex.github.io/General-Questions/mana/) | Sword-skill mana tracker |
 | [Open the app (repo files)](kirito-mana-app/index.html) | Source UI in git |
 | [App README](kirito-mana-app/README.md) | Pages setup + install + save notes |
 

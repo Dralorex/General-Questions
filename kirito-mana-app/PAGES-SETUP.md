@@ -1,13 +1,19 @@
 # GitHub Pages setup
 
-## Why you see “no GitHub Pages site”
+## Two separate phone apps
 
-This repository is **private**.
+| App | URL |
+|---|---|
+| Hub | https://dralorex.github.io/General-Questions/ |
+| Codex | https://dralorex.github.io/General-Questions/codex/ |
+| **Aincrad Mana** | https://dralorex.github.io/General-Questions/mana/ |
+
+## Why you might see “no GitHub Pages site”
+
+This repository may be **private**.
 
 On a free GitHub account, **GitHub Pages only works for public repos**.  
 Private Pages needs GitHub Pro / Team / Enterprise.
-
-That’s why Settings shows no Pages site even though the `gh-pages` branch exists and the deploy workflow is green.
 
 ## Fix option A — make the repo public (easiest free hosting)
 
@@ -16,18 +22,14 @@ That’s why Settings shows no Pages site even though the `gh-pages` branch exis
 3. Then open https://github.com/Dralorex/General-Questions/settings/pages  
 4. **Source:** Deploy from a branch  
 5. **Branch:** `gh-pages` / `/ (root)` → **Save**  
-6. Wait 1–2 minutes, open: https://dralorex.github.io/General-Questions/
-
-Your mana save still lives **on your phone**, not in the repo. Making the repo public only publishes the app files + homebrew sheets.
+6. Wait 1–2 minutes, then open the Mana URL above
 
 ## Fix option B — keep the repo private
 
 Use another free host for the static app (Netlify / Cloudflare Pages / Vercel), or upgrade GitHub for private Pages.
 
-If you want, ask and we can wire one of those next.
-
 ## After Pages is live
 
-- Phone URL: https://dralorex.github.io/General-Questions/
+- Mana URL: https://dralorex.github.io/General-Questions/mana/
 - iPhone: Safari → Share → **Add to Home Screen**
 - Android: Chrome → **Install app**

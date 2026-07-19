@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0e141c" />
+    <meta name="robots" content="noindex" />
+    <title>Phone Apps — Codex &amp; Aincrad Mana</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Cinzel:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./hub.css" />
+  </head>
+  <body>
+    <main class="hub">
+      <p class="eyebrow">Two separate phone apps</p>
+      <h1>Pick which sheet to open</h1>
+      <p class="lede">
+        Codex and Aincrad Mana now live on different URLs so you can keep both installed.
+      </p>
+
+      <nav class="apps" aria-label="Apps">
+        <a class="app-link codex" href="./codex/">
+          <span class="app-name">Codex</span>
+          <span class="app-desc">5e character sheet · spells · notes</span>
+        </a>
+        <a class="app-link mana" href="./mana/">
+          <span class="app-name">Aincrad Mana</span>
+          <span class="app-desc">Sword skills · mana · training</span>
+        </a>
+      </nav>
+
+      <p class="hint">
+        Tip: open each link once, then Add to Home Screen so you get two app icons.
+      </p>
+    </main>
+
+    <script>
+      // Clear the old root-scoped service worker (mana/Codex used to share this URL).
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations().then((regs) => {
+          for (const reg of regs) {
+            try {
+              const path = new URL(reg.scope).pathname.replace(/\/?$/, "/");
+              if (path === "/General-Questions/") {
+                reg.unregister();
+              }
+            } catch (_) {}
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1067,22 +1067,28 @@ body {
 }
 
 .portrait-preview {
-  width: 100%;
-  aspect-ratio: 1;
-  max-height: 220px;
+  /* Same square as the photo adjuster outline (1:1 · 14px corners). */
+  width: min(100%, 280px);
+  aspect-ratio: 1 / 1;
+  height: auto;
+  max-height: none;
+  margin: 0 auto 10px;
   border-radius: 14px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.35);
   display: grid;
   place-items: center;
   color: var(--muted);
-  margin-bottom: 10px;
+  border: 2px solid rgba(230, 196, 122, 0.55);
+  box-shadow: 0 0 0 3px rgba(230, 196, 122, 0.12);
 }
 
 .portrait-preview img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 .portrait-actions {

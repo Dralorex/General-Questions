@@ -347,36 +347,50 @@
 
   /* ---------- HP / death saves ---------- */
   function applyDamage(amount) {
-    let dmg = Math.max(0, amount);
+    const requested = Math.max(0, Math.floor(Number(amount) || 0));
+    if (!requested) return;
+    let remaining = requested;
+    let fromTemp = 0;
     if (state.hp.temp > 0) {
-      const fromTemp = Math.min(state.hp.temp, dmg);
+      fromTemp = Math.min(state.hp.temp, remaining);
       state.hp.temp -= fromTemp;
-      dmg -= fromTemp;
+      remaining -= fromTemp;
     }
-    if (dmg > 0) state.hp.current = Math.max(0, state.hp.current - dmg);
+    const fromHp = remaining;
+    if (fromHp > 0) state.hp.current = Math.max(0, state.hp.current - fromHp);
     persist();
     render();
-    toast(`−${amount} HP (temp first)`, "warn");
+    if (fromTemp && fromHp) {
+      toast(`−${requested}: ${fromTemp} temp, then ${fromHp} HP`, "warn");
+    } else if (fromTemp) {
+      toast(`−${requested} from temp HP`, "warn");
+    } else {
+      toast(`−${requested} HP`, "warn");
+    }
   }
 
   function applyHeal(amount) {
-    state.hp.current += amount; // may exceed max
+    const heal = Math.max(0, Math.floor(Number(amount) || 0));
+    if (!heal) return;
+    state.hp.current += heal; // may exceed max; does not touch temp
     persist();
     render();
-    toast(`+${amount} HP`, "ok");
+    toast(`+${heal} HP`, "ok");
   }
 
   function healAll() {
     state.hp.current = state.hp.max;
     persist();
     render();
-    toast("Healed to max HP", "ok");
+    toast("Healed to max HP (temp unchanged)", "ok");
   }
 
   function adjustTemp(delta) {
-    state.hp.temp = Math.max(0, (Number(state.hp.temp) || 0) + delta);
+    const n = Math.floor(Number(delta) || 0);
+    state.hp.temp = Math.max(0, (Number(state.hp.temp) || 0) + n);
     persist();
     render();
+    toast(n >= 0 ? `Temp HP ${n >= 0 ? "+" : ""}${n}` : `Temp HP ${n}`, "ok");
   }
 
   function checkDeathSaveCompletions() {
@@ -658,46 +672,60 @@
     `;
   }
 
-  function bindVitalsRoot(root) {
-    if (!root || root.dataset.bound === "1") return;
-    root.dataset.bound = "1";
-    root.addEventListener("change", (e) => {
-      const t = e.target;
-      const key = t.dataset.vit;
-      if (!key) return;
-      if (key === "hpMax") state.hp.max = Math.max(1, Number(t.value) || 1);
-      else if (key === "hpTemp") state.hp.temp = Math.max(0, Number(t.value) || 0);
-      else if (key === "ac") state.ac = Number(t.value) || 0;
-      else if (key === "speed") state.speed = Number(t.value) || 0;
-      else if (key === "initiativeBonus") state.initiativeBonus = Number(t.value) || 0;
-      else if (key === "size") state.size = t.value;
-      persist();
-      render();
-    });
-    root.addEventListener("click", (e) => {
-      const hpBtn = e.target.closest("[data-hp]");
-      if (hpBtn) {
-        const v = hpBtn.dataset.hp;
-        if (v === "healall") healAll();
-        else {
-          const n = Number(v);
-          if (n < 0) applyDamage(-n);
-          else applyHeal(n);
-        }
+  function handleVitalsChange(e) {
+    const root = e.target.closest(".vitals-root");
+    if (!root) return;
+    const t = e.target;
+    const key = t.dataset.vit;
+    if (!key) return;
+    if (key === "hpMax") state.hp.max = Math.max(1, Number(t.value) || 1);
+    else if (key === "hpTemp") state.hp.temp = Math.max(0, Number(t.value) || 0);
+    else if (key === "ac") state.ac = Number(t.value) || 0;
+    else if (key === "speed") state.speed = Number(t.value) || 0;
+    else if (key === "initiativeBonus") state.initiativeBonus = Number(t.value) || 0;
+    else if (key === "size") state.size = t.value;
+    else return;
+    persist();
+    render();
+  }
+
+  function handleVitalsClick(e) {
+    const root = e.target.closest(".vitals-root");
+    if (!root) return;
+
+    const hpBtn = e.target.closest("[data-hp]");
+    if (hpBtn) {
+      e.preventDefault();
+      const v = String(hpBtn.getAttribute("data-hp") || "");
+      if (v === "healall") {
+        healAll();
         return;
       }
-      const tempBtn = e.target.closest("[data-temp]");
-      if (tempBtn) {
-        adjustTemp(Number(tempBtn.dataset.temp));
-        return;
-      }
-      const pip = e.target.closest("[data-death-kind]");
-      if (pip) {
-        toggleDeathSave(pip.dataset.deathKind, Number(pip.dataset.deathI));
-        return;
-      }
-      if (e.target.closest("[data-healed]")) youveBeenHealed();
-    });
+      const n = Number(v);
+      if (!Number.isFinite(n) || n === 0) return;
+      if (n < 0) applyDamage(-n);
+      else applyHeal(n);
+      return;
+    }
+
+    const tempBtn = e.target.closest("[data-temp]");
+    if (tempBtn) {
+      e.preventDefault();
+      adjustTemp(Number(tempBtn.getAttribute("data-temp")));
+      return;
+    }
+
+    const pip = e.target.closest("[data-death-kind]");
+    if (pip) {
+      e.preventDefault();
+      toggleDeathSave(pip.dataset.deathKind, Number(pip.dataset.deathI));
+      return;
+    }
+
+    if (e.target.closest("[data-healed]")) {
+      e.preventDefault();
+      youveBeenHealed();
+    }
   }
 
   function skillCardHTML(skill, mode) {
@@ -752,9 +780,8 @@
     for (const id of ["combatVitals", "profileVitals"]) {
       const root = $(`#${id}`);
       if (!root) continue;
+      // Replace contents only — listeners stay on document (bound once).
       root.innerHTML = vitalsHTML(id);
-      root.dataset.bound = "0";
-      bindVitalsRoot(root);
     }
   }
 
@@ -943,6 +970,10 @@
   }
 
   function bind() {
+    // Vitals: bind once on document so re-renders don't stack listeners
+    document.addEventListener("click", handleVitalsClick);
+    document.addEventListener("change", handleVitalsChange);
+
     $("#quickSkills").addEventListener("click", (e) => {
       const btn = e.target.closest("[data-use]");
       if (btn) useSkill(btn.dataset.use);

@@ -3,7 +3,7 @@
   const CLASSES = window.CODEX_CLASSES || [];
   const SPELLS = window.CODEX_SPELLS || [];
   const STORAGE_KEY = "codex-5e-pwa-v1";
-  const APP_VERSION = "4.0.0";
+  const APP_VERSION = "5.1.0";
 
   const SAVE_ID_BY_KEY = {
     str: "str-save",
@@ -61,6 +61,9 @@
       otherNotes: "",
       portraitDataUrl: "",
       equipment: [],
+      selectedSpells: [],
+      spellSlots: {},
+      spellLevelOpen: {},
       spellFilters: {
         search: "",
         level: "all",
@@ -99,6 +102,9 @@
         equipment: Array.isArray(parsed.equipment) ? parsed.equipment : [],
         combatLog: Array.isArray(parsed.combatLog) ? parsed.combatLog : [],
         autoSaveKeys: Array.isArray(parsed.autoSaveKeys) ? parsed.autoSaveKeys : [],
+        selectedSpells: Array.isArray(parsed.selectedSpells) ? parsed.selectedSpells : [],
+        spellSlots: { ...(parsed.spellSlots || {}) },
+        spellLevelOpen: { ...(parsed.spellLevelOpen || {}) },
         spellFilters: {
           ...base.spellFilters,
           ...(parsed.spellFilters || {}),
@@ -135,6 +141,16 @@
       merged.hp.current = Number(merged.hp.current) || 0;
       merged.hp.max = Math.max(1, Number(merged.hp.max) || 1);
       merged.hp.temp = Math.max(0, Number(merged.hp.temp) || 0);
+
+      // Normalize spell slot keys to strings "1"…"9".
+      const slots = {};
+      for (let i = 1; i <= 9; i++) {
+        const key = String(i);
+        if (merged.spellSlots[key] != null) slots[key] = Math.max(0, Number(merged.spellSlots[key]) || 0);
+        else if (merged.spellSlots[i] != null) slots[key] = Math.max(0, Number(merged.spellSlots[i]) || 0);
+      }
+      merged.spellSlots = slots;
+
       return merged;
     } catch {
       return defaultState();
@@ -218,6 +234,205 @@
     return window.codexClassById(state.classId);
   }
 
+  function spellLimits() {
+    return window.codexSpellSelectionLimits(state.classId, state.level, state.abilities);
+  }
+
+  function maxSlotsMap() {
+    return window.codexMaxSpellSlots(state.classId, state.level);
+  }
+
+  function ensureSpellArrays() {
+    if (!Array.isArray(state.selectedSpells)) state.selectedSpells = [];
+    if (!state.spellSlots || typeof state.spellSlots !== "object") state.spellSlots = {};
+    if (!state.spellLevelOpen || typeof state.spellLevelOpen !== "object") state.spellLevelOpen = {};
+  }
+
+  function selectedSpellObjs() {
+    ensureSpellArrays();
+    return state.selectedSpells
+      .map((id) => window.codexSpellById(id))
+      .filter(Boolean)
+      .sort((a, b) => a.level - b.level || a.name.localeCompare(b.name));
+  }
+
+  function countSelectedByKind() {
+    const spells = selectedSpellObjs();
+    return {
+      cantrips: spells.filter((s) => s.level === 0).length,
+      leveled: spells.filter((s) => s.level > 0).length,
+    };
+  }
+
+  /** Sync remaining slots to class table max. Preserves spent slots when max unchanged. */
+  function syncSpellSlots({ refill = false, previousMax = null } = {}) {
+    ensureSpellArrays();
+    const max = maxSlotsMap();
+    const next = {};
+    for (let i = 1; i <= 9; i++) {
+      const key = String(i);
+      const cap = max[i] || 0;
+      if (cap <= 0) {
+        next[key] = 0;
+        continue;
+      }
+      if (refill || state.spellSlots[key] == null) {
+        next[key] = cap;
+        continue;
+      }
+      let rem = Number(state.spellSlots[key]) || 0;
+      // Level-up: newly gained slots are available immediately (5e).
+      if (previousMax) {
+        const oldCap = previousMax[i] || 0;
+        if (cap > oldCap) rem += cap - oldCap;
+      }
+      next[key] = clamp(rem, 0, cap);
+    }
+    state.spellSlots = next;
+  }
+
+  /** Drop selections that are no longer valid for class / over limit. */
+  function pruneSelectedSpells() {
+    ensureSpellArrays();
+    const cls = selectedClass();
+    if (!cls || !cls.spellcasting) {
+      state.selectedSpells = [];
+      return;
+    }
+    const allowed = new Set(window.codexSpellsForClass(cls.id).map((s) => s.id));
+    let keep = state.selectedSpells.filter((id) => allowed.has(id));
+    const limits = spellLimits();
+    const cantrips = [];
+    const leveled = [];
+    for (const id of keep) {
+      const sp = window.codexSpellById(id);
+      if (!sp) continue;
+      if (sp.level === 0) cantrips.push(id);
+      else leveled.push(id);
+    }
+    state.selectedSpells = [
+      ...cantrips.slice(0, limits.cantrips),
+      ...leveled.slice(0, limits.leveled),
+    ];
+  }
+
+  function refreshSpellcasting({
+    refillSlots = false,
+    prune = true,
+    previousMax = null,
+  } = {}) {
+    if (prune) pruneSelectedSpells();
+    syncSpellSlots({ refill: refillSlots, previousMax });
+  }
+
+  function isSpellSelected(id) {
+    ensureSpellArrays();
+    return state.selectedSpells.includes(id);
+  }
+
+  function canSelectSpell(spell) {
+    if (!spell) return false;
+    if (isSpellSelected(spell.id)) return true; // always allow deselect
+    const limits = spellLimits();
+    const counts = countSelectedByKind();
+    if (spell.level === 0) return counts.cantrips < limits.cantrips;
+    return counts.leveled < limits.leveled;
+  }
+
+  function toggleSpellSelection(spellId, wantSelected) {
+    ensureSpellArrays();
+    const spell = window.codexSpellById(spellId);
+    if (!spell) return;
+    const on = state.selectedSpells.includes(spellId);
+    if (wantSelected && !on) {
+      const cls = selectedClass();
+      if (!cls || !cls.spellcasting) {
+        toast("Pick a spellcasting class first", "warn");
+        return;
+      }
+      if (!(spell.classes || []).includes(cls.id)) {
+        toast(`Not on the ${cls.name} spell list`, "warn");
+        return;
+      }
+      if (!canSelectSpell(spell)) {
+        const limits = spellLimits();
+        const label = spell.level === 0 ? limits.cantripsLabel : limits.leveledLabel;
+        const max = spell.level === 0 ? limits.cantrips : limits.leveled;
+        toast(`${label} full (${max})`, "warn");
+        return;
+      }
+      state.selectedSpells.push(spellId);
+    } else if (!wantSelected && on) {
+      state.selectedSpells = state.selectedSpells.filter((id) => id !== spellId);
+    }
+    persist();
+    render();
+  }
+
+  /**
+   * Slot level to spend for a spell (5e):
+   * - Cantrips: none
+   * - Warlock: one pact slot (always the pact slot level)
+   * - Others: lowest remaining slot ≥ spell level
+   */
+  function findSlotToSpend(spellLevel) {
+    if (spellLevel <= 0) return null;
+    ensureSpellArrays();
+    const max = maxSlotsMap();
+
+    if (window.codexIsWarlock(state.classId)) {
+      const pact = window.codexWarlockPactLevel(state.classId, state.level);
+      if (pact > 0 && (state.spellSlots[String(pact)] || 0) > 0) return pact;
+      return null;
+    }
+
+    for (let lv = spellLevel; lv <= 9; lv++) {
+      if ((max[lv] || 0) <= 0) continue;
+      if ((state.spellSlots[String(lv)] || 0) > 0) return lv;
+    }
+    return null;
+  }
+
+  function canCastSpell(spell) {
+    if (!spell || !isSpellSelected(spell.id)) return false;
+    if (spell.level === 0) return true;
+    return findSlotToSpend(spell.level) != null;
+  }
+
+  function castSpell(spellId) {
+    const spell = window.codexSpellById(spellId);
+    if (!spell) return;
+    if (!isSpellSelected(spellId)) {
+      toast("Spell not prepared / known", "warn");
+      return;
+    }
+    if (spell.level === 0) {
+      pushLog({ kind: "cast", text: `Cast ${spell.name} (cantrip)` });
+      persist();
+      render();
+      toast(`${spell.name} · cantrip`, "ok");
+      if (navigator.vibrate) navigator.vibrate(12);
+      return;
+    }
+    const slotLv = findSlotToSpend(spell.level);
+    if (slotLv == null) {
+      toast(`No spell slots left for ${window.codexSpellLevelLabel(spell.level)}`, "warn");
+      return;
+    }
+    const key = String(slotLv);
+    state.spellSlots[key] = Math.max(0, (state.spellSlots[key] || 0) - 1);
+    const slotLabel = window.codexSlotLevelShort(slotLv);
+    const upcast = slotLv > spell.level ? ` (upcast ${slotLabel})` : "";
+    pushLog({
+      kind: "cast",
+      text: `Cast ${spell.name}${upcast} · −1 ${slotLabel} slot`,
+    });
+    persist();
+    render();
+    toast(`${spell.name} · −1 ${slotLabel} slot`, "ok");
+    if (navigator.vibrate) navigator.vibrate(12);
+  }
+
   function formatFeaturesNotes(cls, level) {
     const feats = window.codexFeaturesUpToLevel(cls.id, level);
     if (!feats.length) return "";
@@ -237,6 +452,8 @@
     if (!classId) {
       state.classId = "";
       state.className = "";
+      state.selectedSpells = [];
+      state.spellSlots = {};
       persist();
       render();
       if (toastMsg) toast("Class cleared", "info");
@@ -249,6 +466,8 @@
     state.classId = cls.id;
     state.className = cls.name;
     state.hitDice = `${state.level}d${cls.hitDie}`;
+    state.selectedSpells = [];
+    refreshSpellcasting({ refillSlots: true, prune: false });
 
     const saveKeys = [];
     for (const st of cls.savingThrows || []) {
@@ -290,16 +509,33 @@
     }
   }
 
-  function refreshClassDerived() {
+  function refreshClassDerived(previousMax = null) {
     const cls = selectedClass();
     if (!cls) return;
     state.hitDice = `${state.level}d${cls.hitDie}`;
     state.classFeatures = formatFeaturesNotes(cls, state.level);
+    refreshSpellcasting({ refillSlots: false, prune: true, previousMax });
   }
 
   function pushLog(entry) {
     state.combatLog.unshift({ t: Date.now(), ...entry });
     state.combatLog = state.combatLog.slice(0, 40);
+  }
+
+  function shortRest() {
+    ensureSpellArrays();
+    if (window.codexIsWarlock(state.classId)) {
+      syncSpellSlots({ refill: true });
+      pushLog({ kind: "rest", text: "Short rest · warlock pact slots restored" });
+      persist();
+      render();
+      toast("Short rest · pact slots restored", "ok");
+      return;
+    }
+    pushLog({ kind: "rest", text: "Short rest · spell slots unchanged (5e)" });
+    persist();
+    render();
+    toast("Short rest · spell slots need a long rest", "info");
   }
 
   function longRest() {
@@ -308,10 +544,15 @@
     state.deathSaves = { success: [false, false, false], fail: [false, false, false] };
     deathPopupShown = false;
     livedPopupShown = false;
-    pushLog({ kind: "rest", text: "Long rest · HP restored" });
+    syncSpellSlots({ refill: true });
+    const caster = window.codexIsSpellcaster(state.classId);
+    pushLog({
+      kind: "rest",
+      text: caster ? "Long rest · HP + spell slots restored" : "Long rest · HP restored",
+    });
     persist();
     render();
-    toast("Long rest · full HP", "ok");
+    toast(caster ? "Long rest · HP + spell slots" : "Long rest · full HP", "ok");
   }
 
   /* ---------- HP / death saves (pools are fully separate) ---------- */
@@ -423,14 +664,134 @@
   }
 
   /* ---------- Equipment ---------- */
-  function addEquipment() {
+  let gearPickerFilter = { search: "", category: "all" };
+
+  function formatEquipmentDescription(item) {
+    return window.codexEquipmentDetailText(item);
+  }
+
+  function openGearPicker() {
+    const sheet = $("#gearPicker");
+    if (!sheet) return;
+    gearPickerFilter = { search: "", category: "all" };
+    const catSel = $("#gearPickerCategory");
+    if (catSel && catSel.options.length <= 1) {
+      for (const cat of window.CODEX_EQUIPMENT_CATEGORIES || []) {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat;
+        catSel.appendChild(opt);
+      }
+    }
+    if ($("#gearPickerSearch")) $("#gearPickerSearch").value = "";
+    if (catSel) catSel.value = "all";
+    sheet.hidden = false;
+    renderGearPickerResults();
+    $("#gearPickerSearch")?.focus();
+  }
+
+  function closeGearPicker() {
+    const sheet = $("#gearPicker");
+    if (sheet) sheet.hidden = true;
+  }
+
+  function filteredCatalogEquipment() {
+    const q = String(gearPickerFilter.search || "")
+      .trim()
+      .toLowerCase();
+    const cat = gearPickerFilter.category || "all";
+    let list = window.CODEX_EQUIPMENT || [];
+    if (cat !== "all") list = list.filter((i) => i.category === cat);
+    if (q) {
+      list = list.filter((i) => {
+        const hay = [
+          i.name,
+          i.category,
+          i.rarity,
+          i.damage,
+          i.armorClass,
+          ...(i.desc || []),
+          ...(i.properties || []),
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        return hay.includes(q);
+      });
+    }
+    return list;
+  }
+
+  function renderGearPickerResults() {
+    const box = $("#gearPickerResults");
+    if (!box) return;
+    const list = filteredCatalogEquipment();
+    if (!list.length) {
+      box.innerHTML = `<p class="muted">No SRD items match.</p>`;
+      return;
+    }
+    const show = list.slice(0, 80);
+    box.innerHTML =
+      show
+        .map((item) => {
+          const summary = window.codexEquipmentSummary(item);
+          const badge =
+            item.source === "magic-item"
+              ? item.rarity || "Magic"
+              : item.category || "Gear";
+          return `<button type="button" class="gear-pick-row" data-add-catalog="${escapeAttr(
+            item.id
+          )}">
+            <span class="gear-pick-main">
+              <span class="gear-pick-name">${escapeText(item.name)}</span>
+              ${summary ? `<span class="muted tiny">${escapeText(summary)}</span>` : ""}
+            </span>
+            <span class="pill tiny-pill">${escapeText(badge)}</span>
+          </button>`;
+        })
+        .join("") +
+      (list.length > show.length
+        ? `<p class="muted tiny">Showing ${show.length} of ${list.length} — refine search.</p>`
+        : "");
+  }
+
+  function addEquipmentFromCatalog(catalogId) {
+    const cat = window.codexEquipmentById(catalogId);
+    if (!cat) {
+      toast("Item not found in SRD list", "warn");
+      return;
+    }
     state.equipment.unshift({
       id: `eq-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-      name: "New item",
-      description: "",
+      catalogId: cat.id,
+      name: cat.name,
+      description: formatEquipmentDescription(cat),
+      category: cat.category || "",
+      summary: window.codexEquipmentSummary(cat),
     });
+    closeGearPicker();
     persist();
     render();
+    toast(`Added ${cat.name}`, "ok");
+  }
+
+  function addCustomEquipment() {
+    state.equipment.unshift({
+      id: `eq-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      catalogId: "",
+      name: "Custom item",
+      description: "",
+      category: "",
+      summary: "",
+    });
+    closeGearPicker();
+    persist();
+    render();
+    toast("Custom item added", "info");
+  }
+
+  function addEquipment() {
+    openGearPicker();
   }
 
   function updateEquipment(id, field, value) {
@@ -677,6 +1038,7 @@
     state = defaultState();
     deathPopupShown = false;
     livedPopupShown = false;
+    refreshSpellcasting({ refillSlots: true, prune: false });
     persist(true);
     render();
     toast("Progress reset", "warn");
@@ -705,6 +1067,7 @@
         state = loadState();
         deathPopupShown = false;
         livedPopupShown = false;
+        refreshSpellcasting({ refillSlots: false, prune: true });
         persist(true);
         render();
         toast("Backup restored", "ok");
@@ -1013,6 +1376,70 @@
   }
 
   function renderCombat() {
+    const panel = $("#combatSpellPanel");
+    const slotsEl = $("#combatSlots");
+    const quickEl = $("#quickSpells");
+    const hint = $("#combatSlotsHint");
+    const caster = window.codexIsSpellcaster(state.classId);
+
+    if (panel) panel.hidden = !caster;
+    if (!caster) {
+      // still render log below
+    } else {
+      ensureSpellArrays();
+      const max = maxSlotsMap();
+      const isWarlock = window.codexIsWarlock(state.classId);
+      if (hint) {
+        hint.textContent = isWarlock
+          ? "Warlock pact slots recover on a short or long rest."
+          : "Spell slots recover on a long rest (5e).";
+      }
+      if (slotsEl) {
+        const bits = [];
+        for (let i = 1; i <= 9; i++) {
+          const cap = max[i] || 0;
+          if (cap <= 0) continue;
+          const rem = state.spellSlots[String(i)] ?? cap;
+          const empty = rem <= 0;
+          const label = isWarlock
+            ? `Pact (${window.codexSlotLevelShort(i)})`
+            : window.codexSlotLevelShort(i);
+          bits.push(
+            `<span class="slot-pill ${empty ? "is-empty" : ""}">${escapeText(label)} <strong>${rem}</strong>/${cap}</span>`
+          );
+        }
+        slotsEl.innerHTML = bits.length
+          ? bits.join("")
+          : `<p class="muted">No spell slots at this level.</p>`;
+      }
+      if (quickEl) {
+        const selected = selectedSpellObjs();
+        if (!selected.length) {
+          quickEl.innerHTML = `<p class="muted">Check spells in the Spells tab to add quick-cast buttons.</p>`;
+        } else {
+          quickEl.innerHTML = selected
+            .map((sp) => {
+              const ok = canCastSpell(sp);
+              let cost;
+              if (sp.level === 0) cost = "Free";
+              else if (isWarlock) {
+                const pact = window.codexWarlockPactLevel(state.classId, state.level);
+                cost = pact ? `Pact ${window.codexSlotLevelShort(pact)}` : "No slot";
+              } else {
+                cost = `${window.codexSlotLevelShort(sp.level)} slot`;
+              }
+              return `<button type="button" class="quick ${ok ? "" : "is-disabled"}" data-cast="${sp.id}" ${
+                ok ? "" : "disabled"
+              }>
+                <span class="q-name">${escapeText(sp.name)}</span>
+                <span class="q-cost">${escapeText(cost)}</span>
+              </button>`;
+            })
+            .join("");
+        }
+      }
+    }
+
     $("#combatLog").innerHTML = state.combatLog.length
       ? state.combatLog
           .slice(0, 12)
@@ -1021,7 +1448,7 @@
       : `<li class="muted">No combat actions yet.</li>`;
   }
 
-  function spellCardHTML(spell) {
+  function spellCardHTML(spell, { selectable = false, locked = false } = {}) {
     const levelLabel = window.codexSpellLevelLabel(spell.level);
     const comps = (spell.components || []).join(", ");
     const flags = [
@@ -1036,7 +1463,26 @@
         return c ? c.name : id;
       })
       .join(", ");
-    return `<article class="spell-card" data-spell="${spell.id}">
+    const selected = isSpellSelected(spell.id);
+    const pickClass = [
+      "spell-card",
+      selectable ? "spell-pick" : "",
+      selected ? "is-selected" : "",
+      locked && !selected ? "is-locked" : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
+
+    const check = selectable
+      ? `<label class="spell-check" title="${selected ? "Selected" : locked ? "Limit reached" : "Select"}">
+          <input type="checkbox" data-select-spell="${spell.id}" ${selected ? "checked" : ""} ${
+            locked && !selected ? "disabled" : ""
+          } />
+          <span class="sr-only">Select ${escapeText(spell.name)}</span>
+        </label>`
+      : `<span class="pill">${spell.level === 0 ? "Cantrip" : `L${spell.level}`}</span>`;
+
+    return `<article class="${pickClass}" data-spell="${spell.id}">
       <header>
         <div>
           <h3>${escapeText(spell.name)}</h3>
@@ -1044,7 +1490,7 @@
             flags ? ` · ${flags}` : ""
           }</p>
         </div>
-        <span class="pill">${spell.level === 0 ? "Cantrip" : `L${spell.level}`}</span>
+        ${check}
       </header>
       <p class="spell-how"><strong>Cast:</strong> ${escapeText(
         spell.castingTime
@@ -1101,13 +1547,90 @@
     return list;
   }
 
-  function renderSpells() {
-    const cls = selectedClass();
+  function updatePowerTabLabels() {
+    const meta = window.codexClassPowerPanel(state.classId);
+    const tabBtn = document.querySelector('.tab[data-tab="spells"]');
+    if (tabBtn) tabBtn.textContent = meta.tab;
+    const title = $("#powerTitle");
+    if (title) title.textContent = meta.title;
     const sub = $("#spellsSubtitle");
-    if (sub) {
-      sub.textContent = cls
-        ? `${cls.name} spell list · full casting details from the 5e SRD`
-        : "Full 5e SRD catalog — pick a class in Profile, or browse everything.";
+    if (sub) sub.textContent = meta.subtitle;
+    const chrome = $("#spellCasterChrome");
+    if (chrome) chrome.hidden = meta.mode !== "spells";
+    return meta;
+  }
+
+  function renderFeaturePanel() {
+    const list = $("#spellList");
+    if (!list) return;
+    const cls = selectedClass();
+    const slotsCard = $("#spellSlotsCard");
+    if (slotsCard) {
+      slotsCard.hidden = true;
+      slotsCard.innerHTML = "";
+    }
+    if (!cls) {
+      list.innerHTML = `<p class="muted empty-spells">Select a class in Profile to load its features.</p>`;
+      return;
+    }
+    ensureSpellArrays();
+    const byLevel = {};
+    for (let lv = 1; lv <= state.level; lv++) {
+      const feats = cls.featuresByLevel?.[String(lv)] || [];
+      if (feats.length) byLevel[lv] = feats;
+    }
+    const levels = Object.keys(byLevel)
+      .map(Number)
+      .sort((a, b) => a - b);
+    if (!levels.length) {
+      list.innerHTML = `<p class="muted empty-spells">No class features unlocked at level ${state.level}.</p>`;
+      return;
+    }
+    list.innerHTML = levels
+      .map((lv) => {
+        const group = byLevel[lv];
+        const openKey = `feat-${lv}`;
+        const isOpen =
+          state.spellLevelOpen[openKey] != null
+            ? !!state.spellLevelOpen[openKey]
+            : lv === levels[0];
+        return `<details class="spell-level" data-spell-level="${openKey}" ${isOpen ? "open" : ""}>
+          <summary class="spell-level-summary">
+            <span class="spell-level-name">Level ${lv}</span>
+            <span class="muted tiny">${group.length} feature${group.length === 1 ? "" : "s"}</span>
+          </summary>
+          <div class="spell-level-body">
+            ${group
+              .map(
+                (f) => `<article class="feature-card">
+                  <header><h3>${escapeText(f.name)}</h3><span class="pill">L${lv}</span></header>
+                  <p class="feature-desc">${escapeText(f.description || "")}</p>
+                </article>`
+              )
+              .join("")}
+          </div>
+        </details>`;
+      })
+      .join("");
+  }
+
+  function renderSpells() {
+    ensureSpellArrays();
+    const meta = updatePowerTabLabels();
+    if (meta.mode === "features") {
+      renderFeaturePanel();
+      return;
+    }
+
+    const cls = selectedClass();
+    const limits = spellLimits();
+    const counts = countSelectedByKind();
+    const selectable = !!(cls && cls.spellcasting);
+    const sub = $("#spellsSubtitle");
+    if (sub && cls && cls.spellcasting) {
+      sub.textContent = `${cls.name} · expand a level, check spells (${limits.selectLabel.toLowerCase()}). Selected spells appear in Combat.`;
+    } else if (sub && !cls) {
+      sub.textContent = meta.subtitle;
     }
 
     const schoolSel = $("#spellSchoolFilter");
@@ -1128,19 +1651,37 @@
 
     const slotsCard = $("#spellSlotsCard");
     if (slotsCard) {
-      const slots = cls ? window.codexSpellSlotsAtLevel(cls.id, state.level) : null;
-      if (slots) {
-        const cantrips = slots.cantrips_known != null ? `Cantrips known: ${slots.cantrips_known}` : "";
-        const known = slots.spells_known != null ? `Spells known: ${slots.spells_known}` : "";
-        const slotBits = Object.keys(slots)
-          .filter((k) => k.startsWith("spell_slots_level_") && slots[k] > 0)
-          .map((k) => `${k.replace("spell_slots_level_", "")}→${slots[k]}`)
-          .join(" · ");
+      if (cls && cls.spellcasting) {
+        const max = maxSlotsMap();
+        const isWarlock = window.codexIsWarlock(cls.id);
+        const slotBits = [];
+        for (let i = 1; i <= 9; i++) {
+          const cap = max[i] || 0;
+          if (cap <= 0) continue;
+          const rem = state.spellSlots[String(i)] ?? cap;
+          const label = isWarlock
+            ? `Pact ${window.codexSlotLevelShort(i)}`
+            : window.codexSlotLevelShort(i);
+          slotBits.push(`${label} ${rem}/${cap}`);
+        }
+        const restNote = isWarlock
+          ? "Pact slots: short or long rest"
+          : "Slots: long rest";
         slotsCard.hidden = false;
         slotsCard.innerHTML = `
-          <p class="label">Spellcasting at level ${state.level}</p>
-          <p>${[cantrips, known].filter(Boolean).join(" · ") || "Prepared caster — see class features"}</p>
-          ${slotBits ? `<p><strong>Slots:</strong> ${slotBits}</p>` : ""}
+          <p class="label">${limits.selectLabel} at level ${state.level}</p>
+          <p>
+            ${limits.cantripsLabel}: <strong>${counts.cantrips}</strong>/${limits.cantrips}
+            · ${limits.leveledLabel}: <strong>${counts.leveled}</strong>/${limits.leveled}
+          </p>
+          ${
+            slotBits.length
+              ? `<p><strong>Slots left:</strong> ${slotBits.join(" · ")}</p>`
+              : `<p class="muted">No spell slots yet.</p>`
+          }
+          <p class="muted tiny">${escapeText(restNote)} · Ability: ${escapeText(
+            cls.spellcasting.abilityName || ""
+          )}</p>
         `;
       } else {
         slotsCard.hidden = true;
@@ -1167,20 +1708,49 @@
     const levels = Object.keys(byLevel)
       .map(Number)
       .sort((a, b) => a - b);
+
+    const cantripFull = selectable && counts.cantrips >= limits.cantrips;
+    const leveledFull = selectable && counts.leveled >= limits.leveled;
+
     list.innerHTML = levels
       .map((lv) => {
-        const group = byLevel[lv];
-        return `<div class="spell-group">
-          <h3 class="spell-group-title">${window.codexSpellLevelLabel(lv)} <span class="muted">(${group.length})</span></h3>
-          ${group.map(spellCardHTML).join("")}
-        </div>`;
+        const group = byLevel[lv].sort((a, b) => a.name.localeCompare(b.name));
+        const selectedInGroup = group.filter((s) => isSpellSelected(s.id)).length;
+        const openKey = String(lv);
+        const isOpen =
+          state.spellLevelOpen[openKey] != null
+            ? !!state.spellLevelOpen[openKey]
+            : lv === levels[0];
+        const lockedLevel = selectable && (lv === 0 ? cantripFull : leveledFull);
+        const slotMax = lv > 0 ? maxSlotsMap()[lv] || 0 : 0;
+        const slotRem = lv > 0 ? state.spellSlots[String(lv)] ?? slotMax : 0;
+        const metaParts = [`${selectedInGroup} selected`, `${group.length} listed`];
+        if (lv > 0 && slotMax > 0) metaParts.push(`slots ${slotRem}/${slotMax}`);
+        return `<details class="spell-level" data-spell-level="${lv}" ${isOpen ? "open" : ""}>
+          <summary class="spell-level-summary">
+            <span class="spell-level-name">${window.codexSpellLevelLabel(lv)}</span>
+            <span class="muted tiny">${metaParts.join(" · ")}</span>
+          </summary>
+          <div class="spell-level-body">
+            ${group
+              .map((s) => {
+                const onClassList =
+                  !cls || (s.classes || []).includes(cls.id);
+                return spellCardHTML(s, {
+                  selectable: selectable && onClassList,
+                  locked: lockedLevel && !isSpellSelected(s.id),
+                });
+              })
+              .join("")}
+          </div>
+        </details>`;
       })
       .join("");
   }
 
   function renderGear() {
     if (!state.equipment.length) {
-      $("#equipmentList").innerHTML = `<p class="muted empty-gear">No items yet. Tap + Add.</p>`;
+      $("#equipmentList").innerHTML = `<p class="muted empty-gear">No items yet. Tap + Add to search the 5e SRD list.</p>`;
       return;
     }
     $("#equipmentList").innerHTML = state.equipment
@@ -1194,8 +1764,15 @@
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM8 9h2v9H8V9zm-1 12h10a1 1 0 0 0 1-1V8H6v12a1 1 0 0 0 1 1z"/></svg>
           </button>
         </div>
+        ${
+          item.category || item.summary
+            ? `<p class="equip-meta muted tiny">${escapeText(
+                [item.category, item.summary].filter(Boolean).join(" · ")
+              )}</p>`
+            : ""
+        }
         <hr class="equip-rule" />
-        <textarea class="equip-desc" data-equip-field="description" rows="3" placeholder="Description">${escapeText(
+        <textarea class="equip-desc" data-equip-field="description" rows="4" placeholder="Description">${escapeText(
           item.description
         )}</textarea>
       </article>`
@@ -1390,6 +1967,7 @@
   function render() {
     renderHeader();
     renderVitals();
+    updatePowerTabLabels();
     const tab = document.body.dataset.tab || "combat";
     if (tab === "combat") renderCombat();
     if (tab === "stats") renderStats();
@@ -1410,7 +1988,27 @@
     document.addEventListener("click", handleVitalsClick);
     document.addEventListener("change", handleVitalsChange);
 
+    $("#shortRestBtn")?.addEventListener("click", shortRest);
     $("#longRestBtn").addEventListener("click", longRest);
+
+    $("#quickSpells")?.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-cast]");
+      if (!btn || btn.disabled) return;
+      castSpell(btn.dataset.cast);
+    });
+
+    $("#spellList")?.addEventListener("change", (e) => {
+      const box = e.target.closest("[data-select-spell]");
+      if (!box) return;
+      toggleSpellSelection(box.dataset.selectSpell, !!box.checked);
+    });
+    $("#spellList")?.addEventListener("toggle", (e) => {
+      const details = e.target.closest("details[data-spell-level]");
+      if (!details || e.target !== details) return;
+      ensureSpellArrays();
+      state.spellLevelOpen[details.dataset.spellLevel] = details.open;
+      persist();
+    }, true);
 
     $$(".tab").forEach((b) => b.addEventListener("click", () => setTab(b.dataset.tab)));
 
@@ -1418,6 +2016,8 @@
       const ab = e.target.dataset.ability;
       if (ab) {
         state.abilities[ab] = clamp(Number(e.target.value) || 10, 1, 30);
+        // Prepared limits depend on spellcasting ability modifier.
+        pruneSelectedSpells();
         persist();
         render();
         return;
@@ -1431,6 +2031,21 @@
     });
 
     $("#addItemBtn").addEventListener("click", addEquipment);
+    $("#gearPickerClose")?.addEventListener("click", closeGearPicker);
+    $("#gearPickerCustom")?.addEventListener("click", addCustomEquipment);
+    $("#gearPicker")?.addEventListener("click", (e) => {
+      if (e.target.id === "gearPicker") closeGearPicker();
+      const row = e.target.closest("[data-add-catalog]");
+      if (row) addEquipmentFromCatalog(row.dataset.addCatalog);
+    });
+    $("#gearPickerSearch")?.addEventListener("input", (e) => {
+      gearPickerFilter.search = e.target.value;
+      renderGearPickerResults();
+    });
+    $("#gearPickerCategory")?.addEventListener("change", (e) => {
+      gearPickerFilter.category = e.target.value;
+      renderGearPickerResults();
+    });
     $("#equipmentList").addEventListener("click", (e) => {
       const del = e.target.closest("[data-equip-del]");
       if (del) removeEquipment(del.dataset.equipDel);
@@ -1517,8 +2132,9 @@
       [
         "levelInput",
         (v) => {
+          const previousMax = maxSlotsMap();
           state.level = clamp(Number(v) || 1, 1, 20);
-          refreshClassDerived();
+          refreshClassDerived(previousMax);
         },
       ],
       ["xpInput", (v) => (state.xp = Math.max(0, Number(v) || 0))],
@@ -1637,6 +2253,7 @@
   }
 
   bind();
+  refreshSpellcasting({ refillSlots: false, prune: true });
   setTab("combat");
   setSaveBadge(true);
   setupInstall();

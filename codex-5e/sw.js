@@ -1,4 +1,4 @@
-const CACHE = "codex-5e-v3";
+const CACHE = "codex-5e-v5";
 const ASSETS = [
   "./",
   "./index.html",
@@ -7,6 +7,7 @@ const ASSETS = [
   "./data/dnd.js",
   "./data/spells.js",
   "./data/classes.js",
+  "./data/equipment.js",
   "./data/codex.js",
   "./manifest.webmanifest",
   "./icons/icon-180.png",

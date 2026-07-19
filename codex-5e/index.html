@@ -46,11 +46,24 @@
       <section class="panel active" data-panel="combat">
         <div class="section-head">
           <h2>Combat</h2>
-          <p>Vitals, death saves, and rest.</p>
+          <p>Vitals, prepared spells, and rest.</p>
         </div>
         <div id="combatVitals" class="vitals-root"></div>
         <div class="rest-row">
+          <button type="button" id="shortRestBtn" class="btn ghost">Short Rest</button>
           <button type="button" id="longRestBtn" class="btn ghost">Long Rest</button>
+        </div>
+        <div id="combatSpellPanel" hidden>
+          <div class="section-head tight">
+            <h2>Spell slots</h2>
+            <p id="combatSlotsHint">Recovered on a long rest.</p>
+          </div>
+          <div id="combatSlots" class="slot-track"></div>
+          <div class="section-head tight">
+            <h2>Cast</h2>
+            <p>Prepared / known spells — tap to spend a slot.</p>
+          </div>
+          <div id="quickSpells" class="quick-grid"></div>
         </div>
         <div class="section-head tight"><h2>Log</h2></div>
         <ul id="combatLog" class="log"></ul>
@@ -73,46 +86,48 @@
         </div>
       </section>
 
-      <!-- SPELLS -->
+      <!-- SPELLS / CLASS POWER -->
       <section class="panel" data-panel="spells">
         <div class="section-head">
-          <h2>Spellbook</h2>
-          <p id="spellsSubtitle">Full 5e SRD catalog — filter by class, level, or school.</p>
+          <h2 id="powerTitle">Spellbook</h2>
+          <p id="spellsSubtitle">Check spells to prepare or learn them. Expand each level to browse.</p>
         </div>
-        <div class="spell-filters">
-          <label class="field tight">
-            <span>Search</span>
-            <input id="spellSearch" type="search" placeholder="Fireball, shield…" />
-          </label>
-          <label class="field tight">
-            <span>Level</span>
-            <select id="spellLevelFilter">
-              <option value="all">All levels</option>
-              <option value="0">Cantrips</option>
-              <option value="1">1st</option>
-              <option value="2">2nd</option>
-              <option value="3">3rd</option>
-              <option value="4">4th</option>
-              <option value="5">5th</option>
-              <option value="6">6th</option>
-              <option value="7">7th</option>
-              <option value="8">8th</option>
-              <option value="9">9th</option>
-            </select>
-          </label>
-          <label class="field tight">
-            <span>School</span>
-            <select id="spellSchoolFilter">
-              <option value="all">All schools</option>
-            </select>
-          </label>
-          <label class="switch-inline">
-            <input type="checkbox" id="spellClassOnly" checked />
-            <span>Class list only</span>
-          </label>
+        <div id="spellCasterChrome">
+          <div class="spell-filters">
+            <label class="field tight">
+              <span>Search</span>
+              <input id="spellSearch" type="search" placeholder="Fireball, shield…" />
+            </label>
+            <label class="field tight">
+              <span>Level</span>
+              <select id="spellLevelFilter">
+                <option value="all">All levels</option>
+                <option value="0">Cantrips</option>
+                <option value="1">1st</option>
+                <option value="2">2nd</option>
+                <option value="3">3rd</option>
+                <option value="4">4th</option>
+                <option value="5">5th</option>
+                <option value="6">6th</option>
+                <option value="7">7th</option>
+                <option value="8">8th</option>
+                <option value="9">9th</option>
+              </select>
+            </label>
+            <label class="field tight">
+              <span>School</span>
+              <select id="spellSchoolFilter">
+                <option value="all">All schools</option>
+              </select>
+            </label>
+            <label class="switch-inline">
+              <input type="checkbox" id="spellClassOnly" checked />
+              <span>Class list only</span>
+            </label>
+          </div>
+          <div id="spellSlotsCard" class="info-card" hidden></div>
         </div>
-        <div id="spellSlotsCard" class="info-card" hidden></div>
-        <div id="spellList" class="card-list">
+        <div id="spellList" class="card-list spell-accordion">
           <p class="muted empty-spells">Select a class to see its spell list.</p>
         </div>
       </section>
@@ -122,7 +137,7 @@
         <div class="section-head row-between">
           <div>
             <h2>Equipment</h2>
-            <p>Tap + to add an item. Edit anytime.</p>
+            <p>Search the 5e SRD gear list, or add a custom item.</p>
           </div>
           <button type="button" id="addItemBtn" class="btn primary tiny">+ Add</button>
         </div>
@@ -296,6 +311,32 @@
 
     <div id="toast" class="toast" hidden></div>
 
+    <div id="gearPicker" class="sheet" hidden>
+      <div class="sheet-panel">
+        <header class="sheet-head">
+          <div>
+            <h2>Add equipment</h2>
+            <p class="muted tiny">5e SRD gear, weapons, armor, tools, and magic items</p>
+          </div>
+          <button type="button" id="gearPickerClose" class="btn ghost tiny" aria-label="Close">Close</button>
+        </header>
+        <div class="sheet-filters">
+          <label class="field tight">
+            <span>Search</span>
+            <input id="gearPickerSearch" type="search" placeholder="Longsword, healing potion…" autocomplete="off" />
+          </label>
+          <label class="field tight">
+            <span>Category</span>
+            <select id="gearPickerCategory">
+              <option value="all">All categories</option>
+            </select>
+          </label>
+        </div>
+        <div id="gearPickerResults" class="sheet-results"></div>
+        <button type="button" id="gearPickerCustom" class="btn ghost sheet-custom">+ Custom blank item</button>
+      </div>
+    </div>
+
     <div id="diedOverlay" class="overlay died" hidden>
       <div class="overlay-inner">
         <p class="you-died">YOU DIED</p>
@@ -319,6 +360,7 @@
     <script src="./data/dnd.js"></script>
     <script src="./data/spells.js"></script>
     <script src="./data/classes.js"></script>
+    <script src="./data/equipment.js"></script>
     <script src="./data/codex.js"></script>
     <script src="./app.js"></script>
   </body>

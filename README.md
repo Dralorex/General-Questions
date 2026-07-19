@@ -15,6 +15,14 @@ Installable phone web app for combat mana, full D&D character sheet, skills, and
 | [Open the app (repo files)](kirito-mana-app/index.html) | Source UI in git |
 | [App README](kirito-mana-app/README.md) | Pages setup + install + save notes |
 
+### [Kirito Spells — Phone App (PWA)](kirito-spells-app/)
+Duplicate of the mana app with mana, sword skills, and training removed. Keeps the sheet and an empty **Spells** tab. Original `kirito-mana-app/` is unchanged.
+
+| Link | What it is |
+|---|---|
+| [Open the app (repo files)](kirito-spells-app/index.html) | Source UI in git |
+| [App README](kirito-spells-app/README.md) | Local preview + save notes |
+
 ### [Kirito Mana System](kirito-mana-system/)
 Aincrad / season 1 sword-skill mana homebrew for D&D-style play (Google Sheets CSVs).
 

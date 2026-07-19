@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#121820" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Aincrad Mana" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icons/icon-180.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Aincrad Mana</title>
+  </head>
+  <body data-tab="combat">
+    <div class="bg" aria-hidden="true"></div>
+
+    <header class="top">
+      <div class="brand-block">
+        <p class="brand">Aincrad Mana</p>
+        <div class="chips">
+          <span id="nameChip" class="chip">Kirito</span>
+          <span id="levelChip" class="chip">Lv 1</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button type="button" id="installBtn" class="btn ghost tiny" hidden>Install</button>
+        <span id="saveBadge" class="save" data-ok="1">Saved on this phone</span>
+      </div>
+    </header>
+
+    <section class="mana-panel" aria-live="polite">
+      <div class="mana-head">
+        <div>
+          <p class="label">Mana</p>
+          <p class="mana-readout">
+            <span id="manaValue">100</span><span class="slash">/</span
+            ><span id="manaMax">100</span>
+          </p>
+        </div>
+        <div class="round-box">
+          <p class="label">Round</p>
+          <p id="roundValue" class="round">1</p>
+        </div>
+      </div>
+      <div class="mana-bar" aria-hidden="true">
+        <div id="manaFill" class="mana-fill"></div>
+      </div>
+      <div class="mana-controls">
+        <button type="button" id="manaMinus" class="btn ghost">−1</button>
+        <button type="button" id="manaPlus" class="btn ghost">+1</button>
+        <button type="button" id="endTurnBtn" class="btn primary">End Turn</button>
+      </div>
+    </section>
+
+    <main>
+      <section class="panel active" data-panel="combat">
+        <div class="section-head">
+          <h2>Combat</h2>
+          <p>Tap a skill to spend mana. Progress autosaves if you close the app.</p>
+        </div>
+        <div id="quickSkills" class="quick-grid"></div>
+        <div class="rest-row">
+          <button type="button" id="refillBtn" class="btn ghost">Refill</button>
+          <button type="button" id="shortRestBtn" class="btn ghost">Short Rest +50</button>
+          <button type="button" id="longRestBtn" class="btn ghost">Long Rest</button>
+        </div>
+        <div id="combatSkills" class="card-list"></div>
+        <div class="section-head tight">
+          <h2>Log</h2>
+        </div>
+        <ul id="combatLog" class="log"></ul>
+      </section>
+
+      <section class="panel" data-panel="skills">
+        <div class="section-head">
+          <h2>Skills</h2>
+          <p>Browse the full kit. Free basics never spend mana.</p>
+        </div>
+        <label class="field">
+          <span>Filter</span>
+          <select id="skillFilter">
+            <option value="all">All</option>
+            <option value="learned">Learned</option>
+            <option value="trainable">Ready to train</option>
+            <option value="locked">Locked</option>
+          </select>
+        </label>
+        <div id="allSkills" class="card-list"></div>
+      </section>
+
+      <section class="panel" data-panel="train">
+        <div class="section-head">
+          <h2>Training</h2>
+          <p>Level unlocks a skill. Training learns it.</p>
+        </div>
+        <div class="gate-card">
+          <div>
+            <p class="label">Dual Blades gate</p>
+            <p id="dualStatus" class="gate-status">Dual locked until Level 10</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="trialToggle" />
+            <span>Reaction Trial done</span>
+          </label>
+        </div>
+        <div id="trainSkills" class="card-list"></div>
+      </section>
+
+      <section class="panel" data-panel="profile">
+        <div class="section-head">
+          <h2>Profile</h2>
+          <p>Your save lives on this phone only.</p>
+        </div>
+        <label class="field">
+          <span>Name</span>
+          <input id="nameInput" type="text" maxlength="24" autocomplete="nickname" />
+        </label>
+        <label class="field">
+          <span>Level (1–20)</span>
+          <input id="levelInput" type="number" min="1" max="20" inputmode="numeric" />
+        </label>
+        <label class="field">
+          <span>Max Mana</span>
+          <input id="maxManaInput" type="number" min="1" max="999" inputmode="numeric" />
+        </label>
+        <div class="info-card">
+          <p class="label">Last saved</p>
+          <p id="lastSaved">—</p>
+          <p id="storageNote" class="muted"></p>
+        </div>
+        <div class="stack">
+          <button type="button" id="exportBtn" class="btn primary">Export Backup</button>
+          <button type="button" id="importBtn" class="btn ghost">Import Backup</button>
+          <input id="importFile" type="file" accept="application/json,.json" hidden />
+          <button type="button" id="resetBtn" class="btn danger">Reset Progress</button>
+        </div>
+        <div class="info-card">
+          <p class="label">Install on iPhone</p>
+          <p class="muted">Safari → Share → Add to Home Screen. Then open from the icon for the app-like view.</p>
+          <p class="label" style="margin-top: 0.8rem">Install on Android</p>
+          <p class="muted">Chrome → menu → Install app / Add to Home screen. Or tap Install above when shown.</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="dock" aria-label="Primary">
+      <button type="button" class="tab active" data-tab="combat">Combat</button>
+      <button type="button" class="tab" data-tab="skills">Skills</button>
+      <button type="button" class="tab" data-tab="train">Train</button>
+      <button type="button" class="tab" data-tab="profile">Profile</button>
+    </nav>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script src="./data/skills.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -71,3 +71,18 @@ https://github.com/Dralorex/General-Questions/blob/main/kirito-mana-system/MASTE
 
 **Folder on GitHub:**  
 https://github.com/Dralorex/General-Questions/tree/main/kirito-mana-system
+
+### [Minifigures — Generated Concept Art](assets/minifigures/)
+AI-generated tabletop miniature concept art. Each figure lives in its own subfolder with renders, turnaround sheets, and print notes.
+
+| Link | What it is |
+|---|---|
+| [Minifigures index](assets/minifigures/) | All generated minifigure folders |
+| [Elven archer](assets/minifigures/elven-archer/) | Elven archer turnaround + printable revisions |
+| [Desert warrior](assets/minifigures/desert-warrior/) | Desert warrior dual-scimitar concept |
+| [Skeleton warband (×8)](assets/minifigures/#skeleton-warband-set-of-8) | Unpainted gray resin skeleton miniatures — warrior, archer, spearman, dual-wielder, greataxe, mage, officer, crossbowman |
+| [Zombie horde (×6)](assets/minifigures/#zombie-horde-set-of-6) | Unpainted gray resin zombie miniatures — shambler, bloated, soldier, cultist, child, brute |
+| [Bandit gang (×8)](assets/minifigures/#bandit-gang-set-of-8) | Unpainted gray resin bandit miniatures — swordsman, archer, crossbowman, brawler, leader, scout, spearman, thief |
+
+**Folder on GitHub:**  
+https://github.com/Dralorex/General-Questions/tree/main/assets/minifigures

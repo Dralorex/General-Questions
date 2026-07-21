@@ -32,10 +32,10 @@ Recommended slicer setup (starting point, tune to your printer/resin):
 
 ## Direct links (viewable on phone via GitHub)
 
-- v1: https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v1.png
-- v2 (printable): https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v2-printable.png
-- v3 front (printable, bow/string/arrow fixed): https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v3-printable.png
-- v3 turnaround sheet (front / right / back / left): https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v3-turnaround.png
-- **Final turnaround** (clean-slate 4-view sheet, best reference): https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-final-turnaround.png
+- v1: https://github.com/Dralorex/General-Questions/blob/main/assets/minifigures/elven-archer/elven-archer-v1.png
+- v2 (printable): https://github.com/Dralorex/General-Questions/blob/main/assets/minifigures/elven-archer/elven-archer-v2-printable.png
+- v3 front (printable, bow/string/arrow fixed): https://github.com/Dralorex/General-Questions/blob/main/assets/minifigures/elven-archer/elven-archer-v3-printable.png
+- v3 turnaround sheet (front / right / back / left): https://github.com/Dralorex/General-Questions/blob/main/assets/minifigures/elven-archer/elven-archer-v3-turnaround.png
+- **Final turnaround** (clean-slate 4-view sheet, best reference): https://github.com/Dralorex/General-Questions/blob/main/assets/minifigures/elven-archer/elven-archer-final-turnaround.png
 
 To download from a phone: open the link above, tap the image, then long-press → **Save image**.

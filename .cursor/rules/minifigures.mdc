@@ -1,0 +1,40 @@
+---
+description: Generate and organize minifigure concept art in assets/minifigures/
+globs:
+alwaysApply: true
+---
+
+# Minifigure image generation (General-Questions)
+
+When the user asks for minifigure concept art, character renders, turnaround sheets, or miniature design images in this repo:
+
+## Output location
+
+- **Main folder:** `assets/minifigures/`
+- **One subfolder per minifigure:** `assets/minifigures/<kebab-case-slug>/`
+  - Examples: `elven-archer`, `desert-warrior`, `dwarven-cleric`
+- Never drop new minifigure images directly in `assets/` or `assets/minifigures/` root — always use a subfolder.
+
+## Per-minifigure folder contents
+
+1. **Images** — use descriptive versioned names:
+   - `<slug>-v1.png` (first pass)
+   - `<slug>-v2.png`, `<slug>-v2-printable.png` (revisions)
+   - `<slug>-turnaround.png` or `<slug>-final-turnaround.png` (multi-view sheets)
+2. **README.md** — catalog every image in a table, include print/slicer notes when relevant, and add GitHub direct links:
+   - `https://github.com/Dralorex/General-Questions/blob/main/assets/minifigures/<slug>/<filename>`
+3. **Index** — add a row to `assets/minifigures/README.md` for new minifigures.
+
+## Generation style defaults
+
+- 32mm tabletop miniature scale aesthetic
+- Neutral studio or thematic base as appropriate
+- When asked for print-friendly resin designs: no floating hair/islands, anchor capes to base, thicken thin details (~0.6mm minimum at scale)
+- Turnaround sheets: front / right / back / left in one image when requested
+
+## Workflow
+
+1. Confirm or infer the minifigure slug; create the subfolder if it does not exist.
+2. Generate images with the image generation tool; save files into the subfolder.
+3. Update the subfolder README and the main `assets/minifigures/README.md`.
+4. Commit, push, and open/update a PR.

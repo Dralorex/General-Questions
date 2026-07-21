@@ -3,7 +3,7 @@
   const CLASSES = window.CODEX_CLASSES || [];
   const SPELLS = window.CODEX_SPELLS || [];
   const STORAGE_KEY = "codex-5e-pwa-v1";
-  const APP_VERSION = "5.1.0";
+  const APP_VERSION = "5.2.0";
 
   const SAVE_ID_BY_KEY = {
     str: "str-save",
@@ -63,6 +63,7 @@
       portraitDataUrl: "",
       equipment: [],
       selectedSpells: [],
+      spellSelectionHistory: [],
       spellSlots: {},
       spellLevelOpen: {},
       spellFilters: {
@@ -106,6 +107,11 @@
         combatLog: Array.isArray(parsed.combatLog) ? parsed.combatLog : [],
         autoSaveKeys: Array.isArray(parsed.autoSaveKeys) ? parsed.autoSaveKeys : [],
         selectedSpells: Array.isArray(parsed.selectedSpells) ? parsed.selectedSpells : [],
+        spellSelectionHistory: Array.isArray(parsed.spellSelectionHistory)
+          ? parsed.spellSelectionHistory
+          : Array.isArray(parsed.selectedSpells)
+            ? [...parsed.selectedSpells]
+            : [],
         spellSlots: { ...(parsed.spellSlots || {}) },
         spellLevelOpen: { ...(parsed.spellLevelOpen || {}) },
         spellFilters: {
@@ -309,8 +315,20 @@
 
   function ensureSpellArrays() {
     if (!Array.isArray(state.selectedSpells)) state.selectedSpells = [];
+    if (!Array.isArray(state.spellSelectionHistory)) {
+      // Older saves: treat the active list as the selection order.
+      state.spellSelectionHistory = [...(state.selectedSpells || [])];
+    }
     if (!state.spellSlots || typeof state.spellSlots !== "object") state.spellSlots = {};
     if (!state.spellLevelOpen || typeof state.spellLevelOpen !== "object") state.spellLevelOpen = {};
+  }
+
+  function highestAvailableSpellLevel() {
+    const max = maxSlotsMap();
+    for (let i = 9; i >= 1; i--) {
+      if ((max[i] || 0) > 0) return i;
+    }
+    return 0;
   }
 
   function selectedSpellObjs() {
@@ -350,35 +368,50 @@
       if (previousMax) {
         const oldCap = previousMax[i] || 0;
         if (cap > oldCap) rem += cap - oldCap;
+        // Level-down: drop extras so remaining never exceeds the new max.
       }
       next[key] = clamp(rem, 0, cap);
     }
     state.spellSlots = next;
   }
 
-  /** Drop selections that are no longer valid for class / over limit. */
-  function pruneSelectedSpells() {
+  /**
+   * Rebuild active selectedSpells from selection history.
+   * Keeps earliest picks; parks most-recent extras when limits drop (level/ability down).
+   * Leveling back up reinstates parked spells from history.
+   */
+  function applySpellSelectionLimits() {
     ensureSpellArrays();
     const cls = selectedClass();
     if (!cls || !cls.spellcasting) {
       state.selectedSpells = [];
+      state.spellSelectionHistory = [];
       return;
     }
     const allowed = new Set(window.codexSpellsForClass(cls.id).map((s) => s.id));
-    let keep = state.selectedSpells.filter((id) => allowed.has(id));
+    state.spellSelectionHistory = state.spellSelectionHistory.filter((id) => allowed.has(id));
+
     const limits = spellLimits();
-    const cantrips = [];
-    const leveled = [];
-    for (const id of keep) {
+    const maxSpellLv = highestAvailableSpellLevel();
+    const activeCantrips = [];
+    const activeLeveled = [];
+    for (const id of state.spellSelectionHistory) {
       const sp = window.codexSpellById(id);
       if (!sp) continue;
-      if (sp.level === 0) cantrips.push(id);
-      else leveled.push(id);
+      if (sp.level === 0) {
+        if (activeCantrips.length < limits.cantrips) activeCantrips.push(id);
+      } else if (sp.level <= maxSpellLv) {
+        if (activeLeveled.length < limits.leveled) activeLeveled.push(id);
+      }
+      // Spells above available slot level stay in history but are not active.
     }
-    state.selectedSpells = [
-      ...cantrips.slice(0, limits.cantrips),
-      ...leveled.slice(0, limits.leveled),
-    ];
+    const active = new Set([...activeCantrips, ...activeLeveled]);
+    state.selectedSpells = state.spellSelectionHistory.filter((id) => active.has(id));
+  }
+
+  /** @deprecated name kept as alias for call sites */
+  function pruneSelectedSpells() {
+    applySpellSelectionLimits();
   }
 
   function refreshSpellcasting({
@@ -386,7 +419,7 @@
     prune = true,
     previousMax = null,
   } = {}) {
-    if (prune) pruneSelectedSpells();
+    if (prune) applySpellSelectionLimits();
     syncSpellSlots({ refill: refillSlots, previousMax });
   }
 
@@ -398,6 +431,7 @@
   function canSelectSpell(spell) {
     if (!spell) return false;
     if (isSpellSelected(spell.id)) return true; // always allow deselect
+    if (spell.level > 0 && spell.level > highestAvailableSpellLevel()) return false;
     const limits = spellLimits();
     const counts = countSelectedByKind();
     if (spell.level === 0) return counts.cantrips < limits.cantrips;
@@ -409,6 +443,7 @@
     const spell = window.codexSpellById(spellId);
     if (!spell) return;
     const on = state.selectedSpells.includes(spellId);
+    const inHistory = state.spellSelectionHistory.includes(spellId);
     if (wantSelected && !on) {
       const cls = selectedClass();
       if (!cls || !cls.spellcasting) {
@@ -419,6 +454,10 @@
         toast(`Not on the ${cls.name} spell list`, "warn");
         return;
       }
+      if (spell.level > 0 && spell.level > highestAvailableSpellLevel()) {
+        toast("No spell slots of that level yet", "warn");
+        return;
+      }
       if (!canSelectSpell(spell)) {
         const limits = spellLimits();
         const label = spell.level === 0 ? limits.cantripsLabel : limits.leveledLabel;
@@ -426,9 +465,11 @@
         toast(`${label} full (${max})`, "warn");
         return;
       }
+      if (!inHistory) state.spellSelectionHistory.push(spellId);
       state.selectedSpells.push(spellId);
-    } else if (!wantSelected && on) {
+    } else if (!wantSelected && (on || inHistory)) {
       state.selectedSpells = state.selectedSpells.filter((id) => id !== spellId);
+      state.spellSelectionHistory = state.spellSelectionHistory.filter((id) => id !== spellId);
     }
     persist();
     render();
@@ -551,6 +592,7 @@
       state.classId = "";
       state.className = "";
       state.selectedSpells = [];
+      state.spellSelectionHistory = [];
       state.spellSlots = {};
       persist();
       render();
@@ -565,6 +607,7 @@
     state.className = cls.name;
     state.hitDice = `${state.level}d${cls.hitDie}`;
     state.selectedSpells = [];
+    state.spellSelectionHistory = [];
     refreshSpellcasting({ refillSlots: true, prune: false });
 
     const saveKeys = [];
@@ -1957,6 +2000,7 @@
     const left = selectionSlotsLeft();
     const cantripFull = selectable && left.counts.cantrips >= left.limits.cantrips;
     const leveledFull = selectable && left.counts.leveled >= left.limits.leveled;
+    const maxSpellLv = highestAvailableSpellLevel();
 
     list.innerHTML = levels
       .map((lv) => {
@@ -1968,7 +2012,9 @@
             ? !!state.spellLevelOpen[openKey]
             : lv === levels[0];
         const lockedLevel = selectable && (lv === 0 ? cantripFull : leveledFull);
+        const tooHigh = selectable && lv > 0 && lv > maxSpellLv;
         const metaParts = [`${selectedInGroup} selected`, `${group.length} listed`];
+        if (tooHigh) metaParts.push("locked until higher level");
         return `<details class="spell-level" data-spell-level="${lv}" ${isOpen ? "open" : ""}>
           <summary class="spell-level-summary">
             <span class="spell-level-name">${window.codexSpellLevelLabel(lv)}</span>
@@ -1979,9 +2025,12 @@
               .map((s) => {
                 const onClassList =
                   !cls || (s.classes || []).includes(cls.id);
+                const locked =
+                  !isSpellSelected(s.id) &&
+                  ((lockedLevel && onClassList) || (tooHigh && onClassList));
                 return spellCardHTML(s, {
                   selectable: selectable && onClassList,
-                  locked: lockedLevel && !isSpellSelected(s.id),
+                  locked,
                 });
               })
               .join("")}
@@ -2383,8 +2432,14 @@
         "levelInput",
         (v) => {
           const previousMax = maxSlotsMap();
+          const prevLevel = state.level;
           state.level = clamp(Number(v) || 1, 1, 20);
           refreshClassDerived(previousMax);
+          if (state.level < prevLevel) {
+            toast(`Level ${state.level} · spell picks & slots adjusted`, "info");
+          } else if (state.level > prevLevel) {
+            toast(`Level ${state.level} · restored picks & slots`, "ok");
+          }
         },
       ],
       ["xpInput", (v) => (state.xp = Math.max(0, Number(v) || 0))],

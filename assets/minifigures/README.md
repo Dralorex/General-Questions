@@ -22,6 +22,17 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [skeleton-officer-7](skeleton-officer-7/) | Commanding pose, raised sword, tattered banner, corroded plate helm |
 | [skeleton-crossbowman-8](skeleton-crossbowman-8/) | Aiming heavy crossbow, loaded bolt, bandolier, hooded shroud |
 
+### Zombie horde (set of 6)
+
+| Folder | Concept |
+|---|---|
+| [zombie-shambler-1](zombie-shambler-1/) | Arms outstretched, torn peasant clothes, milky eyes, dragging foot |
+| [zombie-bloated-2](zombie-bloated-2/) | Swollen torso, burst belly stitches, waterlogged clothes, dangling arm |
+| [zombie-soldier-3](zombie-soldier-3/) | Ruined tabard, broken helmet, rusted sword, missing jaw, marching pose |
+| [zombie-cultist-4](zombie-cultist-4/) | Hooded robe, ritual dagger, occult skin carvings, clutching neck wound |
+| [zombie-child-5](zombie-child-5/) | Child-sized, non-graphic decay, crawling on hands and knees |
+| [zombie-brute-6](zombie-brute-6/) | Oversized muscular corpse, broken chains, heavy cleaver, stitched limbs |
+
 ### Other figures
 
 | Folder | Concept |

@@ -9,9 +9,7 @@ Concept: an elegant elven archer with flowing hair and a leaf circlet, drawing a
 | [`elven-archer-v1.png`](elven-archer-v1.png) | First pass. Bow drawn in left hand, arrow nocked, rapier on left hip, mushroom forest base. Cosmetic-only — has floating hair strands, thin cape, and thin bowstring that are hard to resin-print. |
 | [`elven-archer-v2-printable.png`](elven-archer-v2-printable.png) | Resin-printer-friendly redesign (targeting ~25µm layers). Hair swept to one side and merged into cape, thickened cape hem with a corner touching the base as a support pillar, chunkier leaf skirt, bow held vertically with thickened string and arrow touching the riser, wider stance, chunky mushroom stalks. |
 | [`elven-archer-v3-printable.png`](elven-archer-v3-printable.png) | Same as v2, with the bow/string/arrow fixed: bowstring is now a single continuous tensioned line properly anchored at both bow tips, and the arrow is correctly nocked on the string and resting across the bow riser. Everything else unchanged from v2. **Front view.** |
-| [`elven-archer-v3-right.png`](elven-archer-v3-right.png) | v3 character — **right-side profile** view. |
-| [`elven-archer-v3-left.png`](elven-archer-v3-left.png) | v3 character — **left-side profile** view (shows sheathed rapier clearly). |
-| [`elven-archer-v3-back.png`](elven-archer-v3-back.png) | v3 character — **back** view (shows cape drape and hair layout). |
+| [`elven-archer-v3-turnaround.png`](elven-archer-v3-turnaround.png) | Full **character turnaround sheet** — front, right, back, and left views of the v3 character side by side on a neutral studio backdrop. Rendered as a single image so all four views stay consistent with each other for sculpt reference. |
 
 ## Print notes (v2)
 
@@ -36,8 +34,6 @@ Recommended slicer setup (starting point, tune to your printer/resin):
 - v1: https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v1.png
 - v2 (printable): https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v2-printable.png
 - v3 front (printable, bow/string/arrow fixed): https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v3-printable.png
-- v3 right side: https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v3-right.png
-- v3 left side: https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v3-left.png
-- v3 back: https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v3-back.png
+- v3 turnaround sheet (front / right / back / left): https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v3-turnaround.png
 
 To download from a phone: open the link above, tap the image, then long-press → **Save image**.

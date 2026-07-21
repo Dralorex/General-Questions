@@ -33,6 +33,19 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [zombie-child-5](zombie-child-5/) | Child-sized, non-graphic decay, standing upright, matted hair |
 | [zombie-brute-6](zombie-brute-6/) | Oversized muscular corpse, broken chains, heavy cleaver, stitched limbs |
 
+### Bandit gang (set of 8)
+
+| Folder | Concept |
+|---|---|
+| [bandit-swordsman-1](bandit-swordsman-1/) | Confident stance, saber and parrying dagger, leather coat, mask on forehead |
+| [bandit-archer-2](bandit-archer-2/) | Kneeling aim pose, longbow, hooded cloak, bandit insignia on quiver |
+| [bandit-crossbowman-3](bandit-crossbowman-3/) | Standing guard, crossbow at hip, coin pouch and lockpicks on belt |
+| [bandit-brawler-4](bandit-brawler-4/) | Bare-knuckle fighting pose, knuckle dusters, sleeveless jerkin, bandana |
+| [bandit-leader-5](bandit-leader-5/) | Commanding pose, ornate pistol crossbow, fur collar coat, feathered hat |
+| [bandit-scout-6](bandit-scout-6/) | Crouched pose, short sword, light leather, rope coil, binoculars |
+| [bandit-spearman-7](bandit-spearman-7/) | Roadblock stance, spear and skull-painted wooden shield, patched cloak |
+| [bandit-thief-8](bandit-thief-8/) | Lockpicks in hand, empty coin bag, stealth pose, dark hood |
+
 ### Other figures
 
 | Folder | Concept |

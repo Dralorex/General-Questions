@@ -74,6 +74,16 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [hooded-cultist-summoner-5](hooded-cultist-summoner-5/) | Kneeling circle pose, incense bowl, chained reliquary at feet |
 | [hooded-cultist-leader-6](hooded-cultist-leader-6/) | Ornate mask, crowned hood, twisted-horn staff, commanding stance |
 
+### Town guard (set of 5)
+
+| Folder | Concept |
+|---|---|
+| [town-guard-1](town-guard-1/) | Spear and kite shield, plain tabard, open-face helmet, standing forward |
+| [town-guard-crossbowman-2](town-guard-crossbowman-2/) | Guard stance, heavy crossbow, pauldrons, keys and whistle on belt |
+| [town-guard-captain-3](town-guard-captain-3/) | Sword drawn, cape, decorated gorget, pointing command pose |
+| [town-guard-captain-3-1](town-guard-captain-3-1/) | Sword sheathed, cape, decorated gorget, arms crossed facing forward |
+| [town-guard-halberdier-4](town-guard-halberdier-4/) | Halberd at ready, chain coif, reinforced leather armor |
+
 ### Other figures
 
 | Folder | Concept |

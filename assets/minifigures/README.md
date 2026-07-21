@@ -46,6 +46,15 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [bandit-spearman-7](bandit-spearman-7/) | Roadblock stance, spear and skull-painted wooden shield, patched cloak |
 | [bandit-thief-8](bandit-thief-8/) | Lockpicks in hand, empty coin bag, stealth pose, dark hood |
 
+### Wolf pack (set of 4)
+
+| Folder | Concept |
+|---|---|
+| [dire-wolf-1](dire-wolf-1/) | Snarling stance, bared teeth, bristled fur, muscular shoulders, tail low |
+| [wolf-runner-2](wolf-runner-2/) | Running mid-stride, ears pinned back, lean hunting build, claws extended |
+| [wolf-alert-3](wolf-alert-3/) | Sitting alert, head turned listening, thick winter fur |
+| [wolf-alpha-4](wolf-alpha-4/) | Dominant standing pose, torn ear, bite scars, heavier alpha frame |
+
 ### Other figures
 
 | Folder | Concept |

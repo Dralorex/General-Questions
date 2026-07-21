@@ -83,6 +83,7 @@ AI-generated tabletop miniature concept art. Each figure lives in its own subfol
 | [Skeleton warband (×8)](assets/minifigures/#skeleton-warband-set-of-8) | Unpainted gray resin skeleton miniatures — warrior, archer, spearman, dual-wielder, greataxe, mage, officer, crossbowman |
 | [Zombie horde (×6)](assets/minifigures/#zombie-horde-set-of-6) | Unpainted gray resin zombie miniatures — shambler, bloated, soldier, cultist, child, brute |
 | [Bandit gang (×8)](assets/minifigures/#bandit-gang-set-of-8) | Unpainted gray resin bandit miniatures — swordsman, archer, crossbowman, brawler, leader, scout, spearman, thief |
+| [Wolf pack (×4)](assets/minifigures/#wolf-pack-set-of-4) | Unpainted gray resin wolf miniatures — dire wolf, runner, alert sitter, scarred alpha |
 
 **Folder on GitHub:**  
 https://github.com/Dralorex/General-Questions/tree/main/assets/minifigures

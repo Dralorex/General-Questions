@@ -55,6 +55,14 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [wolf-alert-3](wolf-alert-3/) | Sitting alert, head turned listening, thick winter fur |
 | [wolf-alpha-4](wolf-alpha-4/) | Dominant standing pose, torn ear, bite scars, heavier alpha frame |
 
+### Giant spiders (set of 3)
+
+| Folder | Concept |
+|---|---|
+| [giant-spider-1](giant-spider-1/) | Rearing attack pose, dripping fangs, eight legs spread, patterned chitinous abdomen |
+| [giant-spider-2](giant-spider-2/) | Stalking low pose, legs bent close, smaller hunter silhouette, poised to pounce |
+| [giant-spider-broodmother-3](giant-spider-broodmother-3/) | Larger abdomen, egg sac texture, one leg raised, stable print-friendly pose |
+
 ### Other figures
 
 | Folder | Concept |

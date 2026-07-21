@@ -84,6 +84,17 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [town-guard-captain-3-1](town-guard-captain-3-1/) | Sword sheathed, cape, decorated gorget, arms crossed facing forward |
 | [town-guard-halberdier-4](town-guard-halberdier-4/) | Halberd at ready, chain coif, reinforced leather armor |
 
+### Orc warband (set of 6)
+
+| Folder | Concept |
+|---|---|
+| [orc-warrior-1](orc-warrior-1/) | Battle axe and spiked shield, scar across eye, aggressive forward stance |
+| [orc-archer-2](orc-archer-2/) | Crude longbow, bone armor plates, war paint stripes, snarling |
+| [orc-berserker-3](orc-berserker-3/) | Dual axes, ritual scars, frothing rage pose, bone-ring braids |
+| [orc-spearman-4](orc-spearman-4/) | Long spear, hide shield, leather straps, disciplined raider stance |
+| [orc-shaman-5](orc-shaman-5/) | Totem staff, skull fetishes, feather and bone headdress, casting pose |
+| [orc-warboss-6](orc-warboss-6/) | Larger frame, trophy pauldrons, notched greatsword, cape of pelts |
+
 ### Other figures
 
 | Folder | Concept |

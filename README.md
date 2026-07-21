@@ -87,6 +87,7 @@ AI-generated tabletop miniature concept art. Each figure lives in its own subfol
 | [Giant spiders (×3)](assets/minifigures/#giant-spiders-set-of-3) | Unpainted gray resin spider miniatures — rearing attacker, stalking hunter, broodmother |
 | [Hooded cultists (×6)](assets/minifigures/#hooded-cultists-set-of-6) | Unpainted gray resin cultist miniatures — dagger, chanter, torchbearer, executioner, summoner, leader |
 | [Town guard (×5)](assets/minifigures/#town-guard-set-of-5) | Unpainted gray resin town guard miniatures — spearman, crossbowman, captain (×2 poses), halberdier |
+| [Orc warband (×6)](assets/minifigures/#orc-warband-set-of-6) | Unpainted gray resin orc miniatures — warrior, archer, berserker, spearman, shaman, warboss |
 
 **Folder on GitHub:**  
 https://github.com/Dralorex/General-Questions/tree/main/assets/minifigures

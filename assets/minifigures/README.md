@@ -115,6 +115,12 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [ghoul-pack-leader-3](ghoul-pack-leader-3/) | Larger frame, broken jaw, torn noble coat, dominant snarl |
 | [ghoul-crawling-4](ghoul-crawling-4/) | On all fours, dragging leg, graveyard mold, reaching claw |
 
+### Large beasts & brutes
+
+| Folder | Concept |
+|---|---|
+| [ogre-1](ogre-1/) | Towering hunched ogre, tree trunk club, stitched hide armor, 40mm base |
+
 ### Other figures
 
 | Folder | Concept |

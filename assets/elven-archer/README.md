@@ -8,6 +8,7 @@ Concept: an elegant elven archer with flowing hair and a leaf circlet, drawing a
 |---|---|
 | [`elven-archer-v1.png`](elven-archer-v1.png) | First pass. Bow drawn in left hand, arrow nocked, rapier on left hip, mushroom forest base. Cosmetic-only — has floating hair strands, thin cape, and thin bowstring that are hard to resin-print. |
 | [`elven-archer-v2-printable.png`](elven-archer-v2-printable.png) | Resin-printer-friendly redesign (targeting ~25µm layers). Hair swept to one side and merged into cape, thickened cape hem with a corner touching the base as a support pillar, chunkier leaf skirt, bow held vertically with thickened string and arrow touching the riser, wider stance, chunky mushroom stalks. |
+| [`elven-archer-v3-printable.png`](elven-archer-v3-printable.png) | Same as v2, with the bow/string/arrow fixed: bowstring is now a single continuous tensioned line properly anchored at both bow tips, and the arrow is correctly nocked on the string and resting across the bow riser. Everything else unchanged from v2. |
 
 ## Print notes (v2)
 
@@ -31,5 +32,6 @@ Recommended slicer setup (starting point, tune to your printer/resin):
 
 - v1: https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v1.png
 - v2 (printable): https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v2-printable.png
+- v3 (printable, bow/string/arrow fixed): https://github.com/Dralorex/General-Questions/blob/main/assets/elven-archer/elven-archer-v3-printable.png
 
 To download from a phone: open the link above, tap the image, then long-press → **Save image**.

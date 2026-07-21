@@ -95,6 +95,17 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [orc-shaman-5](orc-shaman-5/) | Totem staff, skull fetishes, feather and bone headdress, casting pose |
 | [orc-warboss-6](orc-warboss-6/) | Larger frame, trophy pauldrons, notched greatsword, cape of pelts |
 
+### Kobold warren (set of 6)
+
+| Folder | Concept |
+|---|---|
+| [kobold-1](kobold-1/) | Spear and tiny shield, scale texture, large eyes, nervous stance |
+| [kobold-slinger-2](kobold-slinger-2/) | Sling mid-spin, pouch of stones, head wrap, crouched pose |
+| [kobold-trapper-3](kobold-trapper-3/) | Bear trap, tool belt, goggles on head, mischievous grin |
+| [kobold-dragon-priest-4](kobold-dragon-priest-4/) | Ceremonial staff, painted scales, dragon-motif hooded cloak |
+| [kobold-crossbowman-5](kobold-crossbowman-5/) | Oversized crossbow, crank handle, bandolier, peeking aim pose |
+| [kobold-leader-6](kobold-leader-6/) | Tiny crown helm, banner on short pole, pointing pose |
+
 ### Other figures
 
 | Folder | Concept |

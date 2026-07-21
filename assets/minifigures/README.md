@@ -106,6 +106,15 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [kobold-crossbowman-5](kobold-crossbowman-5/) | Oversized crossbow, crank handle, bandolier, peeking aim pose |
 | [kobold-leader-6](kobold-leader-6/) | Tiny crown helm, banner on short pole, pointing pose |
 
+### Ghouls (set of 4)
+
+| Folder | Concept |
+|---|---|
+| [ghoul-1](ghoul-1/) | Hunched predator pose, clawed hands, torn grave clothes, feral snarl |
+| [ghoul-stalker-2](ghoul-stalker-2/) | Low crouch, long arms, cemetery dirt, sunken glowing eyes |
+| [ghoul-pack-leader-3](ghoul-pack-leader-3/) | Larger frame, broken jaw, torn noble coat, dominant snarl |
+| [ghoul-crawling-4](ghoul-crawling-4/) | On all fours, dragging leg, graveyard mold, reaching claw |
+
 ### Other figures
 
 | Folder | Concept |

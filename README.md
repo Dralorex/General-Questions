@@ -89,6 +89,7 @@ AI-generated tabletop miniature concept art. Each figure lives in its own subfol
 | [Town guard (×5)](assets/minifigures/#town-guard-set-of-5) | Unpainted gray resin town guard miniatures — spearman, crossbowman, captain (×2 poses), halberdier |
 | [Orc warband (×6)](assets/minifigures/#orc-warband-set-of-6) | Unpainted gray resin orc miniatures — warrior, archer, berserker, spearman, shaman, warboss |
 | [Kobold warren (×6)](assets/minifigures/#kobold-warren-set-of-6) | Unpainted gray resin kobold miniatures — spearman, slinger, trapper, dragon priest, crossbowman, leader |
+| [Ghouls (×4)](assets/minifigures/#ghouls-set-of-4) | Unpainted gray resin ghoul miniatures — predator, stalker, pack leader, crawler |
 
 **Folder on GitHub:**  
 https://github.com/Dralorex/General-Questions/tree/main/assets/minifigures

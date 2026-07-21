@@ -71,3 +71,15 @@ https://github.com/Dralorex/General-Questions/blob/main/kirito-mana-system/MASTE
 
 **Folder on GitHub:**  
 https://github.com/Dralorex/General-Questions/tree/main/kirito-mana-system
+
+### [Minifigures — Generated Concept Art](assets/minifigures/)
+AI-generated tabletop miniature concept art. Each figure lives in its own subfolder with renders, turnaround sheets, and print notes.
+
+| Link | What it is |
+|---|---|
+| [Minifigures index](assets/minifigures/) | All generated minifigure folders |
+| [Elven archer](assets/minifigures/elven-archer/) | Elven archer turnaround + printable revisions |
+| [Desert warrior](assets/minifigures/desert-warrior/) | Desert warrior dual-scimitar concept |
+
+**Folder on GitHub:**  
+https://github.com/Dralorex/General-Questions/tree/main/assets/minifigures

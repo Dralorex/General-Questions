@@ -120,6 +120,28 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | Folder | Concept |
 |---|---|
 | [ogre-1](ogre-1/) | Towering hunched ogre, tree trunk club, stitched hide armor, 40mm base |
+| [troll-1](troll-1/) | Lanky muscular troll, regenerating wounds, spear and claw, hunched bridge pose |
+| [young-dragon-1](young-dragon-1/) | Wings half spread, bipedal aggressive stance, thick printable wings, 50mm base |
+| [adult-dragon-1](adult-dragon-1/) | Landing pose, armored scales, roaring mouth, 75–100mm centerpiece base |
+| [owlbear-1](owlbear-1/) | Bear body with owl head, claw swipe, thick durable limbs, 50mm base |
+
+### Mimics & aberrations
+
+| Folder | Concept |
+|---|---|
+| [treasure-chest-mimic-1](treasure-chest-mimic-1/) | Chest ajar with teeth and tongue, wooden/muscle texture, square base |
+| [mimic-monster-2](mimic-monster-2/) | Amorphous chest-body with limbs, toothy maw, coins stuck to skin |
+| [beholder-1](beholder-1/) | Central eye, varied eye stalks, rocky pedestal, thick printable stalks |
+| [gelatinous-cube-1](gelatinous-cube-1/) | Semi-clear cube with suspended bones and sword, square base |
+
+### Undead spirits & flyers
+
+| Folder | Concept |
+|---|---|
+| [armored-wight-1](armored-wight-1/) | Corroded plate, glowing skull eyes, ancient longsword, tattered cape |
+| [shadowy-wraith-1](shadowy-wraith-1/) | Hooded spectral form, clawed hands, mist-trailing lower body |
+| [ghostly-specter-1](ghostly-specter-1/) | Translucent humanoid, outstretched arms, anguished face, grave base |
+| [harpy-1](harpy-1/) | Winged humanoid, taloned feet, screeching pose, scavenged armor scraps |
 
 ### Other figures
 

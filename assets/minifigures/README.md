@@ -63,6 +63,17 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [giant-spider-2](giant-spider-2/) | Stalking low pose, legs bent close, smaller hunter silhouette, poised to pounce |
 | [giant-spider-broodmother-3](giant-spider-broodmother-3/) | Larger abdomen, egg sac texture, one leg raised, stable print-friendly pose |
 
+### Hooded cultists (set of 6)
+
+| Folder | Concept |
+|---|---|
+| [hooded-cultist-1](hooded-cultist-1/) | Ritual dagger raised, crimson-trim robe, shadowed face, chest amulet |
+| [hooded-cultist-chanter-2](hooded-cultist-chanter-2/) | Open book, gesturing hand, rope belt with ritual candles |
+| [hooded-cultist-torchbearer-3](hooded-cultist-torchbearer-3/) | Black iron torch, soot-stained robes, branded wrist symbol |
+| [hooded-cultist-executioner-4](hooded-cultist-executioner-4/) | Heavy cleaver, blood-stained apron, single eye-slit mask |
+| [hooded-cultist-summoner-5](hooded-cultist-summoner-5/) | Kneeling circle pose, incense bowl, chained reliquary at feet |
+| [hooded-cultist-leader-6](hooded-cultist-leader-6/) | Ornate mask, crowned hood, twisted-horn staff, commanding stance |
+
 ### Other figures
 
 | Folder | Concept |

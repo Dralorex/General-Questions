@@ -85,6 +85,7 @@ AI-generated tabletop miniature concept art. Each figure lives in its own subfol
 | [Bandit gang (×8)](assets/minifigures/#bandit-gang-set-of-8) | Unpainted gray resin bandit miniatures — swordsman, archer, crossbowman, brawler, leader, scout, spearman, thief |
 | [Wolf pack (×4)](assets/minifigures/#wolf-pack-set-of-4) | Unpainted gray resin wolf miniatures — dire wolf, runner, alert sitter, scarred alpha |
 | [Giant spiders (×3)](assets/minifigures/#giant-spiders-set-of-3) | Unpainted gray resin spider miniatures — rearing attacker, stalking hunter, broodmother |
+| [Hooded cultists (×6)](assets/minifigures/#hooded-cultists-set-of-6) | Unpainted gray resin cultist miniatures — dagger, chanter, torchbearer, executioner, summoner, leader |
 
 **Folder on GitHub:**  
 https://github.com/Dralorex/General-Questions/tree/main/assets/minifigures

@@ -80,6 +80,7 @@ AI-generated tabletop miniature concept art. Each figure lives in its own subfol
 | [Minifigures index](assets/minifigures/) | All generated minifigure folders |
 | [Elven archer](assets/minifigures/elven-archer/) | Elven archer turnaround + printable revisions |
 | [Desert warrior](assets/minifigures/desert-warrior/) | Desert warrior dual-scimitar concept |
+| [Skeleton warband (×8)](assets/minifigures/#skeleton-warband-set-of-8) | Unpainted gray resin skeleton miniatures — warrior, archer, spearman, dual-wielder, greataxe, mage, officer, crossbowman |
 
 **Folder on GitHub:**  
 https://github.com/Dralorex/General-Questions/tree/main/assets/minifigures

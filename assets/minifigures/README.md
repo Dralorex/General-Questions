@@ -29,7 +29,7 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [zombie-shambler-1](zombie-shambler-1/) | Arms outstretched, torn peasant clothes, milky eyes, dragging foot |
 | [zombie-bloated-2](zombie-bloated-2/) | Swollen torso, burst belly stitches, waterlogged clothes, dangling arm |
 | [zombie-soldier-3](zombie-soldier-3/) | Ruined tabard, broken helmet, rusted sword, missing jaw, marching pose |
-| [zombie-cultist-4](zombie-cultist-4/) | Hooded robe, ritual dagger, occult skin carvings, clutching neck wound |
+| [zombie-cultist-4](zombie-cultist-4/) | Hooded robe, ritual dagger, occult skin carvings, nasty neck gash, arms at sides |
 | [zombie-child-5](zombie-child-5/) | Child-sized, non-graphic decay, standing upright, matted hair |
 | [zombie-brute-6](zombie-brute-6/) | Oversized muscular corpse, broken chains, heavy cleaver, stitched limbs |
 

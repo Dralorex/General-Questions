@@ -124,6 +124,7 @@
   let livedPopupShown = false;
   let dmPublisher = null;
   let dmLinkStatus = "offline";
+  let dmEyeWatching = false;
 
   function clamp(n, min, max) {
     return Math.max(min, Math.min(max, n));
@@ -145,6 +146,10 @@
       el.textContent = "Sharing off — DM Eye will not see updates";
       return;
     }
+    if (dmEyeWatching && dmLinkStatus === "online") {
+      el.textContent = "Sharing on · live · linked in DM Eye";
+      return;
+    }
     const map = {
       online: "Sharing on · live",
       connecting: "Sharing on · connecting…",
@@ -154,12 +159,13 @@
     el.textContent = map[dmLinkStatus] || "Sharing on";
   }
 
-  function stopDmPublisher() {
+  function stopDmPublisher(opts = {}) {
     if (!dmPublisher) return;
     try {
-      dmPublisher.stop();
+      dmPublisher.stop(opts);
     } catch (_) {}
     dmPublisher = null;
+    dmEyeWatching = false;
   }
 
   function syncDmLink() {
@@ -176,6 +182,10 @@
       dmPublisher = new Link.DmLinkPublisher({
         source: "mana",
         onStatus: setDmLinkStatusText,
+        onDmPresence: (watching) => {
+          dmEyeWatching = !!watching;
+          setDmLinkStatusText(dmLinkStatus);
+        },
       });
       try {
         dmPublisher.start(state.dmLinkCode);
@@ -1188,10 +1198,25 @@
         toast(state.dmLinkCode, "info");
       }
     });
-    $("#dmLinkRegen")?.addEventListener("click", () => {
+    $("#dmLinkRegen")?.addEventListener("click", async () => {
       if (!window.DmEyeLink) return;
-      if (state.dmLinkEnabled) stopDmPublisher();
+      // Only warn when a DM Eye session currently has this code linked.
+      if (dmEyeWatching) {
+        const ok = confirm(
+          "Are you sure you want to reset your code? This will remove you from the DM Eye."
+        );
+        if (!ok) return;
+      }
+      const oldCode = state.dmLinkCode;
+      if (dmPublisher) {
+        stopDmPublisher({ unlink: true });
+      } else if (window.DmEyeLink.isValidCode(oldCode)) {
+        try {
+          await window.DmEyeLink.publishUnlinkOnce(oldCode);
+        } catch (_) {}
+      }
       state.dmLinkCode = window.DmEyeLink.generateCode();
+      dmEyeWatching = false;
       persist(true);
       renderProfile();
       toast("New DM Link code ready", "ok");

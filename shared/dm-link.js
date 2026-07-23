@@ -35,6 +35,11 @@
     return TOPIC_PREFIX + normalizeCode(code);
   }
 
+  /** Retained presence topic: DM Eye publishes here while watching a code. */
+  function presenceTopicFor(code) {
+    return topicFor(code) + "/dm";
+  }
+
   function abilityMod(score) {
     return Math.floor((Number(score) - 10) / 2);
   }
@@ -360,14 +365,17 @@
   }
 
   class DmLinkPublisher {
-    constructor({ source, onStatus } = {}) {
+    constructor({ source, onStatus, onDmPresence } = {}) {
       this.source = source || "unknown";
       this.code = "";
       this.lastSnapshot = null;
+      this.dmPresent = false;
+      this.onDmPresence = onDmPresence || (() => {});
       this.client = new MqttClient({
         onStatus: (s) => {
           if (typeof onStatus === "function") onStatus(s);
         },
+        onMessage: (topic, payload) => this._onPresence(topic, payload),
       });
     }
 
@@ -375,8 +383,26 @@
       const normalized = normalizeCode(code);
       if (!isValidCode(normalized)) throw new Error("Invalid link code");
       this.code = normalized;
+      this.dmPresent = false;
+      this.client.subscribe(presenceTopicFor(normalized));
       this.client.connect();
       if (this.lastSnapshot) this.publish(this.lastSnapshot);
+    }
+
+    _onPresence(topic, payload) {
+      if (!this.code || topic !== presenceTopicFor(this.code)) return;
+      let watching = false;
+      if (payload) {
+        try {
+          const data = JSON.parse(payload);
+          watching = !!(data && data.watching);
+        } catch (_) {
+          watching = false;
+        }
+      }
+      if (this.dmPresent === watching) return;
+      this.dmPresent = watching;
+      this.onDmPresence(watching);
     }
 
     publish(snapshot) {
@@ -391,20 +417,43 @@
       this.client.publish(topicFor(this.code), payload, { retain: true });
     }
 
-    stop() {
+    /** Tell watching DM Eye apps to drop this code, then clear the retained sheet. */
+    announceUnlink() {
+      if (!this.code) return;
+      const payload = JSON.stringify({
+        v: 1,
+        unlink: true,
+        code: this.code,
+        updatedAt: Date.now(),
+      });
+      this.client.publish(topicFor(this.code), payload, { retain: false });
+      this.client.publish(topicFor(this.code), "", { retain: true });
+      this.lastSnapshot = null;
+    }
+
+    stop({ unlink = false } = {}) {
       if (this.code) {
-        // Clear retained message so stale sheets don't linger forever.
-        this.client.publish(topicFor(this.code), "", { retain: true });
+        if (unlink) {
+          this.announceUnlink();
+        } else {
+          // Clear retained message so stale sheets don't linger forever.
+          this.client.publish(topicFor(this.code), "", { retain: true });
+        }
       }
       this.client.disconnect();
       this.code = "";
       this.lastSnapshot = null;
+      if (this.dmPresent) {
+        this.dmPresent = false;
+        this.onDmPresence(false);
+      }
     }
   }
 
   class DmLinkWatcher {
-    constructor({ onSnapshot, onStatus } = {}) {
+    constructor({ onSnapshot, onStatus, onUnlink } = {}) {
       this.onSnapshot = onSnapshot || (() => {});
+      this.onUnlink = onUnlink || (() => {});
       this.codes = new Set();
       this.client = new MqttClient({
         onStatus: (s) => {
@@ -415,12 +464,20 @@
       this.client.connect();
     }
 
+    _setPresence(code, watching) {
+      const payload = watching
+        ? JSON.stringify({ v: 1, watching: true, at: Date.now() })
+        : "";
+      this.client.publish(presenceTopicFor(code), payload, { retain: true });
+    }
+
     watch(code) {
       const normalized = normalizeCode(code);
       if (!isValidCode(normalized)) throw new Error("Invalid link code");
       if (this.codes.has(normalized)) return normalized;
       this.codes.add(normalized);
       this.client.subscribe(topicFor(normalized));
+      this._setPresence(normalized, true);
       return normalized;
     }
 
@@ -428,11 +485,14 @@
       const normalized = normalizeCode(code);
       if (!this.codes.has(normalized)) return;
       this.codes.delete(normalized);
+      this._setPresence(normalized, false);
       this.client.unsubscribe(topicFor(normalized));
     }
 
     _handle(topic, payload) {
       if (!payload) return;
+      // Ignore presence topics — those are for players.
+      if (String(topic || "").endsWith("/dm")) return;
       let data;
       try {
         data = JSON.parse(payload);
@@ -442,13 +502,56 @@
       if (!data || typeof data !== "object") return;
       const code = normalizeCode(data.code || topic.split("/").pop());
       if (!this.codes.has(code)) return;
+      if (data.unlink) {
+        this.onUnlink(code, data);
+        return;
+      }
       this.onSnapshot(code, data);
     }
 
     stop() {
+      for (const code of [...this.codes]) {
+        this._setPresence(code, false);
+      }
       this.client.disconnect();
       this.codes.clear();
     }
+  }
+
+  /**
+   * One-shot: connect, tell DM Eye to drop this code, clear retained sheet, disconnect.
+   * Used when regenerating while the live publisher is not already running.
+   */
+  function publishUnlinkOnce(code) {
+    const normalized = normalizeCode(code);
+    if (!isValidCode(normalized)) return Promise.resolve();
+    return new Promise((resolve) => {
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        try {
+          client.disconnect();
+        } catch (_) {}
+        resolve();
+      };
+      const client = new MqttClient({
+        onStatus: (s) => {
+          if (s !== "online") return;
+          const payload = JSON.stringify({
+            v: 1,
+            unlink: true,
+            code: normalized,
+            updatedAt: Date.now(),
+          });
+          client.publish(topicFor(normalized), payload, { retain: false });
+          client.publish(topicFor(normalized), "", { retain: true });
+          setTimeout(finish, 500);
+        },
+      });
+      client.connect();
+      setTimeout(finish, 4000);
+    });
   }
 
   global.DmEyeLink = {
@@ -456,8 +559,10 @@
     normalizeCode,
     isValidCode,
     topicFor,
+    presenceTopicFor,
     abilityMod,
     snapshotFromState,
+    publishUnlinkOnce,
     DmLinkPublisher,
     DmLinkWatcher,
     BROKER_URLS,

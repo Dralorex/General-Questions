@@ -35,6 +35,11 @@
     return TOPIC_PREFIX + normalizeCode(code);
   }
 
+  /** Retained presence topic: DM Eye publishes here while watching a code. */
+  function presenceTopicFor(code) {
+    return topicFor(code) + "/dm";
+  }
+
   function abilityMod(score) {
     return Math.floor((Number(score) - 10) / 2);
   }
@@ -360,14 +365,17 @@
   }
 
   class DmLinkPublisher {
-    constructor({ source, onStatus } = {}) {
+    constructor({ source, onStatus, onDmPresence } = {}) {
       this.source = source || "unknown";
       this.code = "";
       this.lastSnapshot = null;
+      this.dmPresent = false;
+      this.onDmPresence = onDmPresence || (() => {});
       this.client = new MqttClient({
         onStatus: (s) => {
           if (typeof onStatus === "function") onStatus(s);
         },
+        onMessage: (topic, payload) => this._onPresence(topic, payload),
       });
     }
 
@@ -375,8 +383,26 @@
       const normalized = normalizeCode(code);
       if (!isValidCode(normalized)) throw new Error("Invalid link code");
       this.code = normalized;
+      this.dmPresent = false;
+      this.client.subscribe(presenceTopicFor(normalized));
       this.client.connect();
       if (this.lastSnapshot) this.publish(this.lastSnapshot);
+    }
+
+    _onPresence(topic, payload) {
+      if (!this.code || topic !== presenceTopicFor(this.code)) return;
+      let watching = false;
+      if (payload) {
+        try {
+          const data = JSON.parse(payload);
+          watching = !!(data && data.watching);
+        } catch (_) {
+          watching = false;
+        }
+      }
+      if (this.dmPresent === watching) return;
+      this.dmPresent = watching;
+      this.onDmPresence(watching);
     }
 
     publish(snapshot) {
@@ -399,6 +425,10 @@
       this.client.disconnect();
       this.code = "";
       this.lastSnapshot = null;
+      if (this.dmPresent) {
+        this.dmPresent = false;
+        this.onDmPresence(false);
+      }
     }
   }
 
@@ -415,12 +445,20 @@
       this.client.connect();
     }
 
+    _setPresence(code, watching) {
+      const payload = watching
+        ? JSON.stringify({ v: 1, watching: true, at: Date.now() })
+        : "";
+      this.client.publish(presenceTopicFor(code), payload, { retain: true });
+    }
+
     watch(code) {
       const normalized = normalizeCode(code);
       if (!isValidCode(normalized)) throw new Error("Invalid link code");
       if (this.codes.has(normalized)) return normalized;
       this.codes.add(normalized);
       this.client.subscribe(topicFor(normalized));
+      this._setPresence(normalized, true);
       return normalized;
     }
 
@@ -428,11 +466,14 @@
       const normalized = normalizeCode(code);
       if (!this.codes.has(normalized)) return;
       this.codes.delete(normalized);
+      this._setPresence(normalized, false);
       this.client.unsubscribe(topicFor(normalized));
     }
 
     _handle(topic, payload) {
       if (!payload) return;
+      // Ignore presence topics — those are for players.
+      if (String(topic || "").endsWith("/dm")) return;
       let data;
       try {
         data = JSON.parse(payload);
@@ -446,6 +487,9 @@
     }
 
     stop() {
+      for (const code of [...this.codes]) {
+        this._setPresence(code, false);
+      }
       this.client.disconnect();
       this.codes.clear();
     }
@@ -456,6 +500,7 @@
     normalizeCode,
     isValidCode,
     topicFor,
+    presenceTopicFor,
     abilityMod,
     snapshotFromState,
     DmLinkPublisher,

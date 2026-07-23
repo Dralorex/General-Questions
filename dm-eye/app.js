@@ -110,16 +110,20 @@
     return (arr || []).map((on) => (on ? "●" : "○")).join(" ");
   }
 
-  function moneyLabel(player) {
+  function moneyCoinsHTML(player) {
     const coins = player.coins || {};
-    const parts = [
+    return [
       ["pp", coins.pp],
       ["gp", coins.gp],
       ["ep", coins.ep],
       ["sp", coins.sp],
       ["cp", coins.cp],
-    ].map(([k, n]) => `${Math.max(0, Number(n) || 0)} ${k}`);
-    return parts.join(" · ");
+    ]
+      .map(
+        ([k, n]) =>
+          `<span class="coin-amt">${escapeText(Math.max(0, Number(n) || 0))} ${escapeText(k)}</span>`
+      )
+      .join("");
   }
 
   function playerCardHTML(code, player, open) {
@@ -174,7 +178,7 @@
         </div>
         <div class="money-row">
           <span class="k">Money</span>
-          <span class="v">${escapeText(moneyLabel(player))}</span>
+          <div class="coins">${moneyCoinsHTML(player)}</div>
         </div>
         <div class="card-actions">
           <span class="source-pill">${escapeText(sourceLabel(player.source))} · ${escapeText(code)}</span>

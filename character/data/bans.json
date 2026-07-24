@@ -1,0 +1,6 @@
+{
+  "format": "gq-character-bans-v1",
+  "updatedAt": "2026-07-24T00:00:00.000Z",
+  "notes": "Ship updated bans here so every visitor loads them. Ban by ip, publisherId, or author (case-insensitive).",
+  "bans": []
+}

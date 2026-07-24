@@ -30,6 +30,7 @@
         <button type="button" class="mode-btn active" data-mode="build">Build</button>
         <button type="button" class="mode-btn" data-mode="create">Create</button>
         <button type="button" class="mode-btn" data-mode="library">Library</button>
+        <button type="button" class="mode-btn" data-mode="mod" id="modTabBtn" hidden>Mod</button>
       </nav>
     </header>
 
@@ -139,10 +140,14 @@
             Mark as under-hat (hide when a hat is worn)
           </label>
 
-          <label class="check">
+          <label class="check" id="publishCheckWrap">
             <input id="createPublish" type="checkbox" checked />
-            Publish to community library (others can import this pack)
+            Publish to public / community library
           </label>
+          <p id="publishBanNotice" class="msg error" hidden>
+            Publishing is disabled on this device — a ban is in effect. You can still save pieces locally.
+          </p>
+          <p id="publishScanNotice" class="msg error" hidden></p>
 
           <div class="create-actions">
             <button type="submit" class="btn primary">Save piece</button>
@@ -161,8 +166,8 @@
             <h2>Community &amp; saves</h2>
             <p class="lede-sm">
               Official pieces ship with the app. Your creations stay on this
-              device. Publish packs so others can import them — or contribute
-              JSON into the repo catalog.
+              device. Public posts require agreeing to the rules; inappropriate
+              uploads are forced local-only. Banned publishers cannot post again.
             </p>
           </div>
           <div class="library-actions">
@@ -172,6 +177,7 @@
               <input id="importPackFile" type="file" accept="application/json,.json" hidden />
             </label>
             <button type="button" id="reloadRemoteBtn" class="btn ghost">Fetch shared pack</button>
+            <button type="button" id="unlockModBtn" class="btn ghost">Moderator unlock</button>
           </div>
         </div>
 
@@ -192,8 +198,82 @@
       </div>
     </section>
 
+    <!-- MODERATION MODE -->
+    <section class="mode-panel" data-panel="mod">
+      <div class="library">
+        <div class="library-head">
+          <div>
+            <h2>Moderation</h2>
+            <p class="lede-sm">
+              See who posted what (author, publisher ID, IP). Ban an IP or
+              publisher so they cannot publish publicly again. Export bans into
+              <code>data/bans.json</code> and deploy so every visitor loads them.
+            </p>
+          </div>
+          <div class="library-actions">
+            <button type="button" id="exportBansBtn" class="btn primary">Export bans.json</button>
+            <label class="btn ghost file-btn">
+              Import bans
+              <input id="importBansFile" type="file" accept="application/json,.json" hidden />
+            </label>
+            <button type="button" id="reloadBansBtn" class="btn ghost">Fetch shipped bans</button>
+            <button type="button" id="lockModBtn" class="btn ghost">Lock mod</button>
+          </div>
+        </div>
+
+        <div class="lib-section">
+          <h3>Manual ban</h3>
+          <form id="manualBanForm" class="ban-form">
+            <label class="field">
+              <span>Type</span>
+              <select id="banType">
+                <option value="ip">IP address</option>
+                <option value="publisherId">Publisher ID</option>
+                <option value="author">Author name</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Value</span>
+              <input id="banValue" type="text" required placeholder="203.0.113.10" />
+            </label>
+            <label class="field">
+              <span>Reason</span>
+              <input id="banReason" type="text" maxlength="120" placeholder="Inappropriate public post" />
+            </label>
+            <button type="submit" class="btn danger">Add ban</button>
+          </form>
+        </div>
+
+        <div class="lib-section">
+          <h3>Active bans</h3>
+          <div id="banList" class="card-list"></div>
+        </div>
+
+        <div class="lib-section">
+          <h3>Who posted what</h3>
+          <div id="attributionList" class="card-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Publish agreement dialog -->
+    <dialog id="agreementDialog" class="agree-dialog">
+      <form method="dialog" id="agreementForm" class="agree-card">
+        <div id="agreementBody" class="agree-body"></div>
+        <label class="check">
+          <input id="agreementCheck" type="checkbox" required />
+          I agree. I understand inappropriate public posts can get my publisher / IP permanently banned from publishing.
+        </label>
+        <div class="create-actions">
+          <button type="submit" value="accept" class="btn primary">Accept &amp; continue</button>
+          <button type="button" id="agreementCancel" class="btn ghost" value="cancel">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
     <script src="./data/slots.js"></script>
     <script src="./data/catalog.js"></script>
+    <script src="./data/moderation.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

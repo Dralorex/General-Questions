@@ -198,12 +198,48 @@
     return `translate(${x} ${y}) rotate(${r} ${cx} ${cy}) translate(${cx} ${cy}) scale(${s}) translate(${-cx} ${-cy})`;
   }
 
+  function shadeHex(hex, amt) {
+    if (window.CharacterSkin && typeof window.CharacterSkin.shade === "function") {
+      return window.CharacterSkin.shade(hex, amt);
+    }
+    const n = String(hex || "#e8b896").replace("#", "");
+    const full = n.length === 3 ? n.split("").map((c) => c + c).join("") : n;
+    const num = parseInt(full, 16);
+    let r = (num >> 16) + amt;
+    let g = ((num >> 8) & 0xff) + amt;
+    let b = (num & 0xff) + amt;
+    r = Math.max(0, Math.min(255, r));
+    g = Math.max(0, Math.min(255, g));
+    b = Math.max(0, Math.min(255, b));
+    return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`;
+  }
+
+  function activeBodySkin() {
+    const body = pieceById(equipped.body);
+    if (body && body.skinTone) return body.skinTone;
+    return "#e8b896";
+  }
+
+  /** Recolor head SVGs so they always match the selected body. */
+  function applySkinTint(svg, piece) {
+    if (!svg || !piece || !(piece.tintSkin || piece.slot === "head")) return svg;
+    const tone = activeBodySkin();
+    const mid = shadeHex(tone, -12);
+    const dark = shadeHex(tone, -34);
+    return String(svg)
+      .replace(/__SKIN__/g, tone)
+      .replace(/__SKIN_MID__/g, mid)
+      .replace(/__SKIN_DARK__/g, dark)
+      // Fallback for any leftover hard-coded head skins from older packs
+      .replace(/#e8b896|#c6865a|#8d5524|#f0d0b4|#c4a882/gi, tone);
+  }
+
   function renderPieceGroup(piece, { hideUnderHat = false, draft = false } = {}) {
     if (!piece) return "";
     const t = transformAttr(piece.transform);
     const hideClass = hideUnderHat ? " hat-equipped" : "";
     const draftClass = draft ? " draft-piece" : "";
-    let inner = piece.svg || "";
+    let inner = applySkinTint(piece.svg || "", piece);
     if (piece.imageData) {
       const w = piece.imageWidth || 200;
       const h = piece.imageHeight || 200;
@@ -214,7 +250,7 @@
         inner = `<g class="under-hat">${inner}</g>`;
       }
     } else if (piece.underHat && piece.svg && !piece.svg.includes("under-hat")) {
-      inner = `<g class="under-hat">${piece.svg}</g>`;
+      inner = `<g class="under-hat">${inner}</g>`;
     }
     return `<g class="layer layer-${piece.slot}${hideClass}${draftClass}" data-piece="${piece.id}" transform="${t}">${inner}</g>`;
   }
@@ -291,9 +327,9 @@
   }
 
   function thumbSvg(piece) {
-    const content = piece.imageData
+    let content = piece.imageData
       ? `<image href="${piece.imageData}" x="40" y="40" width="320" height="480" preserveAspectRatio="xMidYMid meet"/>`
-      : piece.svg ||
+      : applySkinTint(piece.svg || "", piece) ||
         `<text x="200" y="280" text-anchor="middle" fill="#9aabbf" font-size="28">Empty</text>`;
     return `<svg viewBox="0 0 400 560" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
   }

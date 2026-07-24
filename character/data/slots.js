@@ -5,7 +5,7 @@
 window.CharacterSlots = {
   STAGE: { width: 400, height: 560 },
   /** Shared neck joint — heads and bodies align here */
-  NECK: { x: 200, y: 148, width: 36 },
+  NECK: { x: 200, y: 148, width: 22 },
 
   /**
    * Draw order (low → high). Backgrounds first; handhelds last.

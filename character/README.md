@@ -6,9 +6,10 @@ Phone / desktop web app for building characters from interchangeable pieces, the
 
 ## Features
 
-- **Bodies** always include undergarments
-- **Heads** share a common neck joint so they seat cleanly on any body
+- **Bodies** always include undergarments; heads **recolor to match** the selected body’s skin
+- **Heads** share a slender, smoothly flared neck owned by the body (no hard stump join)
 - **Hair** variants with `under-hat` regions that **hide when a hat is equipped**
+- Softer, more organic clothing / gear silhouettes (less blocky geometry)
 - Slots for clothing, weapons, items, hats, glasses, props, bases, and backgrounds
 - **Create** mode: upload art or paste SVG, pick a slot, nudge position/scale/rotation, preview on a live character, then save
 - **Publish** to a community pack → **Export pack** JSON for others to **Import**, or ship updates in `data/community.json`

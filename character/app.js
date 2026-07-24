@@ -9,6 +9,7 @@
     bans: "gq-character-bans-v1",
     modUnlock: "gq-character-mod-unlock-v1",
     cachedIp: "gq-character-cached-ip-v1",
+    overrides: "gq-character-overrides-v1",
   };
 
   const Slots = window.CharacterSlots;
@@ -24,6 +25,10 @@
   let activeSlot = "body";
   let draftImageData = null;
   let cachedIp = loadJson(STORAGE.cachedIp, null);
+  let adminSelectedId = null;
+  let adminDraft = null;
+  let adminDragging = false;
+  let adminDragLast = null;
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -44,6 +49,93 @@
 
   function saveJson(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function defaultSlotOrder() {
+    return [...Slots.ORDER];
+  }
+
+  function getOverridesDoc() {
+    const doc = loadJson(STORAGE.overrides, null);
+    if (doc && doc.format === "gq-character-overrides-v1") {
+      return {
+        format: "gq-character-overrides-v1",
+        slotOrder: Array.isArray(doc.slotOrder) ? doc.slotOrder : null,
+        pieces: doc.pieces && typeof doc.pieces === "object" ? doc.pieces : {},
+      };
+    }
+    return { format: "gq-character-overrides-v1", slotOrder: null, pieces: {} };
+  }
+
+  function saveOverridesDoc(doc) {
+    saveJson(STORAGE.overrides, {
+      format: "gq-character-overrides-v1",
+      updatedAt: new Date().toISOString(),
+      slotOrder: doc.slotOrder || null,
+      pieces: doc.pieces || {},
+    });
+  }
+
+  function activeSlotOrder() {
+    const doc = getOverridesDoc();
+    if (Array.isArray(doc.slotOrder) && doc.slotOrder.length) {
+      // Keep unknown slots appended
+      const seen = new Set(doc.slotOrder);
+      return [...doc.slotOrder, ...Slots.ORDER.filter((s) => !seen.has(s))];
+    }
+    return defaultSlotOrder();
+  }
+
+  function defaultZForSlot(slot) {
+    const order = activeSlotOrder();
+    const idx = order.indexOf(slot);
+    return (idx < 0 ? order.length : idx) * 10;
+  }
+
+  function resolvePiece(raw) {
+    if (!raw) return null;
+    const ov = getOverridesDoc().pieces[raw.id];
+    if (!ov) {
+      return {
+        ...raw,
+        slot: raw.slot,
+        zIndex: raw.zIndex != null ? raw.zIndex : defaultZForSlot(raw.slot),
+        transform: {
+          x: 0,
+          y: 0,
+          scale: 1,
+          rotate: 0,
+          ...(raw.transform || {}),
+        },
+      };
+    }
+    const slot = ov.slot || raw.slot;
+    return {
+      ...raw,
+      ...ov,
+      id: raw.id,
+      slot,
+      svg: raw.svg,
+      imageData: ov.imageData != null ? ov.imageData : raw.imageData,
+      underHat: ov.underHat != null ? ov.underHat : raw.underHat,
+      tintSkin: raw.tintSkin,
+      skinTone: raw.skinTone,
+      transform: {
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotate: 0,
+        ...(raw.transform || {}),
+        ...(ov.transform || {}),
+      },
+      zIndex:
+        ov.zIndex != null
+          ? ov.zIndex
+          : raw.zIndex != null
+            ? raw.zIndex
+            : defaultZForSlot(slot),
+      _overridden: true,
+    };
   }
 
   function getPublisherId() {
@@ -81,9 +173,11 @@
   }
 
   function updateModTabVisibility() {
-    const btn = $("#modTabBtn");
-    if (!btn) return;
-    btn.hidden = !isModUnlocked();
+    const unlocked = isModUnlocked();
+    const modBtn = $("#modTabBtn");
+    const adminBtn = $("#adminTabBtn");
+    if (modBtn) modBtn.hidden = !unlocked;
+    if (adminBtn) adminBtn.hidden = !unlocked;
   }
 
   function getBans() {
@@ -175,16 +269,31 @@
   function allPieces() {
     const mine = loadJson(STORAGE.creations, []);
     const community = loadJson(STORAGE.community, []);
-    return [...official, ...community, ...mine];
+    return [...official, ...community, ...mine].map(resolvePiece);
   }
 
   function pieceById(id) {
     if (!id) return null;
-    return allPieces().find((p) => p.id === id) || null;
+    const raw =
+      official.find((p) => p.id === id) ||
+      loadJson(STORAGE.community, []).find((p) => p.id === id) ||
+      loadJson(STORAGE.creations, []).find((p) => p.id === id) ||
+      null;
+    return resolvePiece(raw);
   }
 
   function piecesForSlot(slot) {
     return allPieces().filter((p) => p.slot === slot);
+  }
+
+  function rawPieceById(id) {
+    if (!id) return null;
+    return (
+      official.find((p) => p.id === id) ||
+      loadJson(STORAGE.community, []).find((p) => p.id === id) ||
+      loadJson(STORAGE.creations, []).find((p) => p.id === id) ||
+      null
+    );
   }
 
   function transformAttr(t) {
@@ -256,27 +365,41 @@
   }
 
   function composeSvg(extraDraft = null) {
-    const hatOn = Boolean(equipped.hat);
-    const layers = SpotsOrderLayers(extraDraft, hatOn);
-    return layers.join("\n");
-  }
+    const hatOn = Boolean(equipped.hat) || (extraDraft && extraDraft.slot === "hat");
+    const layers = [];
+    const seen = new Set();
 
-  function SpotsOrderLayers(extraDraft, hatOn) {
-    const layers = Slots.ORDER.map((slot) => {
-      const id = equipped[slot];
+    Object.keys(equipped).forEach((slotKey) => {
+      const id = equipped[slotKey];
+      if (!id || seen.has(id)) return;
       const piece = pieceById(id);
-      if (!piece) return "";
-      return renderPieceGroup(piece, { hideUnderHat: hatOn && slot === "hair" });
+      if (!piece) return;
+      seen.add(id);
+      layers.push({
+        piece,
+        html: renderPieceGroup(piece, {
+          hideUnderHat: hatOn && piece.slot === "hair",
+        }),
+        z: piece.zIndex != null ? piece.zIndex : defaultZForSlot(piece.slot),
+      });
     });
+
     if (extraDraft) {
-      layers.push(
-        renderPieceGroup(extraDraft, {
+      layers.push({
+        piece: extraDraft,
+        html: renderPieceGroup(extraDraft, {
           hideUnderHat: hatOn && extraDraft.slot === "hair",
           draft: true,
-        })
-      );
+        }),
+        z:
+          extraDraft.zIndex != null
+            ? extraDraft.zIndex
+            : defaultZForSlot(extraDraft.slot) + 1,
+      });
     }
-    return layers;
+
+    layers.sort((a, b) => a.z - b.z || String(a.piece.id).localeCompare(String(b.piece.id)));
+    return layers.map((l) => l.html).join("\n");
   }
 
   function paintStage(svgEl, extraDraft = null) {
@@ -291,6 +414,11 @@
   function refreshStages() {
     paintStage($("#stage"));
     paintStage($("#createStage"), draftPiece);
+    if (document.body.dataset.mode === "admin") {
+      paintAdminStageWithDraft();
+    } else {
+      paintStage($("#adminStage"));
+    }
     updateSlotTabMarks();
   }
 
@@ -307,8 +435,10 @@
 
   function buildSlotTabs() {
     const tabs = $("#slotTabs");
-    tabs.innerHTML = Slots.ORDER.map((slot) => {
+    const order = activeSlotOrder();
+    tabs.innerHTML = order.map((slot) => {
       const meta = Slots.META[slot];
+      if (!meta) return "";
       return `<button type="button" class="slot-tab${slot === activeSlot ? " active" : ""}" data-slot="${slot}" role="tab">${meta.label}</button>`;
     }).join("");
     updateSlotTabMarks();
@@ -378,7 +508,16 @@
 
   function equip(slot, id) {
     if (Slots.META[slot]?.required && !id) return;
-    equipped[slot] = id || null;
+    if (id) {
+      Object.keys(equipped).forEach((k) => {
+        if (equipped[k] === id) equipped[k] = null;
+      });
+      const piece = pieceById(id);
+      const key = piece?.slot || slot;
+      equipped[key] = id;
+    } else {
+      equipped[slot] = null;
+    }
     refreshStages();
     renderPieceGrid();
     persistDraftLook();
@@ -964,7 +1103,7 @@
 
   async function fetchShippedBans(silent) {
     try {
-      const res = await fetch("./data/bans.json", { cache: "no-store" });
+      const res = await fetch(assetUrl("./data/bans.json"), { cache: "no-store" });
       if (!res.ok) throw new Error("No shipped bans file.");
       const incoming = await res.json();
       const merged = mergeBanDocs(getBans(), incoming);
@@ -1084,8 +1223,314 @@
     }
   }
 
+  /* -------- Admin piece layout -------- */
+
+  function fillAdminSelects() {
+    const filter = $("#adminSlotFilter");
+    const slotSel = $("#adminPieceSlot");
+    if (!filter || !slotSel) return;
+    const opts = activeSlotOrder()
+      .map((slot) => {
+        const meta = Slots.META[slot];
+        return meta ? `<option value="${slot}">${meta.label}</option>` : "";
+      })
+      .join("");
+    const prevFilter = filter.value;
+    const prevSlot = slotSel.value;
+    filter.innerHTML = `<option value="all">All slots</option>` + opts;
+    slotSel.innerHTML = opts;
+    if (prevFilter) filter.value = prevFilter;
+    if (prevSlot) slotSel.value = prevSlot;
+  }
+
+  function fillAdminPieceList() {
+    const sel = $("#adminPieceSelect");
+    if (!sel) return;
+    const filter = $("#adminSlotFilter")?.value || "all";
+    const list = allPieces()
+      .filter((p) => filter === "all" || p.slot === filter)
+      .sort((a, b) => a.slot.localeCompare(b.slot) || a.name.localeCompare(b.name));
+    const prev = adminSelectedId || sel.value;
+    sel.innerHTML = list
+      .map(
+        (p) =>
+          `<option value="${p.id}">${escapeHtml(Slots.META[p.slot]?.label || p.slot)} — ${escapeHtml(p.name)}</option>`
+      )
+      .join("");
+    if (prev && list.some((p) => p.id === prev)) sel.value = prev;
+    else if (list[0]) sel.value = list[0].id;
+    adminSelectedId = sel.value || null;
+  }
+
+  function loadAdminPieceToForm(id) {
+    const piece = pieceById(id);
+    if (!piece) {
+      adminDraft = null;
+      return;
+    }
+    adminSelectedId = id;
+    const t = piece.transform || { x: 0, y: 0, scale: 1, rotate: 0 };
+    $("#adminPieceSlot").value = piece.slot;
+    $("#adminOx").value = Math.round(t.x || 0);
+    $("#adminOy").value = Math.round(t.y || 0);
+    $("#adminScale").value = Math.round((t.scale == null ? 1 : t.scale) * 100);
+    $("#adminRot").value = Math.round(t.rotate || 0);
+    $("#adminZ").value = Math.round(
+      piece.zIndex != null ? piece.zIndex : defaultZForSlot(piece.slot)
+    );
+    updateAdminOutputs();
+    rebuildAdminDraft();
+    // Ensure equipped for context
+    equip(piece.slot, piece.id);
+  }
+
+  function updateAdminOutputs() {
+    $("#adminOxOut").textContent = $("#adminOx").value;
+    $("#adminOyOut").textContent = $("#adminOy").value;
+    $("#adminScOut").textContent = (Number($("#adminScale").value) / 100).toFixed(2);
+    $("#adminRotOut").textContent = `${$("#adminRot").value}°`;
+    $("#adminZOut").textContent = $("#adminZ").value;
+  }
+
+  function readAdminDraftFields() {
+    return {
+      transform: {
+        x: Number($("#adminOx").value) || 0,
+        y: Number($("#adminOy").value) || 0,
+        scale: (Number($("#adminScale").value) || 100) / 100,
+        rotate: Number($("#adminRot").value) || 0,
+      },
+      slot: $("#adminPieceSlot").value,
+      zIndex: Number($("#adminZ").value) || 0,
+    };
+  }
+
+  function rebuildAdminDraft() {
+    const base = rawPieceById(adminSelectedId) || pieceById(adminSelectedId);
+    if (!base) {
+      adminDraft = null;
+      paintAdminStageWithDraft();
+      return;
+    }
+    const fields = readAdminDraftFields();
+    adminDraft = {
+      ...resolvePiece(base),
+      ...fields,
+      id: base.id,
+      name: base.name,
+      svg: base.svg,
+      imageData: base.imageData,
+      tintSkin: base.tintSkin,
+      skinTone: base.skinTone,
+      underHat: base.underHat,
+      transform: fields.transform,
+      slot: fields.slot,
+      zIndex: fields.zIndex,
+    };
+    paintAdminStageWithDraft();
+  }
+
+  function paintAdminStageWithDraft() {
+    const svgEl = $("#adminStage");
+    if (!svgEl) return;
+    const hatOn = Boolean(equipped.hat);
+    const layers = [];
+    const seen = new Set();
+    Object.keys(equipped).forEach((slotKey) => {
+      const id = equipped[slotKey];
+      if (!id || seen.has(id)) return;
+      seen.add(id);
+      const piece =
+        adminDraft && adminDraft.id === id ? adminDraft : pieceById(id);
+      if (!piece) return;
+      layers.push({
+        html: renderPieceGroup(piece, {
+          hideUnderHat: hatOn && piece.slot === "hair",
+          draft: adminDraft && adminDraft.id === id,
+        }),
+        z: piece.zIndex != null ? piece.zIndex : defaultZForSlot(piece.slot),
+        id: piece.id,
+      });
+    });
+    if (adminDraft && !seen.has(adminDraft.id)) {
+      layers.push({
+        html: renderPieceGroup(adminDraft, {
+          hideUnderHat: hatOn && adminDraft.slot === "hair",
+          draft: true,
+        }),
+        z: adminDraft.zIndex,
+        id: adminDraft.id,
+      });
+    }
+    layers.sort((a, b) => a.z - b.z || String(a.id).localeCompare(String(b.id)));
+    svgEl.innerHTML = layers.map((l) => l.html).join("\n");
+    svgEl.querySelectorAll(".under-hat").forEach((node) => {
+      node.classList.toggle("is-hidden", hatOn);
+    });
+  }
+
+  function showAdminMsg(text, isError) {
+    const el = $("#adminMsg");
+    if (!el) return;
+    el.hidden = false;
+    el.textContent = text;
+    el.classList.toggle("error", Boolean(isError));
+  }
+
+  function saveAdminPieceOverride() {
+    if (!adminSelectedId) return;
+    const fields = readAdminDraftFields();
+    const doc = getOverridesDoc();
+    doc.pieces[adminSelectedId] = {
+      transform: fields.transform,
+      slot: fields.slot,
+      zIndex: fields.zIndex,
+    };
+    saveOverridesDoc(doc);
+    Object.keys(equipped).forEach((k) => {
+      if (equipped[k] === adminSelectedId) equipped[k] = null;
+    });
+    equipped[fields.slot] = adminSelectedId;
+    persistDraftLook();
+    rebuildAdminDraft();
+    fillAdminPieceList();
+    buildSlotTabs();
+    renderPieceGrid();
+    refreshStages();
+    showAdminMsg(`Saved override for ${adminSelectedId}. Export overrides to ship them.`);
+  }
+
+  function resetAdminPieceOverride() {
+    if (!adminSelectedId) return;
+    const doc = getOverridesDoc();
+    delete doc.pieces[adminSelectedId];
+    saveOverridesDoc(doc);
+    loadAdminPieceToForm(adminSelectedId);
+    buildSlotTabs();
+    renderPieceGrid();
+    refreshStages();
+    showAdminMsg("Cleared override for this piece.");
+  }
+
+  function renderAdminSlotOrder() {
+    const list = $("#adminSlotOrder");
+    if (!list) return;
+    const order = activeSlotOrder();
+    list.innerHTML = order
+      .map((slot, idx) => {
+        const meta = Slots.META[slot];
+        if (!meta) return "";
+        return `<div class="slot-order-row" data-slot="${slot}">
+          <span>${idx + 1}. ${escapeHtml(meta.label)} <code>${escapeHtml(slot)}</code></span>
+          <div class="ord-actions">
+            <button type="button" class="btn ghost" data-act="up" ${idx === 0 ? "disabled" : ""}>Up</button>
+            <button type="button" class="btn ghost" data-act="down" ${idx === order.length - 1 ? "disabled" : ""}>Down</button>
+          </div>
+        </div>`;
+      })
+      .join("");
+  }
+
+  function moveSlotOrder(slot, dir) {
+    const order = activeSlotOrder();
+    const i = order.indexOf(slot);
+    const j = i + dir;
+    if (i < 0 || j < 0 || j >= order.length) return;
+    [order[i], order[j]] = [order[j], order[i]];
+    const doc = getOverridesDoc();
+    doc.slotOrder = order;
+    saveOverridesDoc(doc);
+    renderAdminSlotOrder();
+    buildSlotTabs();
+    fillAdminSelects();
+    rebuildAdminDraft();
+    refreshStages();
+  }
+
+  function saveAdminSlotOrder() {
+    const doc = getOverridesDoc();
+    doc.slotOrder = activeSlotOrder();
+    saveOverridesDoc(doc);
+    showAdminMsg("Saved global slot draw order.");
+  }
+
+  function resetAdminSlotOrder() {
+    const doc = getOverridesDoc();
+    doc.slotOrder = null;
+    saveOverridesDoc(doc);
+    renderAdminSlotOrder();
+    buildSlotTabs();
+    fillAdminSelects();
+    refreshStages();
+    showAdminMsg("Reset slot order to defaults.");
+  }
+
+  function exportOverrides() {
+    const doc = getOverridesDoc();
+    const blob = new Blob(
+      [JSON.stringify({ ...doc, updatedAt: new Date().toISOString() }, null, 2)],
+      { type: "application/json" }
+    );
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "piece-overrides.json";
+    a.click();
+  }
+
+  function importOverridesObject(incoming, silent) {
+    if (!incoming || incoming.format !== "gq-character-overrides-v1") {
+      if (!silent) alert("Not a valid overrides file.");
+      return;
+    }
+    const doc = getOverridesDoc();
+    if (Array.isArray(incoming.slotOrder)) doc.slotOrder = incoming.slotOrder;
+    doc.pieces = { ...doc.pieces, ...(incoming.pieces || {}) };
+    saveOverridesDoc(doc);
+    buildSlotTabs();
+    fillAdminSelects();
+    fillAdminPieceList();
+    renderAdminSlotOrder();
+    if (adminSelectedId) loadAdminPieceToForm(adminSelectedId);
+    refreshStages();
+    renderPieceGrid();
+    if (!silent) alert("Overrides imported.");
+  }
+
+  async function fetchShippedOverrides(silent) {
+    try {
+      const res = await fetch(assetUrl("./data/piece-overrides.json"), {
+        cache: "no-store",
+      });
+      if (!res.ok) throw new Error("No shipped overrides file.");
+      const incoming = await res.json();
+      importOverridesObject(incoming, silent);
+    } catch (err) {
+      if (!silent) alert(err.message || "Could not fetch overrides.");
+    }
+  }
+
+  function setupAdminPanel() {
+    fillAdminSelects();
+    fillAdminPieceList();
+    renderAdminSlotOrder();
+    if (adminSelectedId) loadAdminPieceToForm(adminSelectedId);
+    else if ($("#adminPieceSelect")?.value) {
+      loadAdminPieceToForm($("#adminPieceSelect").value);
+    }
+  }
+
+  function clientPointToSvg(svg, clientX, clientY) {
+    const pt = svg.createSVGPoint();
+    pt.x = clientX;
+    pt.y = clientY;
+    const ctm = svg.getScreenCTM();
+    if (!ctm) return { x: 0, y: 0 };
+    const loc = pt.matrixTransform(ctm.inverse());
+    return { x: loc.x, y: loc.y };
+  }
+
   function setMode(mode) {
-    if (mode === "mod" && !isModUnlocked()) {
+    if ((mode === "mod" || mode === "admin") && !isModUnlocked()) {
       mode = "library";
     }
     document.body.dataset.mode = mode;
@@ -1102,6 +1547,10 @@
     }
     if (mode === "build") refreshStages();
     if (mode === "mod") renderModeration();
+    if (mode === "admin") {
+      setupAdminPanel();
+      refreshStages();
+    }
   }
 
   async function tryPublishExisting(piece) {
@@ -1162,6 +1611,7 @@
 
     resolveIp().then(() => refreshPublishUi());
     fetchShippedBans(true);
+    fetchShippedOverrides(true);
 
     if (!loadJson(STORAGE.community, []).length) {
       fetchSharedPack(true).then(() => {
@@ -1290,8 +1740,8 @@
       if (!pass) return;
       if (Mod && pass === Mod.MOD_PASSCODE) {
         setModUnlocked(true);
-        setMode("mod");
-        alert("Moderator tools unlocked for this browser session.");
+        setMode("admin");
+        alert("Admin / moderator tools unlocked for this browser session.");
       } else {
         alert("Incorrect passcode.");
       }
@@ -1299,8 +1749,122 @@
 
     $("#lockModBtn").addEventListener("click", () => {
       setModUnlocked(false);
+      adminDraft = null;
       setMode("library");
     });
+
+    // Admin piece layout
+    $("#adminSlotFilter")?.addEventListener("change", () => {
+      fillAdminPieceList();
+      if ($("#adminPieceSelect")?.value) {
+        loadAdminPieceToForm($("#adminPieceSelect").value);
+      }
+    });
+    $("#adminPieceSelect")?.addEventListener("change", () => {
+      loadAdminPieceToForm($("#adminPieceSelect").value);
+    });
+    ["adminOx", "adminOy", "adminScale", "adminRot", "adminZ", "adminPieceSlot"].forEach(
+      (id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener("input", () => {
+          updateAdminOutputs();
+          rebuildAdminDraft();
+        });
+        el.addEventListener("change", () => {
+          updateAdminOutputs();
+          rebuildAdminDraft();
+        });
+      }
+    );
+    $("#adminZBackBtn")?.addEventListener("click", () => {
+      $("#adminZ").value = String(Math.max(0, Number($("#adminZ").value) - 10));
+      updateAdminOutputs();
+      rebuildAdminDraft();
+    });
+    $("#adminZFrontBtn")?.addEventListener("click", () => {
+      $("#adminZ").value = String(Math.min(200, Number($("#adminZ").value) + 10));
+      updateAdminOutputs();
+      rebuildAdminDraft();
+    });
+    $("#adminSavePieceBtn")?.addEventListener("click", saveAdminPieceOverride);
+    $("#adminResetPieceBtn")?.addEventListener("click", resetAdminPieceOverride);
+    $("#adminEquipBtn")?.addEventListener("click", () => {
+      if (!adminSelectedId) return;
+      const fields = readAdminDraftFields();
+      equip(fields.slot, adminSelectedId);
+      showAdminMsg("Equipped on build preview.");
+    });
+    $("#adminSlotOrder")?.addEventListener("click", (e) => {
+      const row = e.target.closest("[data-slot]");
+      if (!row) return;
+      const act = e.target.closest("[data-act]")?.dataset.act;
+      if (act === "up") moveSlotOrder(row.dataset.slot, -1);
+      if (act === "down") moveSlotOrder(row.dataset.slot, 1);
+    });
+    $("#adminSaveOrderBtn")?.addEventListener("click", saveAdminSlotOrder);
+    $("#adminResetOrderBtn")?.addEventListener("click", resetAdminSlotOrder);
+    $("#exportOverridesBtn")?.addEventListener("click", exportOverrides);
+    $("#fetchOverridesBtn")?.addEventListener("click", () => fetchShippedOverrides(false));
+    $("#clearOverridesBtn")?.addEventListener("click", () => {
+      if (!confirm("Clear all local piece overrides and custom slot order?")) return;
+      saveOverridesDoc({ format: "gq-character-overrides-v1", slotOrder: null, pieces: {} });
+      setupAdminPanel();
+      refreshStages();
+      renderPieceGrid();
+      showAdminMsg("Local overrides cleared.");
+    });
+    $("#importOverridesFile")?.addEventListener("change", async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      try {
+        importOverridesObject(JSON.parse(await file.text()));
+      } catch {
+        alert("Could not read overrides JSON.");
+      }
+      e.target.value = "";
+    });
+
+    // Drag selected piece on admin stage
+    const adminStage = $("#adminStage");
+    if (adminStage) {
+      const onDown = (ev) => {
+        if (!adminDraft) return;
+        adminDragging = true;
+        adminStage.classList.add("is-dragging");
+        const point = ev.touches ? ev.touches[0] : ev;
+        adminDragLast = clientPointToSvg(adminStage, point.clientX, point.clientY);
+        ev.preventDefault();
+      };
+      const onMove = (ev) => {
+        if (!adminDragging || !adminDragLast) return;
+        const point = ev.touches ? ev.touches[0] : ev;
+        const now = clientPointToSvg(adminStage, point.clientX, point.clientY);
+        const dx = now.x - adminDragLast.x;
+        const dy = now.y - adminDragLast.y;
+        adminDragLast = now;
+        $("#adminOx").value = String(
+          Math.max(-200, Math.min(200, Math.round(Number($("#adminOx").value) + dx)))
+        );
+        $("#adminOy").value = String(
+          Math.max(-200, Math.min(200, Math.round(Number($("#adminOy").value) + dy)))
+        );
+        updateAdminOutputs();
+        rebuildAdminDraft();
+        ev.preventDefault();
+      };
+      const onUp = () => {
+        adminDragging = false;
+        adminDragLast = null;
+        adminStage.classList.remove("is-dragging");
+      };
+      adminStage.addEventListener("mousedown", onDown);
+      adminStage.addEventListener("touchstart", onDown, { passive: false });
+      window.addEventListener("mousemove", onMove);
+      window.addEventListener("touchmove", onMove, { passive: false });
+      window.addEventListener("mouseup", onUp);
+      window.addEventListener("touchend", onUp);
+    }
 
     $("#exportBansBtn").addEventListener("click", exportBans);
     $("#reloadBansBtn").addEventListener("click", () => fetchShippedBans(false));

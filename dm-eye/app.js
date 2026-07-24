@@ -113,15 +113,17 @@
   function moneyCoinsHTML(player) {
     const coins = player.coins || {};
     return [
-      ["pp", coins.pp],
-      ["gp", coins.gp],
-      ["ep", coins.ep],
-      ["sp", coins.sp],
-      ["cp", coins.cp],
+      ["PP", coins.pp],
+      ["GP", coins.gp],
+      ["EP", coins.ep],
+      ["SP", coins.sp],
+      ["CP", coins.cp],
     ]
       .map(
         ([k, n]) =>
-          `<span class="coin-amt">${escapeText(Math.max(0, Number(n) || 0))} ${escapeText(k)}</span>`
+          `<div class="coin-cell"><span class="coin-unit">${escapeText(k)}</span><span class="coin-val">${escapeText(
+            Math.max(0, Number(n) || 0)
+          )}</span></div>`
       )
       .join("");
   }

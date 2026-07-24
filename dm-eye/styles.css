@@ -262,7 +262,8 @@ body {
   border-radius: var(--radius);
   background: var(--panel);
   box-shadow: var(--shadow);
-  overflow: hidden;
+  /* visible so coin descenders / grid text are never clipped by the card */
+  overflow: visible;
   animation: rise-in 0.28s ease both;
   transition: border-color 0.35s ease, box-shadow 0.35s ease;
 }
@@ -275,11 +276,9 @@ body {
 @keyframes rise-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 
@@ -381,11 +380,9 @@ body {
 @keyframes expand-in {
   from {
     opacity: 0;
-    transform: translateY(-4px);
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 
@@ -515,8 +512,8 @@ body {
 
 .money-row {
   display: grid;
-  gap: 0.4rem;
-  padding: 0.9rem 1rem 1.05rem;
+  gap: 0.55rem;
+  padding: 0.95rem 0.85rem 1.1rem;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: rgba(8, 14, 18, 0.35);
@@ -531,20 +528,39 @@ body {
 }
 
 .money-row .coins {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.85rem;
-  align-items: baseline;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.4rem;
+  align-items: stretch;
 }
 
-.money-row .coin-amt {
-  display: inline-block;
+.money-row .coin-cell {
+  display: grid;
+  gap: 0.3rem;
+  justify-items: center;
+  text-align: center;
+  min-height: 2.85rem;
+  padding: 0.45rem 0.2rem 0.55rem;
+  border-radius: 10px;
+  background: rgba(230, 196, 122, 0.06);
+  border: 1px solid color-mix(in srgb, var(--gold) 22%, var(--line));
+}
+
+.money-row .coin-unit {
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+.money-row .coin-val {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--gold);
-  line-height: 1.65;
-  padding: 0.05rem 0 0.2rem;
+  line-height: 1.35;
+  /* numbers only — no descenders to clip */
 }
 
 .card-actions {

@@ -512,8 +512,8 @@ body {
 
 .money-row {
   display: grid;
-  gap: 0.55rem;
-  padding: 0.95rem 0.85rem 1.1rem;
+  gap: 0.6rem;
+  padding: 0.9rem 0.75rem 1rem;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: rgba(8, 14, 18, 0.35);
@@ -522,45 +522,54 @@ body {
 
 .money-row .k {
   font-size: 0.68rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
 .money-row .coins {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.4rem;
+  grid-template-columns: repeat(5, minmax(3.25rem, 1fr));
+  gap: 0.35rem;
   align-items: stretch;
 }
 
 .money-row .coin-cell {
   display: grid;
-  gap: 0.3rem;
+  grid-template-rows: auto 1fr;
+  gap: 0.35rem;
   justify-items: center;
+  align-content: start;
   text-align: center;
-  min-height: 2.85rem;
-  padding: 0.45rem 0.2rem 0.55rem;
+  min-width: 0;
+  padding: 0.4rem 0.15rem 0.5rem;
   border-radius: 10px;
   background: rgba(230, 196, 122, 0.06);
   border: 1px solid color-mix(in srgb, var(--gold) 22%, var(--line));
 }
 
 .money-row .coin-unit {
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
   line-height: 1.2;
 }
 
 .money-row .coin-val {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: 0.06em;
   color: var(--gold);
-  line-height: 1.35;
-  /* numbers only — no descenders to clip */
+  line-height: 1.2;
+  min-width: 3ch;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .card-actions {

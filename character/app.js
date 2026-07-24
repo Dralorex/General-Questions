@@ -26,6 +26,8 @@
   let draftImageData = null;
   let cachedIp = loadJson(STORAGE.cachedIp, null);
   let adminSelectedId = null;
+  let adminFolderId = null;
+  let adminView = "folders"; // folders | items | edit
   let adminDraft = null;
   let adminDragging = false;
   let adminDragLast = null;
@@ -1290,41 +1292,104 @@
 
   /* -------- Admin piece layout -------- */
 
-  function fillAdminSelects() {
-    const filter = $("#adminSlotFilter");
+  function adminFolders() {
+    return Array.isArray(Slots.FOLDERS) ? Slots.FOLDERS : [];
+  }
+
+  function getAdminFolder(id) {
+    return adminFolders().find((f) => f.id === id) || null;
+  }
+
+  function setAdminView(view) {
+    adminView = view;
+    $$("[data-admin-view]").forEach((el) => {
+      el.hidden = el.getAttribute("data-admin-view") !== view;
+    });
+    if (view === "folders") {
+      adminSelectedId = null;
+      adminDraft = null;
+      renderAdminFolders();
+      renderAdminSlotOrder();
+    } else if (view === "items") {
+      adminSelectedId = null;
+      adminDraft = null;
+      renderAdminItems();
+    } else if (view === "edit") {
+      fillAdminSlotSelect();
+    }
+  }
+
+  function fillAdminSlotSelect() {
     const slotSel = $("#adminPieceSlot");
-    if (!filter || !slotSel) return;
-    const opts = activeSlotOrder()
+    if (!slotSel) return;
+    const prev = slotSel.value;
+    slotSel.innerHTML = activeSlotOrder()
       .map((slot) => {
         const meta = Slots.META[slot];
         return meta ? `<option value="${slot}">${meta.label}</option>` : "";
       })
       .join("");
-    const prevFilter = filter.value;
-    const prevSlot = slotSel.value;
-    filter.innerHTML = `<option value="all">All slots</option>` + opts;
-    slotSel.innerHTML = opts;
-    if (prevFilter) filter.value = prevFilter;
-    if (prevSlot) slotSel.value = prevSlot;
+    if (prev) slotSel.value = prev;
   }
 
-  function fillAdminPieceList() {
-    const sel = $("#adminPieceSelect");
-    if (!sel) return;
-    const filter = $("#adminSlotFilter")?.value || "all";
-    const list = allPieces()
-      .filter((p) => filter === "all" || p.slot === filter)
-      .sort((a, b) => a.slot.localeCompare(b.slot) || a.name.localeCompare(b.name));
-    const prev = adminSelectedId || sel.value;
-    sel.innerHTML = list
-      .map(
-        (p) =>
-          `<option value="${p.id}">${escapeHtml(Slots.META[p.slot]?.label || p.slot)} — ${escapeHtml(p.name)}</option>`
-      )
+  function renderAdminFolders() {
+    const grid = $("#adminFolderGrid");
+    if (!grid) return;
+    grid.innerHTML = adminFolders()
+      .map((folder) => {
+        const count = allPieces().filter((p) => folder.slots.includes(p.slot)).length;
+        return `<button type="button" class="admin-folder-card" data-folder="${folder.id}" role="listitem">
+          <div class="folder-icon" aria-hidden="true"></div>
+          <span class="fname">${escapeHtml(folder.label)}</span>
+          <span class="fmeta">${escapeHtml(folder.hint || "")}</span>
+          <span class="fmeta">${count} item${count === 1 ? "" : "s"}</span>
+        </button>`;
+      })
       .join("");
-    if (prev && list.some((p) => p.id === prev)) sel.value = prev;
-    else if (list[0]) sel.value = list[0].id;
-    adminSelectedId = sel.value || null;
+  }
+
+  function renderAdminItems() {
+    const grid = $("#adminItemGrid");
+    const folder = getAdminFolder(adminFolderId);
+    if (!grid || !folder) return;
+    if ($("#adminFolderTitle")) $("#adminFolderTitle").textContent = folder.label;
+    if ($("#adminFolderHint")) {
+      $("#adminFolderHint").textContent =
+        folder.hint || "Select an item box to open the editor.";
+    }
+    const list = allPieces()
+      .filter((p) => folder.slots.includes(p.slot))
+      .sort((a, b) => a.slot.localeCompare(b.slot) || a.name.localeCompare(b.name));
+    grid.innerHTML = list.length
+      ? list
+          .map((p) => {
+            const slotLabel = Slots.META[p.slot]?.label || p.slot;
+            const overridden = p._overridden ? " · edited" : "";
+            return `<button type="button" class="admin-item-card" data-piece="${p.id}" role="listitem">
+              <div class="ithumb">${thumbSvg(p)}</div>
+              <span class="iname">${escapeHtml(p.name)}</span>
+              <span class="imeta">${escapeHtml(slotLabel)}${overridden}</span>
+            </button>`;
+          })
+          .join("")
+      : `<p class="empty">No items in this folder yet.</p>`;
+  }
+
+  function openAdminFolder(folderId) {
+    adminFolderId = folderId;
+    setAdminView("items");
+  }
+
+  function openAdminItem(pieceId) {
+    if (!pieceId) return;
+    setAdminView("edit");
+    if ($("#adminEditTitle")) {
+      const piece = pieceById(pieceId);
+      $("#adminEditTitle").textContent = piece
+        ? `Editing · ${piece.name}`
+        : "Editing";
+    }
+    loadAdminPieceToForm(pieceId);
   }
 
   function loadAdminPieceToForm(id) {
@@ -1600,7 +1665,7 @@
     equipped[fields.slot] = adminSelectedId;
     persistDraftLook();
     rebuildAdminDraft();
-    fillAdminPieceList();
+    if (adminView === "items") renderAdminItems();
     buildSlotTabs();
     renderPieceGrid();
     refreshStages();
@@ -1649,7 +1714,7 @@
     saveOverridesDoc(doc);
     renderAdminSlotOrder();
     buildSlotTabs();
-    fillAdminSelects();
+    fillAdminSlotSelect();
     rebuildAdminDraft();
     refreshStages();
   }
@@ -1667,7 +1732,7 @@
     saveOverridesDoc(doc);
     renderAdminSlotOrder();
     buildSlotTabs();
-    fillAdminSelects();
+    fillAdminSlotSelect();
     refreshStages();
     showAdminMsg("Reset slot order to defaults.");
   }
@@ -1694,10 +1759,11 @@
     doc.pieces = { ...doc.pieces, ...(incoming.pieces || {}) };
     saveOverridesDoc(doc);
     buildSlotTabs();
-    fillAdminSelects();
-    fillAdminPieceList();
+    fillAdminSlotSelect();
     renderAdminSlotOrder();
-    if (adminSelectedId) loadAdminPieceToForm(adminSelectedId);
+    if (adminView === "folders") renderAdminFolders();
+    if (adminView === "items") renderAdminItems();
+    if (adminView === "edit" && adminSelectedId) loadAdminPieceToForm(adminSelectedId);
     refreshStages();
     renderPieceGrid();
     if (!silent) alert("Overrides imported.");
@@ -1717,13 +1783,13 @@
   }
 
   function setupAdminPanel() {
-    fillAdminSelects();
-    fillAdminPieceList();
+    fillAdminSlotSelect();
     renderAdminSlotOrder();
-    if (adminSelectedId) loadAdminPieceToForm(adminSelectedId);
-    else if ($("#adminPieceSelect")?.value) {
-      loadAdminPieceToForm($("#adminPieceSelect").value);
-    }
+    adminView = "folders";
+    adminFolderId = null;
+    adminSelectedId = null;
+    adminDraft = null;
+    setAdminView("folders");
   }
 
   function clientPointToSvg(svg, clientX, clientY) {
@@ -1960,16 +2026,23 @@
       setMode("library");
     });
 
-    // Admin piece layout
-    $("#adminSlotFilter")?.addEventListener("change", () => {
-      fillAdminPieceList();
-      if ($("#adminPieceSelect")?.value) {
-        loadAdminPieceToForm($("#adminPieceSelect").value);
-      }
+    // Admin browse: folders → items → edit
+    $("#adminFolderGrid")?.addEventListener("click", (e) => {
+      const card = e.target.closest("[data-folder]");
+      if (!card) return;
+      openAdminFolder(card.dataset.folder);
     });
-    $("#adminPieceSelect")?.addEventListener("change", () => {
-      loadAdminPieceToForm($("#adminPieceSelect").value);
+    $("#adminItemGrid")?.addEventListener("click", (e) => {
+      const card = e.target.closest("[data-piece]");
+      if (!card) return;
+      openAdminItem(card.dataset.piece);
     });
+    $("#adminBackFolders")?.addEventListener("click", () => setAdminView("folders"));
+    $("#adminBackItems")?.addEventListener("click", () => {
+      if (adminFolderId) setAdminView("items");
+      else setAdminView("folders");
+    });
+
     ["adminOx", "adminOy", "adminScale", "adminRot", "adminZ", "adminPieceSlot"].forEach(
       (id) => {
         const el = document.getElementById(id);

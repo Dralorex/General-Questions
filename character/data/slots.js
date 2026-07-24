@@ -136,6 +136,24 @@ window.CharacterSlots = {
     },
   },
 
+  /** Admin browse folders — friendly groups of slots */
+  FOLDERS: [
+    { id: "body", label: "Body", hint: "Full figures & builds", slots: ["body"] },
+    { id: "head", label: "Head", hint: "Head shapes", slots: ["head"] },
+    { id: "hair", label: "Hair", hint: "Hairstyles", slots: ["hair"] },
+    { id: "face", label: "Face", hint: "Hats & glasses", slots: ["hat", "glasses"] },
+    { id: "hands", label: "Hands", hint: "Main & off-hand gear", slots: ["weapon-main", "weapon-off"] },
+    {
+      id: "clothing",
+      label: "Clothing",
+      hint: "Tops, bottoms, outerwear, boots",
+      slots: ["top", "bottom", "outer", "footwear"],
+    },
+    { id: "items", label: "Items", hint: "Belt pouches, books, charms", slots: ["item"] },
+    { id: "props", label: "Props", hint: "Nearby objects & bases", slots: ["prop", "base"] },
+    { id: "scenes", label: "Scenes", hint: "Backgrounds", slots: ["background"] },
+  ],
+
   /** Categories shown in the creator studio placement picker */
   CREATOR_TARGETS: [
     "body",

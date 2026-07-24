@@ -18,11 +18,11 @@
       href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Cinzel:wght@700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=v6-admin-undo" />
+    <link rel="stylesheet" href="./styles.css?v=v7-admin-folders" />
     <script>
       // Reset browser / SW caches once per deploy bust token.
       (function () {
-        var BUST = "v6-admin-undo";
+        var BUST = "v7-admin-folders";
         var KEY = "gq-character-cache-bust";
         try {
           if (localStorage.getItem(KEY) === BUST) return;
@@ -299,9 +299,55 @@
 
     <!-- ADMIN PIECE LAYOUT -->
     <section class="mode-panel" data-panel="admin">
-      <div class="admin-layout">
+      <!-- Step 1: folders -->
+      <div class="admin-browse" data-admin-view="folders">
+        <div class="admin-browse-head">
+          <div>
+            <p class="section-label">Admin library</p>
+            <p class="lede-sm">Open a folder, then pick an item to edit placement, layers, or drawings.</p>
+          </div>
+        </div>
+        <div id="adminFolderGrid" class="admin-folder-grid" role="list"></div>
+        <div class="lib-section" style="margin-top: 1.25rem">
+          <h3>Overrides pack</h3>
+          <div class="library-actions">
+            <button type="button" id="exportOverridesBtn" class="btn primary">Export overrides</button>
+            <label class="btn ghost file-btn">
+              Import overrides
+              <input id="importOverridesFile" type="file" accept="application/json,.json" hidden />
+            </label>
+            <button type="button" id="fetchOverridesBtn" class="btn ghost">Fetch shipped</button>
+            <button type="button" id="clearOverridesBtn" class="btn danger">Clear all local</button>
+          </div>
+        </div>
+        <div class="lib-section">
+          <h3>Global slot draw order</h3>
+          <p class="lede-sm">Top draws first (behind). Bottom draws last (in front).</p>
+          <div id="adminSlotOrder" class="slot-order-list"></div>
+          <div class="create-actions" style="margin-top: 0.65rem">
+            <button type="button" id="adminResetOrderBtn" class="btn ghost">Reset order</button>
+            <button type="button" id="adminSaveOrderBtn" class="btn primary">Save order</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: items in folder -->
+      <div class="admin-browse" data-admin-view="items" hidden>
+        <div class="admin-browse-head">
+          <div>
+            <button type="button" id="adminBackFolders" class="btn ghost tiny">← Folders</button>
+            <p class="section-label" id="adminFolderTitle">Items</p>
+            <p class="lede-sm" id="adminFolderHint">Select an item to open the editor.</p>
+          </div>
+        </div>
+        <div id="adminItemGrid" class="admin-item-grid" role="list"></div>
+      </div>
+
+      <!-- Step 3: edit selected item -->
+      <div class="admin-layout" data-admin-view="edit" hidden>
         <div class="admin-preview">
-          <p class="section-label">Live preview</p>
+          <button type="button" id="adminBackItems" class="btn ghost tiny">← Items</button>
+          <p class="section-label" id="adminEditTitle">Editing</p>
           <div class="stage-frame">
             <svg
               id="adminStage"
@@ -325,17 +371,7 @@
         </div>
 
         <div class="admin-form">
-          <p class="section-label">Edit piece placement</p>
-
-          <label class="field">
-            <span>Slot filter</span>
-            <select id="adminSlotFilter"></select>
-          </label>
-
-          <label class="field">
-            <span>Piece</span>
-            <select id="adminPieceSelect"></select>
-          </label>
+          <p class="section-label">Edit selected item</p>
 
           <label class="field">
             <span>Draw as slot (layer category)</span>
@@ -399,29 +435,6 @@
           </div>
 
           <p id="adminMsg" class="msg" hidden></p>
-
-          <div class="lib-section">
-            <h3>Global slot draw order</h3>
-            <p class="lede-sm">Top of list draws first (behind). Bottom draws last (in front).</p>
-            <div id="adminSlotOrder" class="slot-order-list"></div>
-            <div class="create-actions" style="margin-top: 0.65rem">
-              <button type="button" id="adminResetOrderBtn" class="btn ghost">Reset order</button>
-              <button type="button" id="adminSaveOrderBtn" class="btn primary">Save order</button>
-            </div>
-          </div>
-
-          <div class="lib-section">
-            <h3>Overrides pack</h3>
-            <div class="library-actions">
-              <button type="button" id="exportOverridesBtn" class="btn primary">Export overrides</button>
-              <label class="btn ghost file-btn">
-                Import overrides
-                <input id="importOverridesFile" type="file" accept="application/json,.json" hidden />
-              </label>
-              <button type="button" id="fetchOverridesBtn" class="btn ghost">Fetch shipped</button>
-              <button type="button" id="clearOverridesBtn" class="btn danger">Clear all local</button>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -441,10 +454,10 @@
       </form>
     </dialog>
 
-    <script src="./data/version.js?v=v6-admin-undo"></script>
-    <script src="./data/slots.js?v=v6-admin-undo"></script>
-    <script src="./data/catalog.js?v=v6-admin-undo"></script>
-    <script src="./data/moderation.js?v=v6-admin-undo"></script>
-    <script src="./app.js?v=v6-admin-undo"></script>
+    <script src="./data/version.js?v=v7-admin-folders"></script>
+    <script src="./data/slots.js?v=v7-admin-folders"></script>
+    <script src="./data/catalog.js?v=v7-admin-folders"></script>
+    <script src="./data/moderation.js?v=v7-admin-folders"></script>
+    <script src="./app.js?v=v7-admin-folders"></script>
   </body>
 </html>

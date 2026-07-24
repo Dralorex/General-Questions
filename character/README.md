@@ -30,12 +30,11 @@ Phone / desktop web app for building characters from interchangeable pieces, the
 
 After **Library → Admin / Mod unlock** (passcode in `data/moderation.js`):
 
-1. Open the **Admin** tab
-2. Pick a piece (e.g. Longsword)
-3. Drag on the preview or use X/Y/scale/rotate — or enable **Draw on piece** to paint (brush, eraser, clear). Use **Undo** / **Redo** (also Ctrl/Cmd+Z / Ctrl/Cmd+Shift+Z)
-4. Change **Draw as slot** and **Layer depth** (or Send back / Bring forward)
-5. Reorder **Global slot draw order** with Up/Down
-6. **Save override**, then **Export overrides** → commit as `data/piece-overrides.json` and deploy
+1. Open the **Admin** tab — start in **folder boxes** (Body, Head, Hair, Face, Hands, Clothing, Items, Props, Scenes)
+2. Open a folder to see **item boxes** with preview thumbnails
+3. Select an item to open the **editor** (place, layer, draw)
+4. Drag / sliders / draw tools; use **Undo** / **Redo**
+5. **Save override**, go back with ← Items / ← Folders, then **Export overrides** → commit as `data/piece-overrides.json` and deploy
 
 Overrides apply for everyone once shipped; locally they apply immediately after save.
 

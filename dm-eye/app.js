@@ -110,6 +110,12 @@
     return (arr || []).map((on) => (on ? "●" : "○")).join(" ");
   }
 
+  function formatCoinAmount(n) {
+    const value = Math.max(0, Math.floor(Number(n) || 0));
+    // Always reserve hundreds place (000) so columns stay even before players edit.
+    return String(value).padStart(3, "0");
+  }
+
   function moneyCoinsHTML(player) {
     const coins = player.coins || {};
     return [
@@ -121,8 +127,8 @@
     ]
       .map(
         ([k, n]) =>
-          `<div class="coin-cell"><span class="coin-unit">${escapeText(k)}</span><span class="coin-val">${escapeText(
-            Math.max(0, Number(n) || 0)
+          `<div class="coin-cell"><span class="coin-unit">${k}</span><span class="coin-val">${escapeText(
+            formatCoinAmount(n)
           )}</span></div>`
       )
       .join("");

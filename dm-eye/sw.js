@@ -1,4 +1,4 @@
-const CACHE = "dm-eye-v7";
+const CACHE = "dm-eye-v8";
 const ASSETS = [
   "./",
   "./index.html",

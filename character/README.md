@@ -32,7 +32,7 @@ After **Library → Admin / Mod unlock** (passcode in `data/moderation.js`):
 
 1. Open the **Admin** tab
 2. Pick a piece (e.g. Longsword)
-3. Drag on the preview or use X/Y/scale/rotate sliders
+3. Drag on the preview or use X/Y/scale/rotate — or enable **Draw on piece** to paint (brush, eraser, clear). Use **Undo** / **Redo** (also Ctrl/Cmd+Z / Ctrl/Cmd+Shift+Z)
 4. Change **Draw as slot** and **Layer depth** (or Send back / Bring forward)
 5. Reorder **Global slot draw order** with Up/Down
 6. **Save override**, then **Export overrides** → commit as `data/piece-overrides.json` and deploy

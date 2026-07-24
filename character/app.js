@@ -32,6 +32,10 @@
   let adminDrawing = false;
   let adminStrokes = [];
   let adminActiveStroke = null;
+  let adminHistory = [];
+  let adminHistoryIndex = -1;
+  let adminHistoryReady = false;
+  let adminEraseDirty = false;
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -1352,6 +1356,7 @@
     // Ensure equipped for context
     equip(piece.slot, piece.id);
     syncAdminDrawCursor();
+    resetAdminHistoryFromCurrent();
   }
 
   function updateAdminOutputs() {
@@ -1403,6 +1408,102 @@
       drawSvg: "", // live strokes replace baked drawSvg while editing
     };
     paintAdminStageWithDraft();
+  }
+
+  function cloneAdminStrokes(list) {
+    return (list || []).map((s) => ({
+      color: s.color,
+      width: s.width,
+      eraser: Boolean(s.eraser),
+      points: (s.points || []).map((p) => ({ x: p.x, y: p.y })),
+    }));
+  }
+
+  function captureAdminSnapshot() {
+    const fields = readAdminDraftFields();
+    return {
+      pieceId: adminSelectedId,
+      strokes: cloneAdminStrokes(adminStrokes),
+      transform: { ...fields.transform },
+      slot: fields.slot,
+      zIndex: fields.zIndex,
+    };
+  }
+
+  function snapshotsEqual(a, b) {
+    if (!a || !b) return false;
+    return JSON.stringify(a) === JSON.stringify(b);
+  }
+
+  function updateAdminHistoryButtons() {
+    const canUndo = adminHistoryIndex > 0;
+    const canRedo = adminHistoryIndex >= 0 && adminHistoryIndex < adminHistory.length - 1;
+    ["adminUndoBtn", "adminUndoBtn2"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.disabled = !canUndo;
+    });
+    ["adminRedoBtn", "adminRedoBtn2"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.disabled = !canRedo;
+    });
+  }
+
+  function pushAdminHistory(force) {
+    if (!adminSelectedId || !adminHistoryReady) return;
+    const snap = captureAdminSnapshot();
+    const current = adminHistory[adminHistoryIndex];
+    if (!force && current && snapshotsEqual(current, snap)) {
+      updateAdminHistoryButtons();
+      return;
+    }
+    adminHistory = adminHistory.slice(0, adminHistoryIndex + 1);
+    adminHistory.push(snap);
+    if (adminHistory.length > 80) {
+      adminHistory.shift();
+    } else {
+      adminHistoryIndex += 1;
+    }
+    adminHistoryIndex = adminHistory.length - 1;
+    updateAdminHistoryButtons();
+  }
+
+  function applyAdminSnapshot(snap, { record } = { record: false }) {
+    if (!snap || snap.pieceId !== adminSelectedId) return;
+    adminHistoryReady = false;
+    adminStrokes = cloneAdminStrokes(snap.strokes);
+    adminActiveStroke = null;
+    $("#adminPieceSlot").value = snap.slot;
+    $("#adminOx").value = Math.round(snap.transform.x || 0);
+    $("#adminOy").value = Math.round(snap.transform.y || 0);
+    $("#adminScale").value = Math.round((snap.transform.scale == null ? 1 : snap.transform.scale) * 100);
+    $("#adminRot").value = Math.round(snap.transform.rotate || 0);
+    $("#adminZ").value = Math.round(snap.zIndex || 0);
+    updateAdminOutputs();
+    rebuildAdminDraft();
+    adminHistoryReady = true;
+    if (record) pushAdminHistory();
+    updateAdminHistoryButtons();
+  }
+
+  function undoAdmin() {
+    if (adminHistoryIndex <= 0) return;
+    adminHistoryIndex -= 1;
+    applyAdminSnapshot(adminHistory[adminHistoryIndex]);
+    showAdminMsg("Undo");
+  }
+
+  function redoAdmin() {
+    if (adminHistoryIndex >= adminHistory.length - 1) return;
+    adminHistoryIndex += 1;
+    applyAdminSnapshot(adminHistory[adminHistoryIndex]);
+    showAdminMsg("Redo");
+  }
+
+  function resetAdminHistoryFromCurrent() {
+    adminHistory = [captureAdminSnapshot()];
+    adminHistoryIndex = 0;
+    adminHistoryReady = true;
+    updateAdminHistoryButtons();
   }
 
   function eraseStrokesAt(local, radius) {
@@ -1880,6 +1981,7 @@
         el.addEventListener("change", () => {
           updateAdminOutputs();
           rebuildAdminDraft();
+          pushAdminHistory();
         });
       }
     );
@@ -1887,11 +1989,35 @@
       $("#adminZ").value = String(Math.max(0, Number($("#adminZ").value) - 10));
       updateAdminOutputs();
       rebuildAdminDraft();
+      pushAdminHistory();
     });
     $("#adminZFrontBtn")?.addEventListener("click", () => {
       $("#adminZ").value = String(Math.min(200, Number($("#adminZ").value) + 10));
       updateAdminOutputs();
       rebuildAdminDraft();
+      pushAdminHistory();
+    });
+    const bindUndoRedo = (undoId, redoId) => {
+      document.getElementById(undoId)?.addEventListener("click", undoAdmin);
+      document.getElementById(redoId)?.addEventListener("click", redoAdmin);
+    };
+    bindUndoRedo("adminUndoBtn", "adminRedoBtn");
+    bindUndoRedo("adminUndoBtn2", "adminRedoBtn2");
+    window.addEventListener("keydown", (e) => {
+      if (document.body.dataset.mode !== "admin") return;
+      const mod = e.metaKey || e.ctrlKey;
+      if (!mod) return;
+      const key = e.key.toLowerCase();
+      if (key === "z" && !e.shiftKey) {
+        e.preventDefault();
+        undoAdmin();
+      } else if (key === "z" && e.shiftKey) {
+        e.preventDefault();
+        redoAdmin();
+      } else if (key === "y") {
+        e.preventDefault();
+        redoAdmin();
+      }
     });
     $("#adminSavePieceBtn")?.addEventListener("click", saveAdminPieceOverride);
     $("#adminResetPieceBtn")?.addEventListener("click", resetAdminPieceOverride);
@@ -1952,6 +2078,7 @@
           if (erase) {
             adminActiveStroke = null;
             eraseStrokesAt(local, brush);
+            adminEraseDirty = true;
             rebuildAdminDraft();
           } else {
             adminActiveStroke = {
@@ -1983,6 +2110,7 @@
           const brush = Number($("#adminBrushSize")?.value) || 6;
           if (erase) {
             eraseStrokesAt(local, brush);
+            adminEraseDirty = true;
             rebuildAdminDraft();
           } else if (adminActiveStroke) {
             const last = adminActiveStroke.points[adminActiveStroke.points.length - 1];
@@ -2010,17 +2138,26 @@
         ev.preventDefault();
       };
       const onUp = () => {
-        if (adminDrawing && adminActiveStroke) {
-          if (adminActiveStroke.points.length) {
-            adminStrokes.push(adminActiveStroke);
+        if (adminDrawing) {
+          if (adminActiveStroke) {
+            if (adminActiveStroke.points.length) {
+              adminStrokes.push(adminActiveStroke);
+            }
+            adminActiveStroke = null;
+            rebuildAdminDraft();
+            pushAdminHistory();
+          } else if (adminEraseDirty) {
+            adminEraseDirty = false;
+            pushAdminHistory();
           }
-          adminActiveStroke = null;
           adminDrawing = false;
-          rebuildAdminDraft();
         }
-        adminDragging = false;
-        adminDragLast = null;
-        adminStage.classList.remove("is-dragging");
+        if (adminDragging) {
+          adminDragging = false;
+          adminDragLast = null;
+          adminStage.classList.remove("is-dragging");
+          pushAdminHistory();
+        }
       };
       adminStage.addEventListener("mousedown", onDown);
       adminStage.addEventListener("touchstart", onDown, { passive: false });
@@ -2039,18 +2176,13 @@
     $("#adminBrushSize")?.addEventListener("input", () => {
       if ($("#adminBrushOut")) $("#adminBrushOut").textContent = $("#adminBrushSize").value;
     });
-    $("#adminUndoStrokeBtn")?.addEventListener("click", () => {
-      adminStrokes.pop();
-      adminActiveStroke = null;
-      rebuildAdminDraft();
-      showAdminMsg("Undid last stroke.");
-    });
     $("#adminClearDrawBtn")?.addEventListener("click", () => {
       if (!adminStrokes.length && !adminActiveStroke) return;
       if (!confirm("Clear all drawing on this piece?")) return;
       adminStrokes = [];
       adminActiveStroke = null;
       rebuildAdminDraft();
+      pushAdminHistory();
       showAdminMsg("Cleared drawing. Save override to keep it cleared.");
     });
 

@@ -18,11 +18,11 @@
       href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Cinzel:wght@700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=v5-admin-draw" />
+    <link rel="stylesheet" href="./styles.css?v=v6-admin-undo" />
     <script>
       // Reset browser / SW caches once per deploy bust token.
       (function () {
-        var BUST = "v5-admin-draw";
+        var BUST = "v6-admin-undo";
         var KEY = "gq-character-cache-bust";
         try {
           if (localStorage.getItem(KEY) === BUST) return;
@@ -316,6 +316,8 @@
             details. Drawings move with the item. Save override, then export to ship.
           </p>
           <div class="stage-actions">
+            <button type="button" id="adminUndoBtn" class="btn ghost" disabled>Undo</button>
+            <button type="button" id="adminRedoBtn" class="btn ghost" disabled>Redo</button>
             <button type="button" id="adminEquipBtn" class="btn ghost">Equip on build</button>
             <button type="button" id="adminResetPieceBtn" class="btn ghost">Reset piece</button>
             <button type="button" id="adminSavePieceBtn" class="btn primary">Save override</button>
@@ -361,7 +363,8 @@
               Eraser
             </label>
             <div class="create-actions">
-              <button type="button" id="adminUndoStrokeBtn" class="btn ghost">Undo stroke</button>
+              <button type="button" id="adminUndoBtn2" class="btn ghost" disabled>Undo</button>
+              <button type="button" id="adminRedoBtn2" class="btn ghost" disabled>Redo</button>
               <button type="button" id="adminClearDrawBtn" class="btn danger">Clear drawing</button>
             </div>
           </fieldset>
@@ -438,10 +441,10 @@
       </form>
     </dialog>
 
-    <script src="./data/version.js?v=v5-admin-draw"></script>
-    <script src="./data/slots.js?v=v5-admin-draw"></script>
-    <script src="./data/catalog.js?v=v5-admin-draw"></script>
-    <script src="./data/moderation.js?v=v5-admin-draw"></script>
-    <script src="./app.js?v=v5-admin-draw"></script>
+    <script src="./data/version.js?v=v6-admin-undo"></script>
+    <script src="./data/slots.js?v=v6-admin-undo"></script>
+    <script src="./data/catalog.js?v=v6-admin-undo"></script>
+    <script src="./data/moderation.js?v=v6-admin-undo"></script>
+    <script src="./app.js?v=v6-admin-undo"></script>
   </body>
 </html>

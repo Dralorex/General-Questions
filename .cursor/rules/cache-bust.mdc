@@ -1,0 +1,15 @@
+---
+description: Bump Character (and phone app) cache bust on every update
+alwaysApply: true
+---
+
+# Cache bust on every update
+
+When changing any live phone app under this repo (`character/`, `codex-5e/`, `kirito-mana-app/`, `dm-eye/`, `pages-hub/`):
+
+1. **Bump the cache-bust token** for that app so browsers drop stale assets.
+   - Character: update `character/data/version.js` (`CHARACTER_CACHE_BUST`) **and** every `?v=` query on CSS/JS links in `character/index.html` to the same new value.
+   - Other apps: bump their `sw.js` `CACHE` constant (e.g. `codex-5e-v12` → `v13`) and matching `?v=` / bust strings in `index.html` when present.
+2. Prefer a new unique string each update (version number or short tag). Do not reuse the previous bust value.
+3. Keep Character’s boot clear-cache script in `index.html` wired to `CHARACTER_CACHE_BUST` / the same `?v=` token so the first visit after deploy wipes Cache Storage + old service workers once, then reloads.
+4. Do this even for small visual/copy tweaks — users on phones otherwise keep cached `catalog.js` / `app.js`.

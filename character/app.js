@@ -29,6 +29,9 @@
   let adminDraft = null;
   let adminDragging = false;
   let adminDragLast = null;
+  let adminDrawing = false;
+  let adminStrokes = [];
+  let adminActiveStroke = null;
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -107,6 +110,8 @@
           rotate: 0,
           ...(raw.transform || {}),
         },
+        strokes: Array.isArray(raw.strokes) ? raw.strokes : [],
+        drawSvg: raw.drawSvg || "",
       };
     }
     const slot = ov.slot || raw.slot;
@@ -120,6 +125,12 @@
       underHat: ov.underHat != null ? ov.underHat : raw.underHat,
       tintSkin: raw.tintSkin,
       skinTone: raw.skinTone,
+      strokes: Array.isArray(ov.strokes)
+        ? ov.strokes
+        : Array.isArray(raw.strokes)
+          ? raw.strokes
+          : [],
+      drawSvg: ov.drawSvg != null ? ov.drawSvg : raw.drawSvg || "",
       transform: {
         x: 0,
         y: 0,
@@ -343,6 +354,35 @@
       .replace(/#e8b896|#c6865a|#8d5524|#f0d0b4|#c4a882/gi, tone);
   }
 
+  function strokesToSvg(strokes) {
+    if (!Array.isArray(strokes) || !strokes.length) return "";
+    return strokes
+      .map((stroke) => {
+        if (!stroke || !Array.isArray(stroke.points) || stroke.points.length < 1) return "";
+        const d = stroke.points
+          .map((p, i) => `${i === 0 ? "M" : "L"}${Number(p.x).toFixed(1)} ${Number(p.y).toFixed(1)}`)
+          .join(" ");
+        if (stroke.eraser) {
+          // Eraser punches through drawings underneath via thick dark cover matching stage;
+          // also mark class for optional CSS. Prefer destination-out on a group.
+          return `<path d="${d}" fill="none" stroke="#0a0e14" stroke-width="${
+            stroke.width || 8
+          }" stroke-linecap="round" stroke-linejoin="round" class="draw-eraser"/>`;
+        }
+        return `<path d="${d}" fill="none" stroke="${escapeHtml(stroke.color || "#d4a35a")}" stroke-width="${
+          stroke.width || 4
+        }" stroke-linecap="round" stroke-linejoin="round" class="draw-ink"/>`;
+      })
+      .join("");
+  }
+
+  function buildDrawOverlay(piece) {
+    const fromStrokes = strokesToSvg(piece.strokes);
+    const baked = piece.drawSvg || "";
+    if (!fromStrokes && !baked) return "";
+    return `<g class="piece-draw-overlay" style="mix-blend-mode:normal">${baked}${fromStrokes}</g>`;
+  }
+
   function renderPieceGroup(piece, { hideUnderHat = false, draft = false } = {}) {
     if (!piece) return "";
     const t = transformAttr(piece.transform);
@@ -361,7 +401,28 @@
     } else if (piece.underHat && piece.svg && !piece.svg.includes("under-hat")) {
       inner = `<g class="under-hat">${inner}</g>`;
     }
+    inner += buildDrawOverlay(piece);
     return `<g class="layer layer-${piece.slot}${hideClass}${draftClass}" data-piece="${piece.id}" transform="${t}">${inner}</g>`;
+  }
+
+  /** Map a stage-space point into the piece's local coordinates (so drawings follow transforms). */
+  function stageToPieceLocal(px, py, transform) {
+    const t = transform || {};
+    const cx = Slots.STAGE.width / 2;
+    const cy = Slots.STAGE.height / 2;
+    let x = px - (t.x || 0);
+    let y = py - (t.y || 0);
+    const rad = (-(t.rotate || 0) * Math.PI) / 180;
+    const dx = x - cx;
+    const dy = y - cy;
+    const rx = dx * Math.cos(rad) - dy * Math.sin(rad);
+    const ry = dx * Math.sin(rad) + dy * Math.cos(rad);
+    x = rx + cx;
+    y = ry + cy;
+    const s = t.scale == null || t.scale === 0 ? 1 : t.scale;
+    x = cx + (x - cx) / s;
+    y = cy + (y - cy) / s;
+    return { x, y };
   }
 
   function composeSvg(extraDraft = null) {
@@ -1266,9 +1327,17 @@
     const piece = pieceById(id);
     if (!piece) {
       adminDraft = null;
+      adminStrokes = [];
       return;
     }
     adminSelectedId = id;
+    adminStrokes = Array.isArray(piece.strokes)
+      ? piece.strokes.map((s) => ({
+          ...s,
+          points: (s.points || []).map((p) => ({ x: p.x, y: p.y })),
+        }))
+      : [];
+    adminActiveStroke = null;
     const t = piece.transform || { x: 0, y: 0, scale: 1, rotate: 0 };
     $("#adminPieceSlot").value = piece.slot;
     $("#adminOx").value = Math.round(t.x || 0);
@@ -1282,6 +1351,7 @@
     rebuildAdminDraft();
     // Ensure equipped for context
     equip(piece.slot, piece.id);
+    syncAdminDrawCursor();
   }
 
   function updateAdminOutputs() {
@@ -1313,6 +1383,9 @@
       return;
     }
     const fields = readAdminDraftFields();
+    const liveStrokes = adminActiveStroke
+      ? [...adminStrokes, adminActiveStroke]
+      : [...adminStrokes];
     adminDraft = {
       ...resolvePiece(base),
       ...fields,
@@ -1326,8 +1399,30 @@
       transform: fields.transform,
       slot: fields.slot,
       zIndex: fields.zIndex,
+      strokes: liveStrokes,
+      drawSvg: "", // live strokes replace baked drawSvg while editing
     };
     paintAdminStageWithDraft();
+  }
+
+  function eraseStrokesAt(local, radius) {
+    const r = Math.max(2, radius * 0.75);
+    adminStrokes = adminStrokes
+      .map((stroke) => ({
+        ...stroke,
+        points: (stroke.points || []).filter(
+          (p) => Math.hypot(p.x - local.x, p.y - local.y) > r
+        ),
+      }))
+      .filter((s) => (s.points || []).length >= 2);
+  }
+
+  function syncAdminDrawCursor() {
+    const stage = $("#adminStage");
+    if (!stage) return;
+    const drawOn = Boolean($("#adminDrawMode")?.checked);
+    stage.classList.toggle("is-drawing", drawOn);
+    stage.classList.toggle("is-dragging", false);
   }
 
   function paintAdminStageWithDraft() {
@@ -1381,10 +1476,21 @@
     if (!adminSelectedId) return;
     const fields = readAdminDraftFields();
     const doc = getOverridesDoc();
+    const strokes = adminStrokes.map((s) => ({
+      color: s.color,
+      width: s.width,
+      eraser: Boolean(s.eraser),
+      points: (s.points || []).map((p) => ({
+        x: Math.round(p.x * 10) / 10,
+        y: Math.round(p.y * 10) / 10,
+      })),
+    }));
     doc.pieces[adminSelectedId] = {
       transform: fields.transform,
       slot: fields.slot,
       zIndex: fields.zIndex,
+      strokes,
+      drawSvg: strokesToSvg(strokes),
     };
     saveOverridesDoc(doc);
     Object.keys(equipped).forEach((k) => {
@@ -1825,24 +1931,74 @@
       e.target.value = "";
     });
 
-    // Drag selected piece on admin stage
+    // Drag or draw on admin stage
     const adminStage = $("#adminStage");
     if (adminStage) {
       const onDown = (ev) => {
         if (!adminDraft) return;
-        adminDragging = true;
-        adminStage.classList.add("is-dragging");
         const point = ev.touches ? ev.touches[0] : ev;
-        adminDragLast = clientPointToSvg(adminStage, point.clientX, point.clientY);
+        const stagePt = clientPointToSvg(adminStage, point.clientX, point.clientY);
+        const drawOn = Boolean($("#adminDrawMode")?.checked);
+        if (drawOn) {
+          adminDrawing = true;
+          adminDragging = false;
+          const local = stageToPieceLocal(
+            stagePt.x,
+            stagePt.y,
+            adminDraft.transform || readAdminDraftFields().transform
+          );
+          const erase = Boolean($("#adminEraseMode")?.checked);
+          const brush = Number($("#adminBrushSize")?.value) || 6;
+          if (erase) {
+            adminActiveStroke = null;
+            eraseStrokesAt(local, brush);
+            rebuildAdminDraft();
+          } else {
+            adminActiveStroke = {
+              color: $("#adminDrawColor")?.value || "#d4a35a",
+              width: brush,
+              eraser: false,
+              points: [local],
+            };
+            rebuildAdminDraft();
+          }
+        } else {
+          adminDragging = true;
+          adminDrawing = false;
+          adminStage.classList.add("is-dragging");
+          adminDragLast = stagePt;
+        }
         ev.preventDefault();
       };
       const onMove = (ev) => {
-        if (!adminDragging || !adminDragLast) return;
         const point = ev.touches ? ev.touches[0] : ev;
-        const now = clientPointToSvg(adminStage, point.clientX, point.clientY);
-        const dx = now.x - adminDragLast.x;
-        const dy = now.y - adminDragLast.y;
-        adminDragLast = now;
+        const stagePt = clientPointToSvg(adminStage, point.clientX, point.clientY);
+        if (adminDrawing && adminDraft) {
+          const local = stageToPieceLocal(
+            stagePt.x,
+            stagePt.y,
+            adminDraft.transform || readAdminDraftFields().transform
+          );
+          const erase = Boolean($("#adminEraseMode")?.checked);
+          const brush = Number($("#adminBrushSize")?.value) || 6;
+          if (erase) {
+            eraseStrokesAt(local, brush);
+            rebuildAdminDraft();
+          } else if (adminActiveStroke) {
+            const last = adminActiveStroke.points[adminActiveStroke.points.length - 1];
+            const dist = Math.hypot(local.x - last.x, local.y - last.y);
+            if (dist >= 0.8) {
+              adminActiveStroke.points.push(local);
+              rebuildAdminDraft();
+            }
+          }
+          ev.preventDefault();
+          return;
+        }
+        if (!adminDragging || !adminDragLast) return;
+        const dx = stagePt.x - adminDragLast.x;
+        const dy = stagePt.y - adminDragLast.y;
+        adminDragLast = stagePt;
         $("#adminOx").value = String(
           Math.max(-200, Math.min(200, Math.round(Number($("#adminOx").value) + dx)))
         );
@@ -1854,6 +2010,14 @@
         ev.preventDefault();
       };
       const onUp = () => {
+        if (adminDrawing && adminActiveStroke) {
+          if (adminActiveStroke.points.length) {
+            adminStrokes.push(adminActiveStroke);
+          }
+          adminActiveStroke = null;
+          adminDrawing = false;
+          rebuildAdminDraft();
+        }
         adminDragging = false;
         adminDragLast = null;
         adminStage.classList.remove("is-dragging");
@@ -1865,6 +2029,30 @@
       window.addEventListener("mouseup", onUp);
       window.addEventListener("touchend", onUp);
     }
+
+    $("#adminDrawMode")?.addEventListener("change", () => {
+      syncAdminDrawCursor();
+      if ($("#adminDrawMode").checked) {
+        showAdminMsg("Draw mode on — paint on the selected piece. Turn off to drag/move again.");
+      }
+    });
+    $("#adminBrushSize")?.addEventListener("input", () => {
+      if ($("#adminBrushOut")) $("#adminBrushOut").textContent = $("#adminBrushSize").value;
+    });
+    $("#adminUndoStrokeBtn")?.addEventListener("click", () => {
+      adminStrokes.pop();
+      adminActiveStroke = null;
+      rebuildAdminDraft();
+      showAdminMsg("Undid last stroke.");
+    });
+    $("#adminClearDrawBtn")?.addEventListener("click", () => {
+      if (!adminStrokes.length && !adminActiveStroke) return;
+      if (!confirm("Clear all drawing on this piece?")) return;
+      adminStrokes = [];
+      adminActiveStroke = null;
+      rebuildAdminDraft();
+      showAdminMsg("Cleared drawing. Save override to keep it cleared.");
+    });
 
     $("#exportBansBtn").addEventListener("click", exportBans);
     $("#reloadBansBtn").addEventListener("click", () => fetchShippedBans(false));

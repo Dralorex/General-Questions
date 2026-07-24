@@ -632,8 +632,44 @@ body {
   touch-action: none;
 }
 
-.admin-stage.is-dragging {
-  cursor: grabbing;
+.admin-stage.is-drawing {
+  cursor: crosshair;
+}
+
+.draw-tools {
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px dashed var(--line);
+  border-radius: 0.65rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.draw-tools legend {
+  color: var(--accent);
+  font-family: var(--display);
+  font-weight: 700;
+  padding: 0 0.35rem;
+}
+
+.draw-row {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 0.65rem;
+  align-items: end;
+}
+
+.draw-row .grow {
+  min-width: 0;
+}
+
+.draw-tools input[type="color"] {
+  width: 100%;
+  height: 2.2rem;
+  padding: 0.15rem;
+  border: 1px solid var(--line);
+  border-radius: 0.45rem;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .slot-order-list {

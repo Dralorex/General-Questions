@@ -19,8 +19,45 @@
       href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=11" />
     <title>DM Eye — Live Player Tracker</title>
+    <script>
+      // Bust sticky phone caches that still show money as PP→CP.
+      (function () {
+        var BUST = "v11-cp-order";
+        try {
+          if (localStorage.getItem("dm-eye-bust") === BUST) return;
+          var done = function () {
+            try {
+              localStorage.setItem("dm-eye-bust", BUST);
+            } catch (_) {}
+            location.reload();
+          };
+          var tasks = [];
+          if (window.caches) {
+            tasks.push(
+              caches.keys().then(function (keys) {
+                return Promise.all(keys.map(function (k) {
+                  return caches.delete(k);
+                }));
+              })
+            );
+          }
+          if ("serviceWorker" in navigator) {
+            tasks.push(
+              navigator.serviceWorker.getRegistrations().then(function (regs) {
+                return Promise.all(
+                  regs.map(function (r) {
+                    return r.unregister();
+                  })
+                );
+              })
+            );
+          }
+          Promise.all(tasks).then(done).catch(done);
+        } catch (_) {}
+      })();
+    </script>
   </head>
   <body>
     <div class="bg" aria-hidden="true"></div>
@@ -79,7 +116,7 @@
 
     <p id="toast" class="toast" hidden></p>
 
-    <script src="./data/dm-link.js"></script>
-    <script src="./app.js"></script>
+    <script src="./data/dm-link.js?v=11"></script>
+    <script src="./app.js?v=11"></script>
   </body>
 </html>

@@ -1,10 +1,10 @@
-const CACHE = "dm-eye-v10";
+const CACHE = "dm-eye-v11";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css",
-  "./app.js",
-  "./data/dm-link.js",
+  "./styles.css?v=11",
+  "./app.js?v=11",
+  "./data/dm-link.js?v=11",
   "./manifest.webmanifest",
   "./icons/icon-180.png",
   "./icons/icon-192.png",
@@ -21,7 +21,8 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
+      .then(() => caches.open(CACHE).then((cache) => cache.addAll(ASSETS)))
       .then(() => self.clients.claim())
   );
 });
@@ -32,7 +33,7 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(req.url);
   const path = url.pathname;
-  // Always prefer network for app shell so CSS/JS sizing fixes land on phones.
+  // Always prefer network for app shell so CSS/JS fixes land on phones.
   const networkFirst =
     path.endsWith("/") ||
     path.endsWith("/index.html") ||

@@ -528,10 +528,12 @@ body {
 }
 
 .money-row .coins {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(3.25rem, 1fr));
-  gap: 0.35rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   align-items: stretch;
+  gap: 0.35rem;
   direction: ltr;
 }
 
@@ -542,11 +544,33 @@ body {
   justify-items: center;
   align-content: start;
   text-align: center;
+  flex: 1 1 0;
   min-width: 0;
   padding: 0.4rem 0.15rem 0.5rem;
   border-radius: 10px;
   background: rgba(230, 196, 122, 0.06);
   border: 1px solid color-mix(in srgb, var(--gold) 22%, var(--line));
+}
+
+.money-row .coin-cell[data-coin="cp"],
+.money-row .coin-cp {
+  order: 1;
+}
+.money-row .coin-cell[data-coin="sp"],
+.money-row .coin-sp {
+  order: 2;
+}
+.money-row .coin-cell[data-coin="ep"],
+.money-row .coin-ep {
+  order: 3;
+}
+.money-row .coin-cell[data-coin="gp"],
+.money-row .coin-gp {
+  order: 4;
+}
+.money-row .coin-cell[data-coin="pp"],
+.money-row .coin-pp {
+  order: 5;
 }
 
 .money-row .coin-unit {

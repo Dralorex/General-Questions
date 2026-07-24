@@ -119,16 +119,17 @@
   function moneyCoinsHTML(player) {
     const coins = player.coins || {};
     // Match Codex Profile coin row left→right: CP, SP, EP, GP, PP.
+    // data-coin + CSS order pins visual order even if an old build reorders DOM.
     return [
-      ["CP", coins.cp],
-      ["SP", coins.sp],
-      ["EP", coins.ep],
-      ["GP", coins.gp],
-      ["PP", coins.pp],
+      ["cp", "CP", coins.cp, 1],
+      ["sp", "SP", coins.sp, 2],
+      ["ep", "EP", coins.ep, 3],
+      ["gp", "GP", coins.gp, 4],
+      ["pp", "PP", coins.pp, 5],
     ]
       .map(
-        ([k, n]) =>
-          `<div class="coin-cell"><span class="coin-unit">${k}</span><span class="coin-val">${escapeText(
+        ([id, label, n, order]) =>
+          `<div class="coin-cell coin-${id}" data-coin="${id}" style="order:${order}"><span class="coin-unit">${label}</span><span class="coin-val">${escapeText(
             formatCoinAmount(n)
           )}</span></div>`
       )
@@ -334,8 +335,25 @@
 
   async function registerSW() {
     if (!("serviceWorker" in navigator)) return;
+    const BUST_KEY = "dm-eye-bust";
+    const BUST = "v11-cp-order";
     try {
-      await navigator.serviceWorker.register("./sw.js");
+      // One-time hard refresh for phones stuck on the old PP→CP money layout.
+      if (localStorage.getItem(BUST_KEY) !== BUST) {
+        if (window.caches) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map((k) => caches.delete(k)));
+        }
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map((r) => r.unregister()));
+        localStorage.setItem(BUST_KEY, BUST);
+        location.reload();
+        return;
+      }
+      const reg = await navigator.serviceWorker.register("./sw.js", {
+        updateViaCache: "none",
+      });
+      await reg.update();
     } catch (err) {
       console.warn("SW failed", err);
     }

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#121820" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Character" />
+    <meta name="robots" content="noindex" />
+    <title>Character — Piece Creator</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Cinzel:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-mode="build">
+    <header class="top">
+      <div class="brand-block">
+        <a class="back" href="../">← Hub</a>
+        <p class="brand">Character</p>
+      </div>
+      <nav class="mode-tabs" aria-label="Modes">
+        <button type="button" class="mode-btn active" data-mode="build">Build</button>
+        <button type="button" class="mode-btn" data-mode="create">Create</button>
+        <button type="button" class="mode-btn" data-mode="library">Library</button>
+      </nav>
+    </header>
+
+    <!-- BUILD MODE -->
+    <section class="mode-panel active" data-panel="build">
+      <div class="stage-wrap">
+        <div class="stage-frame">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 400 560"
+            role="img"
+            aria-label="Character preview"
+          ></svg>
+        </div>
+        <div class="stage-actions">
+          <button type="button" id="randomBtn" class="btn ghost">Random</button>
+          <button type="button" id="clearGearBtn" class="btn ghost">Clear gear</button>
+          <button type="button" id="saveLookBtn" class="btn primary">Save look</button>
+          <button type="button" id="exportPngBtn" class="btn ghost">Export PNG</button>
+        </div>
+      </div>
+
+      <div class="builder">
+        <div class="slot-tabs" id="slotTabs" role="tablist" aria-label="Piece slots"></div>
+        <div class="piece-grid" id="pieceGrid" role="listbox" aria-label="Pieces"></div>
+        <p class="slot-hint" id="slotHint"></p>
+      </div>
+    </section>
+
+    <!-- CREATE MODE -->
+    <section class="mode-panel" data-panel="create">
+      <div class="create-layout">
+        <div class="create-preview">
+          <p class="section-label">Preview on character</p>
+          <div class="stage-frame compact">
+            <svg
+              id="createStage"
+              class="stage"
+              viewBox="0 0 400 560"
+              role="img"
+              aria-label="Creator preview"
+            ></svg>
+          </div>
+          <p class="create-tip">
+            Drag sliders until the piece sits where you want. Hair with an
+            “under hat” flag hides when a hat is equipped.
+          </p>
+        </div>
+
+        <form id="createForm" class="create-form" autocomplete="off">
+          <p class="section-label">New piece</p>
+
+          <label class="field">
+            <span>Name</span>
+            <input id="createName" type="text" maxlength="48" required placeholder="Steel cuirass" />
+          </label>
+
+          <label class="field">
+            <span>Slot (where it goes)</span>
+            <select id="createSlot" required></select>
+          </label>
+
+          <label class="field">
+            <span>Creator name</span>
+            <input id="createAuthor" type="text" maxlength="32" placeholder="Your name" />
+          </label>
+
+          <fieldset class="field upload-field">
+            <legend>Artwork</legend>
+            <div class="upload-row">
+              <label class="btn ghost file-btn">
+                Upload image
+                <input id="createFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden />
+              </label>
+              <button type="button" id="useSvgStubBtn" class="btn ghost">Use SVG stub</button>
+            </div>
+            <p id="uploadStatus" class="muted">PNG / WebP / SVG recommended. Transparent PNGs layer best.</p>
+            <textarea
+              id="createSvg"
+              rows="4"
+              placeholder="Or paste SVG markup for the piece (optional if you uploaded an image)"
+            ></textarea>
+          </fieldset>
+
+          <div class="transform-grid">
+            <label class="field">
+              <span>Offset X <output id="oxOut">0</output></span>
+              <input id="createOx" type="range" min="-120" max="120" value="0" />
+            </label>
+            <label class="field">
+              <span>Offset Y <output id="oyOut">0</output></span>
+              <input id="createOy" type="range" min="-120" max="120" value="0" />
+            </label>
+            <label class="field">
+              <span>Scale <output id="scOut">1.00</output></span>
+              <input id="createScale" type="range" min="40" max="180" value="100" />
+            </label>
+            <label class="field">
+              <span>Rotate <output id="rotOut">0°</output></span>
+              <input id="createRot" type="range" min="-45" max="45" value="0" />
+            </label>
+          </div>
+
+          <label class="check">
+            <input id="createUnderHat" type="checkbox" />
+            Mark as under-hat (hide when a hat is worn)
+          </label>
+
+          <label class="check">
+            <input id="createPublish" type="checkbox" checked />
+            Publish to community library (others can import this pack)
+          </label>
+
+          <div class="create-actions">
+            <button type="submit" class="btn primary">Save piece</button>
+            <button type="button" id="previewEquipBtn" class="btn ghost">Equip on build</button>
+          </div>
+          <p id="createMsg" class="msg" hidden></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- LIBRARY MODE -->
+    <section class="mode-panel" data-panel="library">
+      <div class="library">
+        <div class="library-head">
+          <div>
+            <h2>Community &amp; saves</h2>
+            <p class="lede-sm">
+              Official pieces ship with the app. Your creations stay on this
+              device. Publish packs so others can import them — or contribute
+              JSON into the repo catalog.
+            </p>
+          </div>
+          <div class="library-actions">
+            <button type="button" id="exportPackBtn" class="btn primary">Export pack</button>
+            <label class="btn ghost file-btn">
+              Import pack
+              <input id="importPackFile" type="file" accept="application/json,.json" hidden />
+            </label>
+            <button type="button" id="reloadRemoteBtn" class="btn ghost">Fetch shared pack</button>
+          </div>
+        </div>
+
+        <div class="lib-section">
+          <h3>Saved looks</h3>
+          <div id="savedLooks" class="card-list"></div>
+        </div>
+
+        <div class="lib-section">
+          <h3>My creations</h3>
+          <div id="myCreations" class="card-list"></div>
+        </div>
+
+        <div class="lib-section">
+          <h3>Community published</h3>
+          <div id="communityList" class="card-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <script src="./data/slots.js"></script>
+    <script src="./data/catalog.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

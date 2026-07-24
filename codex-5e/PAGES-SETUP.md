@@ -8,6 +8,7 @@ Apps are hosted from this repo on **separate URLs**:
 | **Codex** (5e sheet) | https://dralorex.github.io/General-Questions/codex/ |
 | **Aincrad Mana** | https://dralorex.github.io/General-Questions/mana/ |
 | **DM Eye** (party tracker) | https://dralorex.github.io/General-Questions/dm-eye/ |
+| **Character** (piece creator) | https://dralorex.github.io/General-Questions/Character/ |
 
 ## Install on your phone
 
@@ -26,4 +27,4 @@ Do that once per app if you want **separate icons**. Saves stay on that phone.
 
 ## Auto-deploy
 
-Pushes to `main` that change `codex-5e/`, `kirito-mana-app/`, `dm-eye/`, `shared/`, or `pages-hub/` redeploy via `.github/workflows/deploy-codex.yml`.
+Pushes to `main` that change `codex-5e/`, `kirito-mana-app/`, `dm-eye/`, `character/`, `shared/`, or `pages-hub/` redeploy via `.github/workflows/deploy-codex.yml`.

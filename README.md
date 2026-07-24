@@ -4,7 +4,7 @@ This is for my random questions so I can see things anywhere.
 
 ## Projects
 
-### Phone apps (three separate live sites)
+### Phone apps (four separate live sites)
 
 | App | Live URL |
 |---|---|
@@ -12,6 +12,7 @@ This is for my random questions so I can see things anywhere.
 | **Codex** (5e sheet) | https://dralorex.github.io/General-Questions/codex/ |
 | **Aincrad Mana** | https://dralorex.github.io/General-Questions/mana/ |
 | **DM Eye** (party tracker) | https://dralorex.github.io/General-Questions/dm-eye/ |
+| **Character** (piece creator) | https://dralorex.github.io/General-Questions/Character/ |
 
 ### [Codex — 5e Character Sheet (PWA)](codex-5e/)
 Professional D&D 5e sheet with SRD spell database, class picker, auto-applied features/saves/hit dice, Notes (folders + tags), offline phone saves, and **DM Link** codes for live tracking.
@@ -45,6 +46,17 @@ DM-facing app: enter player link codes from Codex or Aincrad Mana and watch name
 | [Live DM Eye](https://dralorex.github.io/General-Questions/dm-eye/) | Party vitals board |
 | [Open the app (repo files)](dm-eye/index.html) | Source UI in git |
 | [App README](dm-eye/README.md) | How link codes work |
+
+### [Character — Layered Piece Creator](character/)
+Mix-and-match bodies (always with undergarments), heads that seat on a shared neck joint, hair that hides under hats, plus clothing, weapons, props, bases, and backgrounds. Create your own pieces, preview placement on a live figure, then publish to a shareable community pack.
+
+**Live Character app:** https://dralorex.github.io/General-Questions/Character/
+
+| Link | What it is |
+|---|---|
+| [Live Character](https://dralorex.github.io/General-Questions/Character/) | Build / create / library |
+| [Open the app (repo files)](character/index.html) | Source UI in git |
+| [App README](character/README.md) | Slots, publishing, pack format |
 
 ### [Kirito Mana System](kirito-mana-system/)
 Aincrad / season 1 sword-skill mana homebrew for D&D-style play (Google Sheets CSVs).

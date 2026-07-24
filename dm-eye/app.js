@@ -118,7 +118,7 @@
 
   function moneyCoinsHTML(player) {
     const coins = player.coins || {};
-    // Official 5e value order: copper → platinum (lowest → highest).
+    // Match Codex Profile coin row left→right: CP, SP, EP, GP, PP.
     return [
       ["CP", coins.cp],
       ["SP", coins.sp],

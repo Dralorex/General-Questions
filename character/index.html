@@ -18,7 +18,47 @@
       href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Cinzel:wght@700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=v3-natural-art" />
+    <script>
+      // Reset browser / SW caches once per deploy bust token.
+      (function () {
+        var BUST = "v3-natural-art";
+        var KEY = "gq-character-cache-bust";
+        try {
+          if (localStorage.getItem(KEY) === BUST) return;
+          var done = function () {
+            try {
+              localStorage.setItem(KEY, BUST);
+            } catch (_) {}
+            location.reload();
+          };
+          var tasks = [];
+          if (window.caches) {
+            tasks.push(
+              caches.keys().then(function (keys) {
+                return Promise.all(
+                  keys.map(function (k) {
+                    return caches.delete(k);
+                  })
+                );
+              })
+            );
+          }
+          if ("serviceWorker" in navigator) {
+            tasks.push(
+              navigator.serviceWorker.getRegistrations().then(function (regs) {
+                return Promise.all(
+                  regs.map(function (r) {
+                    return r.unregister();
+                  })
+                );
+              })
+            );
+          }
+          Promise.all(tasks).then(done).catch(done);
+        } catch (_) {}
+      })();
+    </script>
   </head>
   <body data-mode="build">
     <header class="top">
@@ -271,9 +311,10 @@
       </form>
     </dialog>
 
-    <script src="./data/slots.js"></script>
-    <script src="./data/catalog.js"></script>
-    <script src="./data/moderation.js"></script>
-    <script src="./app.js"></script>
+    <script src="./data/version.js?v=v3-natural-art"></script>
+    <script src="./data/slots.js?v=v3-natural-art"></script>
+    <script src="./data/catalog.js?v=v3-natural-art"></script>
+    <script src="./data/moderation.js?v=v3-natural-art"></script>
+    <script src="./app.js?v=v3-natural-art"></script>
   </body>
 </html>

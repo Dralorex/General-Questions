@@ -1012,9 +1012,19 @@
     a.click();
   }
 
+  function assetUrl(path) {
+    const bust =
+      (window.CHARACTER_CACHE_BUST && String(window.CHARACTER_CACHE_BUST)) ||
+      "dev";
+    const join = path.includes("?") ? "&" : "?";
+    return `${path}${join}v=${encodeURIComponent(bust)}`;
+  }
+
   async function fetchSharedPack(silent) {
     try {
-      const res = await fetch("./data/community.json", { cache: "no-store" });
+      const res = await fetch(assetUrl("./data/community.json"), {
+        cache: "no-store",
+      });
       if (!res.ok) throw new Error("No shared pack on server yet.");
       const pack = await res.json();
       importPackObject(pack, silent);

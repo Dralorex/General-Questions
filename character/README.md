@@ -67,7 +67,9 @@ Hair (and any uploaded art with **Mark as under-hat**) should wrap crown volume 
 
 Stage size is **400×560**. Neck joint is centered near `(200, 148)`.
 
-## Local files
+## Cache busting
+
+Every Character change must bump `CHARACTER_CACHE_BUST` in `data/version.js` and the matching `?v=` query params in `index.html`. The page clears Cache Storage once per new bust token so phones pick up fresh art/scripts after deploy.
 
 | Path | Role |
 |---|---|

@@ -18,11 +18,11 @@
       href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Cinzel:wght@700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=v3-natural-art" />
+    <link rel="stylesheet" href="./styles.css?v=v6-admin-undo" />
     <script>
       // Reset browser / SW caches once per deploy bust token.
       (function () {
-        var BUST = "v3-natural-art";
+        var BUST = "v6-admin-undo";
         var KEY = "gq-character-cache-bust";
         try {
           if (localStorage.getItem(KEY) === BUST) return;
@@ -71,6 +71,7 @@
         <button type="button" class="mode-btn" data-mode="create">Create</button>
         <button type="button" class="mode-btn" data-mode="library">Library</button>
         <button type="button" class="mode-btn" data-mode="mod" id="modTabBtn" hidden>Mod</button>
+        <button type="button" class="mode-btn" data-mode="admin" id="adminTabBtn" hidden>Admin</button>
       </nav>
     </header>
 
@@ -217,7 +218,7 @@
               <input id="importPackFile" type="file" accept="application/json,.json" hidden />
             </label>
             <button type="button" id="reloadRemoteBtn" class="btn ghost">Fetch shared pack</button>
-            <button type="button" id="unlockModBtn" class="btn ghost">Moderator unlock</button>
+            <button type="button" id="unlockModBtn" class="btn ghost">Admin / Mod unlock</button>
           </div>
         </div>
 
@@ -296,6 +297,135 @@
       </div>
     </section>
 
+    <!-- ADMIN PIECE LAYOUT -->
+    <section class="mode-panel" data-panel="admin">
+      <div class="admin-layout">
+        <div class="admin-preview">
+          <p class="section-label">Live preview</p>
+          <div class="stage-frame">
+            <svg
+              id="adminStage"
+              class="stage admin-stage"
+              viewBox="0 0 400 560"
+              role="img"
+              aria-label="Admin piece layout preview"
+            ></svg>
+          </div>
+          <p class="create-tip">
+            Drag to move the piece, or turn on <strong>Draw on piece</strong> to paint
+            details. Drawings move with the item. Save override, then export to ship.
+          </p>
+          <div class="stage-actions">
+            <button type="button" id="adminUndoBtn" class="btn ghost" disabled>Undo</button>
+            <button type="button" id="adminRedoBtn" class="btn ghost" disabled>Redo</button>
+            <button type="button" id="adminEquipBtn" class="btn ghost">Equip on build</button>
+            <button type="button" id="adminResetPieceBtn" class="btn ghost">Reset piece</button>
+            <button type="button" id="adminSavePieceBtn" class="btn primary">Save override</button>
+          </div>
+        </div>
+
+        <div class="admin-form">
+          <p class="section-label">Edit piece placement</p>
+
+          <label class="field">
+            <span>Slot filter</span>
+            <select id="adminSlotFilter"></select>
+          </label>
+
+          <label class="field">
+            <span>Piece</span>
+            <select id="adminPieceSelect"></select>
+          </label>
+
+          <label class="field">
+            <span>Draw as slot (layer category)</span>
+            <select id="adminPieceSlot"></select>
+          </label>
+
+          <fieldset class="draw-tools">
+            <legend>Draw on piece</legend>
+            <label class="check">
+              <input id="adminDrawMode" type="checkbox" />
+              Enable draw mode (paint instead of dragging)
+            </label>
+            <div class="draw-row">
+              <label class="field grow">
+                <span>Color</span>
+                <input id="adminDrawColor" type="color" value="#d4a35a" />
+              </label>
+              <label class="field grow">
+                <span>Brush <output id="adminBrushOut">6</output></span>
+                <input id="adminBrushSize" type="range" min="1" max="40" value="6" />
+              </label>
+            </div>
+            <label class="check">
+              <input id="adminEraseMode" type="checkbox" />
+              Eraser
+            </label>
+            <div class="create-actions">
+              <button type="button" id="adminUndoBtn2" class="btn ghost" disabled>Undo</button>
+              <button type="button" id="adminRedoBtn2" class="btn ghost" disabled>Redo</button>
+              <button type="button" id="adminClearDrawBtn" class="btn danger">Clear drawing</button>
+            </div>
+          </fieldset>
+
+          <div class="transform-grid">
+            <label class="field">
+              <span>Offset X <output id="adminOxOut">0</output></span>
+              <input id="adminOx" type="range" min="-200" max="200" value="0" />
+            </label>
+            <label class="field">
+              <span>Offset Y <output id="adminOyOut">0</output></span>
+              <input id="adminOy" type="range" min="-200" max="200" value="0" />
+            </label>
+            <label class="field">
+              <span>Scale <output id="adminScOut">1.00</output></span>
+              <input id="adminScale" type="range" min="30" max="220" value="100" />
+            </label>
+            <label class="field">
+              <span>Rotate <output id="adminRotOut">0°</output></span>
+              <input id="adminRot" type="range" min="-180" max="180" value="0" />
+            </label>
+          </div>
+
+          <label class="field">
+            <span>Layer depth (lower = farther back) <output id="adminZOut">0</output></span>
+            <input id="adminZ" type="range" min="0" max="200" value="0" />
+          </label>
+
+          <div class="create-actions">
+            <button type="button" id="adminZBackBtn" class="btn ghost">Send farther back</button>
+            <button type="button" id="adminZFrontBtn" class="btn ghost">Bring farther forward</button>
+          </div>
+
+          <p id="adminMsg" class="msg" hidden></p>
+
+          <div class="lib-section">
+            <h3>Global slot draw order</h3>
+            <p class="lede-sm">Top of list draws first (behind). Bottom draws last (in front).</p>
+            <div id="adminSlotOrder" class="slot-order-list"></div>
+            <div class="create-actions" style="margin-top: 0.65rem">
+              <button type="button" id="adminResetOrderBtn" class="btn ghost">Reset order</button>
+              <button type="button" id="adminSaveOrderBtn" class="btn primary">Save order</button>
+            </div>
+          </div>
+
+          <div class="lib-section">
+            <h3>Overrides pack</h3>
+            <div class="library-actions">
+              <button type="button" id="exportOverridesBtn" class="btn primary">Export overrides</button>
+              <label class="btn ghost file-btn">
+                Import overrides
+                <input id="importOverridesFile" type="file" accept="application/json,.json" hidden />
+              </label>
+              <button type="button" id="fetchOverridesBtn" class="btn ghost">Fetch shipped</button>
+              <button type="button" id="clearOverridesBtn" class="btn danger">Clear all local</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Publish agreement dialog -->
     <dialog id="agreementDialog" class="agree-dialog">
       <form method="dialog" id="agreementForm" class="agree-card">
@@ -311,10 +441,10 @@
       </form>
     </dialog>
 
-    <script src="./data/version.js?v=v3-natural-art"></script>
-    <script src="./data/slots.js?v=v3-natural-art"></script>
-    <script src="./data/catalog.js?v=v3-natural-art"></script>
-    <script src="./data/moderation.js?v=v3-natural-art"></script>
-    <script src="./app.js?v=v3-natural-art"></script>
+    <script src="./data/version.js?v=v6-admin-undo"></script>
+    <script src="./data/slots.js?v=v6-admin-undo"></script>
+    <script src="./data/catalog.js?v=v6-admin-undo"></script>
+    <script src="./data/moderation.js?v=v6-admin-undo"></script>
+    <script src="./app.js?v=v6-admin-undo"></script>
   </body>
 </html>

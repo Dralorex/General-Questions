@@ -23,7 +23,21 @@ Phone / desktop web app for building characters from interchangeable pieces, the
 | **Build** | Equip official + community + your pieces |
 | **Create** | Make a new piece, preview placement, publish |
 | **Library** | Saved looks, your creations, community pack import/export |
-| **Mod** | Unlock with passcode — who posted what, ban IP/publisher, export `bans.json` |
+| **Mod** | Unlock with passcode — who posted what, ban IP/publisher |
+| **Admin** | Unlock with same passcode — move pieces, change layer order, export overrides |
+
+## Admin piece layout
+
+After **Library → Admin / Mod unlock** (passcode in `data/moderation.js`):
+
+1. Open the **Admin** tab
+2. Pick a piece (e.g. Longsword)
+3. Drag on the preview or use X/Y/scale/rotate — or enable **Draw on piece** to paint (brush, eraser, clear). Use **Undo** / **Redo** (also Ctrl/Cmd+Z / Ctrl/Cmd+Shift+Z)
+4. Change **Draw as slot** and **Layer depth** (or Send back / Bring forward)
+5. Reorder **Global slot draw order** with Up/Down
+6. **Save override**, then **Export overrides** → commit as `data/piece-overrides.json` and deploy
+
+Overrides apply for everyone once shipped; locally they apply immediately after save.
 
 ## Publish rules & moderation
 
@@ -80,4 +94,5 @@ Every Character change must bump `CHARACTER_CACHE_BUST` in `data/version.js` and
 | `data/catalog.js` | Official SVG pieces |
 | `data/community.json` | Shared published pack |
 | `data/moderation.js` | Agreement copy, blocklist, scanners, mod passcode |
+| `data/piece-overrides.json` | Admin placement / layer overrides |
 | `data/bans.json` | Shipped IP / publisher / author bans |

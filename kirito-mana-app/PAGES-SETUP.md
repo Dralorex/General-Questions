@@ -8,6 +8,7 @@
 | Codex | https://dralorex.github.io/General-Questions/codex/ |
 | **Aincrad Mana** | https://dralorex.github.io/General-Questions/mana/ |
 | DM Eye | https://dralorex.github.io/General-Questions/dm-eye/ |
+| Character | https://dralorex.github.io/General-Questions/Character/ |
 
 ## Why you might see “no GitHub Pages site”
 

@@ -6,6 +6,7 @@
   --codex: #6eb6ff;
   --mana: #e2b45a;
   --dmeye: #3eb8c2;
+  --character: #d4a35a;
   --line: rgba(232, 238, 247, 0.12);
 }
 
@@ -113,6 +114,14 @@ h1 {
 
 .app-link.dmeye .app-name {
   color: var(--dmeye);
+}
+
+.app-link.character {
+  border-color: color-mix(in srgb, var(--character) 45%, var(--line));
+}
+
+.app-link.character .app-name {
+  color: var(--character);
 }
 
 .hint {

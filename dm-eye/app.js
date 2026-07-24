@@ -118,12 +118,13 @@
 
   function moneyCoinsHTML(player) {
     const coins = player.coins || {};
+    // Official 5e value order: copper → platinum (lowest → highest).
     return [
-      ["PP", coins.pp],
-      ["GP", coins.gp],
-      ["EP", coins.ep],
-      ["SP", coins.sp],
       ["CP", coins.cp],
+      ["SP", coins.sp],
+      ["EP", coins.ep],
+      ["GP", coins.gp],
+      ["PP", coins.pp],
     ]
       .map(
         ([k, n]) =>
@@ -261,30 +262,11 @@
     }, 700);
   }
 
-  function unlink(code, { fromPlayer = false } = {}) {
-    store.codes = store.codes.filter((c) => c !== code);
-    delete store.expanded[code];
-    delete store.players[code];
-    persist();
-    watcher.unwatch(code);
-    render();
-    toast(
-      fromPlayer
-        ? `Player reset their code · removed ${code}`
-        : `Unlinked ${code}`,
-      fromPlayer ? "warn" : "info"
-    );
-  }
-
   const watcher = new Link.DmLinkWatcher({
     onStatus: setStatus,
     onSnapshot: (code, snapshot) => {
       if (!store.codes.includes(code)) return;
       upsertPlayer(code, snapshot);
-    },
-    onUnlink: (code) => {
-      if (!store.codes.includes(code)) return;
-      unlink(code, { fromPlayer: true });
     },
   });
 
@@ -310,6 +292,16 @@
     watcher.watch(code);
     render();
     toast(`Linked ${code}`, "ok");
+  }
+
+  function unlink(code) {
+    store.codes = store.codes.filter((c) => c !== code);
+    delete store.expanded[code];
+    delete store.players[code];
+    persist();
+    watcher.unwatch(code);
+    render();
+    toast(`Unlinked ${code}`, "info");
   }
 
   function bind() {

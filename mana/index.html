@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#121820" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Aincrad Mana" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icons/icon-180.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Cinzel:wght@700;900&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Aincrad Mana</title>
+  </head>
+  <body data-tab="combat">
+    <div class="bg" aria-hidden="true"></div>
+
+    <header class="top">
+      <div class="brand-block">
+        <p class="brand">Aincrad Mana</p>
+        <div class="chips">
+          <span id="nameChip" class="chip">Kirito</span>
+          <span id="levelChip" class="chip">Lv 1</span>
+          <span id="hpChip" class="chip">HP 10</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button type="button" id="installBtn" class="btn ghost tiny" hidden>Install</button>
+        <span id="saveBadge" class="save" data-ok="1">Saved on this phone</span>
+      </div>
+    </header>
+
+    <section class="mana-panel" aria-live="polite">
+      <div class="mana-head">
+        <div>
+          <p class="label">Mana</p>
+          <p class="mana-readout">
+            <span id="manaValue">100</span><span class="slash">/</span
+            ><span id="manaMax">100</span>
+          </p>
+        </div>
+        <div class="round-box">
+          <p class="label">Round</p>
+          <p id="roundValue" class="round">1</p>
+        </div>
+      </div>
+      <div class="mana-bar" aria-hidden="true">
+        <div id="manaFill" class="mana-fill"></div>
+      </div>
+      <div class="mana-controls">
+        <button type="button" id="manaMinus" class="btn ghost">−1</button>
+        <button type="button" id="manaPlus" class="btn ghost">+1</button>
+        <button type="button" id="endTurnBtn" class="btn primary">End Turn</button>
+      </div>
+    </section>
+
+    <main>
+      <!-- COMBAT -->
+      <section class="panel active" data-panel="combat">
+        <div class="section-head">
+          <h2>Combat</h2>
+          <p>Vitals, death saves, then sword skills.</p>
+        </div>
+        <div id="combatVitals" class="vitals-root"></div>
+        <div class="section-head tight">
+          <h2>Sword Skills</h2>
+        </div>
+        <div id="quickSkills" class="quick-grid"></div>
+        <div class="rest-row">
+          <button type="button" id="refillBtn" class="btn ghost">Refill Mana</button>
+          <button type="button" id="shortRestBtn" class="btn ghost">Short Rest +50</button>
+          <button type="button" id="longRestBtn" class="btn ghost">Long Rest</button>
+        </div>
+        <div id="combatSkills" class="card-list"></div>
+        <div class="section-head tight"><h2>Log</h2></div>
+        <ul id="combatLog" class="log"></ul>
+      </section>
+
+      <!-- STATS -->
+      <section class="panel" data-panel="stats">
+        <div class="section-head">
+          <h2>Stats</h2>
+          <p>
+            Edit ability scores. Check proficiency to add your bonus
+            (<span id="profBonusLabel">(+2)</span>.
+          </p>
+        </div>
+        <div id="abilityBlocks" class="ability-list"></div>
+      </section>
+
+      <!-- SWORD SKILLS -->
+      <section class="panel" data-panel="skills">
+        <div class="section-head">
+          <h2>Sword Skills</h2>
+          <p>Browse the Aincrad kit. Free basics never spend mana.</p>
+        </div>
+        <label class="field">
+          <span>Filter</span>
+          <select id="skillFilter">
+            <option value="all">All</option>
+            <option value="learned">Learned</option>
+            <option value="trainable">Ready to train</option>
+            <option value="locked">Locked</option>
+          </select>
+        </label>
+        <div id="allSkills" class="card-list"></div>
+      </section>
+
+      <!-- TRAIN -->
+      <section class="panel" data-panel="train">
+        <div class="section-head">
+          <h2>Training</h2>
+          <p>Level unlocks a skill. Finish its drill sessions to learn it.</p>
+        </div>
+        <div class="gate-card">
+          <div>
+            <p class="label">Dual Blades gate (Level 3)</p>
+            <p id="dualStatus" class="gate-status">Dual locked until Level 3</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="trialToggle" />
+            <span>Reaction Trial done</span>
+          </label>
+        </div>
+        <div id="trainRules" class="info-card train-rules"></div>
+        <div id="trainSkills" class="card-list"></div>
+      </section>
+
+      <!-- EQUIPMENT -->
+      <section class="panel" data-panel="gear">
+        <div class="section-head row-between">
+          <div>
+            <h2>Equipment</h2>
+            <p>Tap + to add an item. Edit anytime.</p>
+          </div>
+          <button type="button" id="addItemBtn" class="btn primary tiny">+ Add</button>
+        </div>
+        <div id="equipmentList" class="equip-list"></div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="panel" data-panel="profile">
+        <div class="section-head">
+          <h2>Profile</h2>
+          <p>Character sheet + save controls. Stored on this phone.</p>
+        </div>
+
+        <div class="portrait-card">
+          <div id="portraitPreview" class="portrait-preview empty">No photo</div>
+          <div class="portrait-actions">
+            <label class="btn ghost file-btn">
+              Upload PNG
+              <input id="portraitInput" type="file" accept="image/png,image/jpeg,image/*" hidden />
+            </label>
+            <button type="button" id="portraitClear" class="btn ghost">Remove</button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <label class="field">
+            <span>Name</span>
+            <input id="nameInput" type="text" maxlength="32" autocomplete="nickname" />
+          </label>
+          <label class="field">
+            <span>Level (1–20)</span>
+            <input id="levelInput" type="number" min="1" max="20" inputmode="numeric" />
+          </label>
+          <label class="field">
+            <span>XP</span>
+            <input id="xpInput" type="number" min="0" inputmode="numeric" />
+          </label>
+          <label class="field">
+            <span>Max Mana</span>
+            <input id="maxManaInput" type="number" min="1" max="999" inputmode="numeric" />
+          </label>
+          <label class="field">
+            <span>Class</span>
+            <input id="classInput" type="text" />
+          </label>
+          <label class="field">
+            <span>Subclass</span>
+            <input id="subclassInput" type="text" placeholder="Optional" />
+          </label>
+          <label class="field">
+            <span>Race</span>
+            <input id="raceInput" type="text" />
+          </label>
+          <label class="field">
+            <span>Background</span>
+            <input id="backgroundInput" type="text" />
+          </label>
+          <label class="field">
+            <span>Alignment</span>
+            <input id="alignmentInput" type="text" />
+          </label>
+          <label class="field">
+            <span>Hit Dice</span>
+            <input id="hitDiceInput" type="text" placeholder="e.g. 3d10" />
+          </label>
+        </div>
+
+        <div class="section-head tight"><h2>Coins</h2></div>
+        <div class="coin-grid">
+          <label class="field"><span>CP</span><input id="coinCp" type="number" min="0" inputmode="numeric" /></label>
+          <label class="field"><span>SP</span><input id="coinSp" type="number" min="0" inputmode="numeric" /></label>
+          <label class="field"><span>EP</span><input id="coinEp" type="number" min="0" inputmode="numeric" /></label>
+          <label class="field"><span>GP</span><input id="coinGp" type="number" min="0" inputmode="numeric" /></label>
+          <label class="field"><span>PP</span><input id="coinPp" type="number" min="0" inputmode="numeric" /></label>
+        </div>
+
+        <div class="section-head tight"><h2>Vitals</h2></div>
+        <div id="profileVitals" class="vitals-root"></div>
+
+        <label class="field">
+          <span>Appearance</span>
+          <textarea id="appearanceInput" rows="3"></textarea>
+        </label>
+        <label class="field">
+          <span>Personality</span>
+          <textarea id="personalityInput" rows="3"></textarea>
+        </label>
+        <label class="field">
+          <span>Backstory</span>
+          <textarea id="backstoryInput" rows="5"></textarea>
+        </label>
+        <label class="field">
+          <span>Languages</span>
+          <textarea id="languagesInput" rows="2"></textarea>
+        </label>
+        <label class="field">
+          <span>Class Features</span>
+          <textarea id="classFeaturesInput" rows="4"></textarea>
+        </label>
+        <label class="field">
+          <span>Feats</span>
+          <textarea id="featsInput" rows="3"></textarea>
+        </label>
+        <label class="field">
+          <span>Equipment Training & Proficiencies</span>
+          <textarea id="profTextInput" rows="3" placeholder="Armor, weapons, tools…"></textarea>
+        </label>
+        <label class="field">
+          <span>Other Notes</span>
+          <textarea id="otherNotesInput" rows="3"></textarea>
+        </label>
+
+        <div class="section-head tight">
+          <h2>DM Link</h2>
+          <p>Give this code to your DM so DM Eye can track your sheet live.</p>
+        </div>
+        <div class="info-card dm-link-card">
+          <div class="dm-link-row">
+            <div>
+              <p class="label">Your link code</p>
+              <p id="dmLinkCode" class="dm-link-code">————</p>
+            </div>
+            <label class="dm-toggle">
+              <input id="dmLinkToggle" type="checkbox" />
+              <span>Share with DM</span>
+            </label>
+          </div>
+          <p id="dmLinkStatus" class="muted tiny">Sharing off</p>
+          <div class="dm-link-actions">
+            <button type="button" id="dmLinkCopy" class="btn ghost tiny">Copy code</button>
+            <button type="button" id="dmLinkRegen" class="btn ghost tiny">New code</button>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <p class="label">Last saved</p>
+          <p id="lastSaved">—</p>
+          <p id="storageNote" class="muted"></p>
+        </div>
+        <div class="stack">
+          <button type="button" id="exportBtn" class="btn primary">Export Backup</button>
+          <button type="button" id="importBtn" class="btn ghost">Import Backup</button>
+          <input id="importFile" type="file" accept="application/json,.json" hidden />
+          <button type="button" id="resetBtn" class="btn danger">Reset Progress</button>
+        </div>
+        <div class="info-card">
+          <p class="label">Install on iPhone</p>
+          <p class="muted">Safari → Share → Add to Home Screen.</p>
+          <p class="label" style="margin-top: 0.8rem">Install on Android</p>
+          <p class="muted">Chrome → Install app / Add to Home screen.</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="dock dock-6" aria-label="Primary">
+      <button type="button" class="tab active" data-tab="combat">Combat</button>
+      <button type="button" class="tab" data-tab="stats">Stats</button>
+      <button type="button" class="tab" data-tab="skills">Skills</button>
+      <button type="button" class="tab" data-tab="train">Train</button>
+      <button type="button" class="tab" data-tab="gear">Gear</button>
+      <button type="button" class="tab" data-tab="profile">Profile</button>
+    </nav>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <!-- Dark Souls / lived overlays -->
+    <div id="diedOverlay" class="overlay died" hidden>
+      <div class="overlay-inner">
+        <p class="you-died">YOU DIED</p>
+        <button type="button" class="btn overlay-return" data-close-overlay="died">Return</button>
+      </div>
+    </div>
+    <div id="livedOverlay" class="overlay lived" hidden>
+      <div class="overlay-inner">
+        <p class="you-lived-title">YOU LIVE</p>
+        <p id="livedPrompt" class="lived-prompt"></p>
+        <button type="button" class="btn overlay-return" data-close-overlay="lived">Return</button>
+      </div>
+    </div>
+    <div id="healedOverlay" class="overlay healed" hidden>
+      <div class="overlay-inner">
+        <p class="you-healed">You've been healed!</p>
+        <button type="button" class="btn overlay-return" data-close-overlay="healed">Return</button>
+      </div>
+    </div>
+
+    <script src="./data/skills.js"></script>
+    <script src="./data/dnd.js"></script>
+    <script src="./data/dm-link.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

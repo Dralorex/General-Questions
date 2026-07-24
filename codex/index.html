@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#121820" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Codex" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icons/icon-180.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Cinzel:wght@700;900&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Codex — 5e Character Sheet</title>
+  </head>
+  <body data-tab="combat">
+    <div class="bg" aria-hidden="true"></div>
+
+    <header class="top">
+      <div class="brand-block">
+        <p class="brand">Codex</p>
+        <div class="chips">
+          <span id="nameChip" class="chip">Adventurer</span>
+          <span id="classChip" class="chip">No class</span>
+          <span id="levelChip" class="chip">Lv 1</span>
+          <span id="hpChip" class="chip">HP 10</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button type="button" id="installBtn" class="btn ghost tiny" hidden>Install</button>
+        <span id="saveBadge" class="save" data-ok="1">Saved on this phone</span>
+      </div>
+    </header>
+
+    <main>
+      <!-- COMBAT -->
+      <section class="panel active" data-panel="combat">
+        <div class="section-head">
+          <h2>Combat</h2>
+          <p>Vitals, prepared spells, and rest.</p>
+        </div>
+        <div id="combatVitals" class="vitals-root"></div>
+        <div class="rest-row">
+          <button type="button" id="shortRestBtn" class="btn ghost">Short Rest</button>
+          <button type="button" id="longRestBtn" class="btn ghost">Long Rest</button>
+        </div>
+        <div id="combatSpellPanel" hidden>
+          <div class="section-head tight">
+            <h2>Spell slots</h2>
+            <p id="combatSlotsHint">Recovered on a long rest.</p>
+          </div>
+          <div id="combatSlots" class="slot-track"></div>
+          <div class="section-head tight">
+            <h2>Cast</h2>
+            <p>Prepared / known spells — tap to spend a slot.</p>
+          </div>
+          <div id="quickSpells" class="quick-grid"></div>
+        </div>
+        <div class="section-head tight"><h2>Log</h2></div>
+        <ul id="combatLog" class="log"></ul>
+      </section>
+
+      <!-- STATS -->
+      <section class="panel" data-panel="stats">
+        <div class="section-head">
+          <h2>Stats</h2>
+          <p>
+            Edit ability scores. Class save proficiencies apply automatically.
+            Bonus <span id="profBonusLabel">(+2)</span>.
+          </p>
+        </div>
+        <div id="classSummary" class="info-card class-summary" hidden></div>
+        <div id="abilityBlocks" class="ability-list"></div>
+        <div class="section-head tight"><h2>Class Features</h2></div>
+        <div id="featureList" class="card-list">
+          <p class="muted">Select a class in Profile to load features.</p>
+        </div>
+      </section>
+
+      <!-- SPELLS / CLASS POWER -->
+      <section class="panel" data-panel="spells">
+        <div class="section-head">
+          <h2 id="powerTitle">Spellbook</h2>
+          <p id="spellsSubtitle">Check spells to prepare or learn them. Expand each level to browse.</p>
+        </div>
+        <div id="spellCasterChrome">
+          <div class="spell-filters">
+            <label class="field tight">
+              <span>Search</span>
+              <input id="spellSearch" type="search" placeholder="Fireball, shield…" />
+            </label>
+            <label class="field tight">
+              <span>Level</span>
+              <select id="spellLevelFilter">
+                <option value="all">All levels</option>
+                <option value="0">Cantrips</option>
+                <option value="1">1st</option>
+                <option value="2">2nd</option>
+                <option value="3">3rd</option>
+                <option value="4">4th</option>
+                <option value="5">5th</option>
+                <option value="6">6th</option>
+                <option value="7">7th</option>
+                <option value="8">8th</option>
+                <option value="9">9th</option>
+              </select>
+            </label>
+            <label class="field tight">
+              <span>School</span>
+              <select id="spellSchoolFilter">
+                <option value="all">All schools</option>
+              </select>
+            </label>
+            <label class="switch-inline">
+              <input type="checkbox" id="spellClassOnly" checked />
+              <span>Class list only</span>
+            </label>
+          </div>
+          <div id="spellSlotsCard" class="info-card" hidden></div>
+        </div>
+        <div id="spellList" class="card-list spell-accordion">
+          <p class="muted empty-spells">Select a class to see its spell list.</p>
+        </div>
+      </section>
+
+      <!-- EQUIPMENT -->
+      <section class="panel" data-panel="gear">
+        <div class="section-head row-between">
+          <div>
+            <h2>Equipment</h2>
+            <p>Search the 5e SRD gear list, or add a custom item.</p>
+          </div>
+          <button type="button" id="addItemBtn" class="btn primary tiny">+ Add</button>
+        </div>
+        <div id="equipmentList" class="equip-list"></div>
+      </section>
+
+      <!-- NOTES -->
+      <section class="panel" data-panel="notes">
+        <div class="section-head row-between">
+          <div>
+            <h2>Notes</h2>
+            <p>Folders, nested folders, tags, and freeform campaign notes.</p>
+          </div>
+        </div>
+
+        <div class="notes-toolbar">
+          <button type="button" id="noteAddFolderBtn" class="btn ghost tiny">+ Folder</button>
+          <button type="button" id="noteAddBtn" class="btn primary tiny">+ Note</button>
+        </div>
+
+        <nav id="notesBreadcrumb" class="notes-breadcrumb" aria-label="Folder path"></nav>
+
+        <div class="notes-filters">
+          <label class="field tight">
+            <span>Search</span>
+            <input id="notesSearch" type="search" placeholder="Search notes…" />
+          </label>
+          <label class="field tight">
+            <span>Tag</span>
+            <select id="notesTagFilter">
+              <option value="">All tags</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="notesBrowser" class="notes-browser"></div>
+        <div id="noteEditor" class="note-editor" hidden></div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="panel" data-panel="profile">
+        <div class="section-head">
+          <h2>Profile</h2>
+          <p>Pick your class to auto-apply features, saves, hit dice, and spell list.</p>
+        </div>
+
+        <div class="portrait-card">
+          <div id="portraitPreview" class="portrait-preview empty" aria-label="Character portrait"></div>
+          <div class="portrait-actions">
+            <label class="btn ghost file-btn">
+              Upload photo
+              <input id="portraitInput" type="file" accept="image/png,image/jpeg,image/*" hidden />
+            </label>
+            <button type="button" id="portraitClear" class="btn ghost">Remove</button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <label class="field">
+            <span>Name</span>
+            <input id="nameInput" type="text" maxlength="32" autocomplete="nickname" />
+          </label>
+          <label class="field">
+            <span>Level (1–20)</span>
+            <input id="levelInput" type="number" min="1" max="20" inputmode="numeric" />
+          </label>
+          <label class="field">
+            <span>XP</span>
+            <input id="xpInput" type="number" min="0" inputmode="numeric" />
+          </label>
+          <label class="field">
+            <span>Class</span>
+            <select id="classSelect">
+              <option value="">Select a class…</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Subclass</span>
+            <input id="subclassInput" type="text" placeholder="Optional" />
+          </label>
+          <label class="field">
+            <span>Race</span>
+            <input id="raceInput" type="text" />
+          </label>
+          <label class="field">
+            <span>Background</span>
+            <input id="backgroundInput" type="text" />
+          </label>
+          <label class="field">
+            <span>Alignment</span>
+            <input id="alignmentInput" type="text" />
+          </label>
+          <label class="field">
+            <span>Hit Dice</span>
+            <input id="hitDiceInput" type="text" placeholder="e.g. 3d10" />
+          </label>
+        </div>
+
+        <div class="section-head tight"><h2>Coins</h2></div>
+        <div class="coin-grid">
+          <label class="field"><span>CP</span><input id="coinCp" type="number" min="0" inputmode="numeric" /></label>
+          <label class="field"><span>SP</span><input id="coinSp" type="number" min="0" inputmode="numeric" /></label>
+          <label class="field"><span>EP</span><input id="coinEp" type="number" min="0" inputmode="numeric" /></label>
+          <label class="field"><span>GP</span><input id="coinGp" type="number" min="0" inputmode="numeric" /></label>
+          <label class="field"><span>PP</span><input id="coinPp" type="number" min="0" inputmode="numeric" /></label>
+        </div>
+
+        <div class="section-head tight"><h2>Vitals</h2></div>
+        <div id="profileVitals" class="vitals-root"></div>
+
+        <label class="field">
+          <span>Appearance</span>
+          <textarea id="appearanceInput" rows="3"></textarea>
+        </label>
+        <label class="field">
+          <span>Personality</span>
+          <textarea id="personalityInput" rows="3"></textarea>
+        </label>
+        <label class="field">
+          <span>Backstory</span>
+          <textarea id="backstoryInput" rows="5"></textarea>
+        </label>
+        <label class="field">
+          <span>Languages</span>
+          <textarea id="languagesInput" rows="2"></textarea>
+        </label>
+        <label class="field">
+          <span>Class Features (editable notes)</span>
+          <textarea id="classFeaturesInput" rows="4"></textarea>
+        </label>
+        <label class="field">
+          <span>Feats</span>
+          <textarea id="featsInput" rows="3"></textarea>
+        </label>
+        <label class="field">
+          <span>Equipment Training & Proficiencies</span>
+          <textarea id="profTextInput" rows="3" placeholder="Armor, weapons, tools…"></textarea>
+        </label>
+        <label class="field">
+          <span>Other Notes</span>
+          <textarea id="otherNotesInput" rows="3"></textarea>
+        </label>
+
+        <div class="section-head tight">
+          <h2>DM Link</h2>
+          <p>Give this code to your DM so DM Eye can track your sheet live.</p>
+        </div>
+        <div class="info-card dm-link-card">
+          <div class="dm-link-row">
+            <div>
+              <p class="label">Your link code</p>
+              <p id="dmLinkCode" class="dm-link-code">————</p>
+            </div>
+            <label class="dm-toggle">
+              <input id="dmLinkToggle" type="checkbox" />
+              <span>Share with DM</span>
+            </label>
+          </div>
+          <p id="dmLinkStatus" class="muted tiny">Sharing off</p>
+          <div class="dm-link-actions">
+            <button type="button" id="dmLinkCopy" class="btn ghost tiny">Copy code</button>
+            <button type="button" id="dmLinkRegen" class="btn ghost tiny">New code</button>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <p class="label">Last saved</p>
+          <p id="lastSaved">—</p>
+          <p id="storageNote" class="muted"></p>
+          <p class="muted tiny" style="margin-top:0.6rem">
+            Spell &amp; class data from the 5e SRD (CC-BY-4.0, Wizards of the Coast).
+          </p>
+        </div>
+        <div class="stack">
+          <button type="button" id="exportBtn" class="btn primary">Export Backup</button>
+          <button type="button" id="importBtn" class="btn ghost">Import Backup</button>
+          <input id="importFile" type="file" accept="application/json,.json" hidden />
+          <button type="button" id="resetBtn" class="btn danger">Reset Progress</button>
+        </div>
+        <div class="info-card">
+          <p class="label">Install on iPhone</p>
+          <p class="muted">Safari → Share → Add to Home Screen.</p>
+          <p class="label" style="margin-top: 0.8rem">Install on Android</p>
+          <p class="muted">Chrome → Install app / Add to Home screen.</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="dock dock-6" aria-label="Primary">
+      <button type="button" class="tab active" data-tab="combat">Combat</button>
+      <button type="button" class="tab" data-tab="stats">Stats</button>
+      <button type="button" class="tab" data-tab="spells">Spells</button>
+      <button type="button" class="tab" data-tab="gear">Gear</button>
+      <button type="button" class="tab" data-tab="notes">Notes</button>
+      <button type="button" class="tab" data-tab="profile">Profile</button>
+    </nav>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <div id="gearPicker" class="sheet" hidden>
+      <div class="sheet-panel">
+        <header class="sheet-head">
+          <div>
+            <h2>Add equipment</h2>
+            <p class="muted tiny">5e SRD gear, weapons, armor, tools, and magic items</p>
+          </div>
+          <button type="button" id="gearPickerClose" class="btn ghost tiny" aria-label="Close">Close</button>
+        </header>
+        <div class="sheet-filters">
+          <label class="field tight">
+            <span>Search</span>
+            <input id="gearPickerSearch" type="search" placeholder="Longsword, healing potion…" autocomplete="off" />
+          </label>
+          <label class="field tight">
+            <span>Category</span>
+            <select id="gearPickerCategory">
+              <option value="all">All categories</option>
+            </select>
+          </label>
+        </div>
+        <div id="gearPickerResults" class="sheet-results"></div>
+        <button type="button" id="gearPickerCustom" class="btn ghost sheet-custom">+ Custom blank item</button>
+      </div>
+    </div>
+
+    <div id="portraitEditor" class="sheet" hidden>
+      <div class="sheet-panel portrait-editor-panel">
+        <header class="sheet-head">
+          <div>
+            <h2>Adjust photo</h2>
+            <p class="muted tiny">Drag and size inside the square — Profile shows the same square</p>
+          </div>
+          <button type="button" id="portraitEditCancel" class="btn ghost tiny">Cancel</button>
+        </header>
+        <div class="portrait-crop-stage">
+          <div id="portraitCropFrame" class="portrait-crop-frame" aria-label="Portrait outline">
+            <img id="portraitEditImg" alt="Portrait being cropped" draggable="false" />
+            <div class="portrait-crop-outline" aria-hidden="true"></div>
+          </div>
+          <p class="portrait-crop-caption muted tiny">Square outline = how it appears after you accept</p>
+        </div>
+        <label class="field tight portrait-zoom-field">
+          <span>Size</span>
+          <input id="portraitZoom" type="range" min="100" max="300" value="100" step="1" />
+        </label>
+        <div class="portrait-editor-actions">
+          <button type="button" id="portraitEditAccept" class="btn primary">Use photo</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="diedOverlay" class="overlay died" hidden>
+      <div class="overlay-inner">
+        <p class="you-died">YOU DIED</p>
+        <button type="button" class="btn overlay-return" data-close-overlay="died">Return</button>
+      </div>
+    </div>
+    <div id="livedOverlay" class="overlay lived" hidden>
+      <div class="overlay-inner">
+        <p class="you-lived-title">YOU LIVE</p>
+        <p id="livedPrompt" class="lived-prompt"></p>
+        <button type="button" class="btn overlay-return" data-close-overlay="lived">Return</button>
+      </div>
+    </div>
+    <div id="healedOverlay" class="overlay healed" hidden>
+      <div class="overlay-inner">
+        <p class="you-healed">You've been healed!</p>
+        <button type="button" class="btn overlay-return" data-close-overlay="healed">Return</button>
+      </div>
+    </div>
+
+    <script src="./data/dnd.js"></script>
+    <script src="./data/spells.js"></script>
+    <script src="./data/classes.js"></script>
+    <script src="./data/equipment.js"></script>
+    <script src="./data/codex.js"></script>
+    <script src="./data/dm-link.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

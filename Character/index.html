@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#121820" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Character" />
+    <meta name="robots" content="noindex" />
+    <title>Character — Piece Creator</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Cinzel:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=v6-admin-undo" />
+    <script>
+      // Reset browser / SW caches once per deploy bust token.
+      (function () {
+        var BUST = "v6-admin-undo";
+        var KEY = "gq-character-cache-bust";
+        try {
+          if (localStorage.getItem(KEY) === BUST) return;
+          var done = function () {
+            try {
+              localStorage.setItem(KEY, BUST);
+            } catch (_) {}
+            location.reload();
+          };
+          var tasks = [];
+          if (window.caches) {
+            tasks.push(
+              caches.keys().then(function (keys) {
+                return Promise.all(
+                  keys.map(function (k) {
+                    return caches.delete(k);
+                  })
+                );
+              })
+            );
+          }
+          if ("serviceWorker" in navigator) {
+            tasks.push(
+              navigator.serviceWorker.getRegistrations().then(function (regs) {
+                return Promise.all(
+                  regs.map(function (r) {
+                    return r.unregister();
+                  })
+                );
+              })
+            );
+          }
+          Promise.all(tasks).then(done).catch(done);
+        } catch (_) {}
+      })();
+    </script>
+  </head>
+  <body data-mode="build">
+    <header class="top">
+      <div class="brand-block">
+        <a class="back" href="../">← Hub</a>
+        <p class="brand">Character</p>
+      </div>
+      <nav class="mode-tabs" aria-label="Modes">
+        <button type="button" class="mode-btn active" data-mode="build">Build</button>
+        <button type="button" class="mode-btn" data-mode="create">Create</button>
+        <button type="button" class="mode-btn" data-mode="library">Library</button>
+        <button type="button" class="mode-btn" data-mode="mod" id="modTabBtn" hidden>Mod</button>
+        <button type="button" class="mode-btn" data-mode="admin" id="adminTabBtn" hidden>Admin</button>
+      </nav>
+    </header>
+
+    <!-- BUILD MODE -->
+    <section class="mode-panel active" data-panel="build">
+      <div class="stage-wrap">
+        <div class="stage-frame">
+          <svg
+            id="stage"
+            class="stage"
+            viewBox="0 0 400 560"
+            role="img"
+            aria-label="Character preview"
+          ></svg>
+        </div>
+        <div class="stage-actions">
+          <button type="button" id="randomBtn" class="btn ghost">Random</button>
+          <button type="button" id="clearGearBtn" class="btn ghost">Clear gear</button>
+          <button type="button" id="saveLookBtn" class="btn primary">Save look</button>
+          <button type="button" id="exportPngBtn" class="btn ghost">Export PNG</button>
+        </div>
+      </div>
+
+      <div class="builder">
+        <div class="slot-tabs" id="slotTabs" role="tablist" aria-label="Piece slots"></div>
+        <div class="piece-grid" id="pieceGrid" role="listbox" aria-label="Pieces"></div>
+        <p class="slot-hint" id="slotHint"></p>
+      </div>
+    </section>
+
+    <!-- CREATE MODE -->
+    <section class="mode-panel" data-panel="create">
+      <div class="create-layout">
+        <div class="create-preview">
+          <p class="section-label">Preview on character</p>
+          <div class="stage-frame compact">
+            <svg
+              id="createStage"
+              class="stage"
+              viewBox="0 0 400 560"
+              role="img"
+              aria-label="Creator preview"
+            ></svg>
+          </div>
+          <p class="create-tip">
+            Drag sliders until the piece sits where you want. Hair with an
+            “under hat” flag hides when a hat is equipped.
+          </p>
+        </div>
+
+        <form id="createForm" class="create-form" autocomplete="off">
+          <p class="section-label">New piece</p>
+
+          <label class="field">
+            <span>Name</span>
+            <input id="createName" type="text" maxlength="48" required placeholder="Steel cuirass" />
+          </label>
+
+          <label class="field">
+            <span>Slot (where it goes)</span>
+            <select id="createSlot" required></select>
+          </label>
+
+          <label class="field">
+            <span>Creator name</span>
+            <input id="createAuthor" type="text" maxlength="32" placeholder="Your name" />
+          </label>
+
+          <fieldset class="field upload-field">
+            <legend>Artwork</legend>
+            <div class="upload-row">
+              <label class="btn ghost file-btn">
+                Upload image
+                <input id="createFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden />
+              </label>
+              <button type="button" id="useSvgStubBtn" class="btn ghost">Use SVG stub</button>
+            </div>
+            <p id="uploadStatus" class="muted">PNG / WebP / SVG recommended. Transparent PNGs layer best.</p>
+            <textarea
+              id="createSvg"
+              rows="4"
+              placeholder="Or paste SVG markup for the piece (optional if you uploaded an image)"
+            ></textarea>
+          </fieldset>
+
+          <div class="transform-grid">
+            <label class="field">
+              <span>Offset X <output id="oxOut">0</output></span>
+              <input id="createOx" type="range" min="-120" max="120" value="0" />
+            </label>
+            <label class="field">
+              <span>Offset Y <output id="oyOut">0</output></span>
+              <input id="createOy" type="range" min="-120" max="120" value="0" />
+            </label>
+            <label class="field">
+              <span>Scale <output id="scOut">1.00</output></span>
+              <input id="createScale" type="range" min="40" max="180" value="100" />
+            </label>
+            <label class="field">
+              <span>Rotate <output id="rotOut">0°</output></span>
+              <input id="createRot" type="range" min="-45" max="45" value="0" />
+            </label>
+          </div>
+
+          <label class="check">
+            <input id="createUnderHat" type="checkbox" />
+            Mark as under-hat (hide when a hat is worn)
+          </label>
+
+          <label class="check" id="publishCheckWrap">
+            <input id="createPublish" type="checkbox" checked />
+            Publish to public / community library
+          </label>
+          <p id="publishBanNotice" class="msg error" hidden>
+            Publishing is disabled on this device — a ban is in effect. You can still save pieces locally.
+          </p>
+          <p id="publishScanNotice" class="msg error" hidden></p>
+
+          <div class="create-actions">
+            <button type="submit" class="btn primary">Save piece</button>
+            <button type="button" id="previewEquipBtn" class="btn ghost">Equip on build</button>
+          </div>
+          <p id="createMsg" class="msg" hidden></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- LIBRARY MODE -->
+    <section class="mode-panel" data-panel="library">
+      <div class="library">
+        <div class="library-head">
+          <div>
+            <h2>Community &amp; saves</h2>
+            <p class="lede-sm">
+              Official pieces ship with the app. Your creations stay on this
+              device. Public posts require agreeing to the rules; inappropriate
+              uploads are forced local-only. Banned publishers cannot post again.
+            </p>
+          </div>
+          <div class="library-actions">
+            <button type="button" id="exportPackBtn" class="btn primary">Export pack</button>
+            <label class="btn ghost file-btn">
+              Import pack
+              <input id="importPackFile" type="file" accept="application/json,.json" hidden />
+            </label>
+            <button type="button" id="reloadRemoteBtn" class="btn ghost">Fetch shared pack</button>
+            <button type="button" id="unlockModBtn" class="btn ghost">Admin / Mod unlock</button>
+          </div>
+        </div>
+
+        <div class="lib-section">
+          <h3>Saved looks</h3>
+          <div id="savedLooks" class="card-list"></div>
+        </div>
+
+        <div class="lib-section">
+          <h3>My creations</h3>
+          <div id="myCreations" class="card-list"></div>
+        </div>
+
+        <div class="lib-section">
+          <h3>Community published</h3>
+          <div id="communityList" class="card-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODERATION MODE -->
+    <section class="mode-panel" data-panel="mod">
+      <div class="library">
+        <div class="library-head">
+          <div>
+            <h2>Moderation</h2>
+            <p class="lede-sm">
+              See who posted what (author, publisher ID, IP). Ban an IP or
+              publisher so they cannot publish publicly again. Export bans into
+              <code>data/bans.json</code> and deploy so every visitor loads them.
+            </p>
+          </div>
+          <div class="library-actions">
+            <button type="button" id="exportBansBtn" class="btn primary">Export bans.json</button>
+            <label class="btn ghost file-btn">
+              Import bans
+              <input id="importBansFile" type="file" accept="application/json,.json" hidden />
+            </label>
+            <button type="button" id="reloadBansBtn" class="btn ghost">Fetch shipped bans</button>
+            <button type="button" id="lockModBtn" class="btn ghost">Lock mod</button>
+          </div>
+        </div>
+
+        <div class="lib-section">
+          <h3>Manual ban</h3>
+          <form id="manualBanForm" class="ban-form">
+            <label class="field">
+              <span>Type</span>
+              <select id="banType">
+                <option value="ip">IP address</option>
+                <option value="publisherId">Publisher ID</option>
+                <option value="author">Author name</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Value</span>
+              <input id="banValue" type="text" required placeholder="203.0.113.10" />
+            </label>
+            <label class="field">
+              <span>Reason</span>
+              <input id="banReason" type="text" maxlength="120" placeholder="Inappropriate public post" />
+            </label>
+            <button type="submit" class="btn danger">Add ban</button>
+          </form>
+        </div>
+
+        <div class="lib-section">
+          <h3>Active bans</h3>
+          <div id="banList" class="card-list"></div>
+        </div>
+
+        <div class="lib-section">
+          <h3>Who posted what</h3>
+          <div id="attributionList" class="card-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN PIECE LAYOUT -->
+    <section class="mode-panel" data-panel="admin">
+      <div class="admin-layout">
+        <div class="admin-preview">
+          <p class="section-label">Live preview</p>
+          <div class="stage-frame">
+            <svg
+              id="adminStage"
+              class="stage admin-stage"
+              viewBox="0 0 400 560"
+              role="img"
+              aria-label="Admin piece layout preview"
+            ></svg>
+          </div>
+          <p class="create-tip">
+            Drag to move the piece, or turn on <strong>Draw on piece</strong> to paint
+            details. Drawings move with the item. Save override, then export to ship.
+          </p>
+          <div class="stage-actions">
+            <button type="button" id="adminUndoBtn" class="btn ghost" disabled>Undo</button>
+            <button type="button" id="adminRedoBtn" class="btn ghost" disabled>Redo</button>
+            <button type="button" id="adminEquipBtn" class="btn ghost">Equip on build</button>
+            <button type="button" id="adminResetPieceBtn" class="btn ghost">Reset piece</button>
+            <button type="button" id="adminSavePieceBtn" class="btn primary">Save override</button>
+          </div>
+        </div>
+
+        <div class="admin-form">
+          <p class="section-label">Edit piece placement</p>
+
+          <label class="field">
+            <span>Slot filter</span>
+            <select id="adminSlotFilter"></select>
+          </label>
+
+          <label class="field">
+            <span>Piece</span>
+            <select id="adminPieceSelect"></select>
+          </label>
+
+          <label class="field">
+            <span>Draw as slot (layer category)</span>
+            <select id="adminPieceSlot"></select>
+          </label>
+
+          <fieldset class="draw-tools">
+            <legend>Draw on piece</legend>
+            <label class="check">
+              <input id="adminDrawMode" type="checkbox" />
+              Enable draw mode (paint instead of dragging)
+            </label>
+            <div class="draw-row">
+              <label class="field grow">
+                <span>Color</span>
+                <input id="adminDrawColor" type="color" value="#d4a35a" />
+              </label>
+              <label class="field grow">
+                <span>Brush <output id="adminBrushOut">6</output></span>
+                <input id="adminBrushSize" type="range" min="1" max="40" value="6" />
+              </label>
+            </div>
+            <label class="check">
+              <input id="adminEraseMode" type="checkbox" />
+              Eraser
+            </label>
+            <div class="create-actions">
+              <button type="button" id="adminUndoBtn2" class="btn ghost" disabled>Undo</button>
+              <button type="button" id="adminRedoBtn2" class="btn ghost" disabled>Redo</button>
+              <button type="button" id="adminClearDrawBtn" class="btn danger">Clear drawing</button>
+            </div>
+          </fieldset>
+
+          <div class="transform-grid">
+            <label class="field">
+              <span>Offset X <output id="adminOxOut">0</output></span>
+              <input id="adminOx" type="range" min="-200" max="200" value="0" />
+            </label>
+            <label class="field">
+              <span>Offset Y <output id="adminOyOut">0</output></span>
+              <input id="adminOy" type="range" min="-200" max="200" value="0" />
+            </label>
+            <label class="field">
+              <span>Scale <output id="adminScOut">1.00</output></span>
+              <input id="adminScale" type="range" min="30" max="220" value="100" />
+            </label>
+            <label class="field">
+              <span>Rotate <output id="adminRotOut">0°</output></span>
+              <input id="adminRot" type="range" min="-180" max="180" value="0" />
+            </label>
+          </div>
+
+          <label class="field">
+            <span>Layer depth (lower = farther back) <output id="adminZOut">0</output></span>
+            <input id="adminZ" type="range" min="0" max="200" value="0" />
+          </label>
+
+          <div class="create-actions">
+            <button type="button" id="adminZBackBtn" class="btn ghost">Send farther back</button>
+            <button type="button" id="adminZFrontBtn" class="btn ghost">Bring farther forward</button>
+          </div>
+
+          <p id="adminMsg" class="msg" hidden></p>
+
+          <div class="lib-section">
+            <h3>Global slot draw order</h3>
+            <p class="lede-sm">Top of list draws first (behind). Bottom draws last (in front).</p>
+            <div id="adminSlotOrder" class="slot-order-list"></div>
+            <div class="create-actions" style="margin-top: 0.65rem">
+              <button type="button" id="adminResetOrderBtn" class="btn ghost">Reset order</button>
+              <button type="button" id="adminSaveOrderBtn" class="btn primary">Save order</button>
+            </div>
+          </div>
+
+          <div class="lib-section">
+            <h3>Overrides pack</h3>
+            <div class="library-actions">
+              <button type="button" id="exportOverridesBtn" class="btn primary">Export overrides</button>
+              <label class="btn ghost file-btn">
+                Import overrides
+                <input id="importOverridesFile" type="file" accept="application/json,.json" hidden />
+              </label>
+              <button type="button" id="fetchOverridesBtn" class="btn ghost">Fetch shipped</button>
+              <button type="button" id="clearOverridesBtn" class="btn danger">Clear all local</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Publish agreement dialog -->
+    <dialog id="agreementDialog" class="agree-dialog">
+      <form method="dialog" id="agreementForm" class="agree-card">
+        <div id="agreementBody" class="agree-body"></div>
+        <label class="check">
+          <input id="agreementCheck" type="checkbox" required />
+          I agree. I understand inappropriate public posts can get my publisher / IP permanently banned from publishing.
+        </label>
+        <div class="create-actions">
+          <button type="submit" value="accept" class="btn primary">Accept &amp; continue</button>
+          <button type="button" id="agreementCancel" class="btn ghost" value="cancel">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="./data/version.js?v=v6-admin-undo"></script>
+    <script src="./data/slots.js?v=v6-admin-undo"></script>
+    <script src="./data/catalog.js?v=v6-admin-undo"></script>
+    <script src="./data/moderation.js?v=v6-admin-undo"></script>
+    <script src="./app.js?v=v6-admin-undo"></script>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "Character",
+  "short_name": "Character",
+  "description": "Layered character piece creator — bodies, heads, hair, gear, and community publishing.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#10161e",
+  "theme_color": "#121820",
+  "icons": []
+}

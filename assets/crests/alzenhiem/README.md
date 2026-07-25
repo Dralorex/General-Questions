@@ -1,6 +1,6 @@
-# Alzenhiem Crests
+# Alzenhiem Crests and Sigils
 
-Town flag and Knoleburn family crests for Dezco’s home hamlet.
+Town flag, Knoleburn family crests, and simpler personal sigils for Dezco’s home hamlet.
 
 ## Crest tradition
 
@@ -38,6 +38,26 @@ GitHub: https://github.com/Dralorex/General-Questions/blob/main/assets/crests/al
 4. https://github.com/Dralorex/General-Questions/blob/main/assets/crests/alzenhiem/kalhien-crest.png
 5. https://github.com/Dralorex/General-Questions/blob/main/assets/crests/alzenhiem/astiale-crest.png
 
+## Personal sigils
+
+Sigils are simpler than crests. One mark each, like a seal or brand, using the same personal colors.
+
+| Image | Person | Mark |
+|---|---|---|
+| [dolkin-sigil.png](dolkin-sigil.png) | Dolkin | Hammer strike in a stone arch |
+| [fulfein-sigil.png](fulfein-sigil.png) | Fulfein | Leaf curling into a crescent |
+| [dezco-sigil.png](dezco-sigil.png) | Dezco | Blade or flame in red and black halves |
+| [kalhien-sigil.png](kalhien-sigil.png) | Kalhien | Forward chevron of eager motion |
+| [astiale-sigil.png](astiale-sigil.png) | Astiale | Soft bud or gentle star |
+
+### Sigil links
+
+1. https://github.com/Dralorex/General-Questions/blob/main/assets/crests/alzenhiem/dolkin-sigil.png
+2. https://github.com/Dralorex/General-Questions/blob/main/assets/crests/alzenhiem/fulfein-sigil.png
+3. https://github.com/Dralorex/General-Questions/blob/main/assets/crests/alzenhiem/dezco-sigil.png
+4. https://github.com/Dralorex/General-Questions/blob/main/assets/crests/alzenhiem/kalhien-sigil.png
+5. https://github.com/Dralorex/General-Questions/blob/main/assets/crests/alzenhiem/astiale-sigil.png
+
 ## Notes
 
-Child crests intentionally keep a small echo of Dolkin’s stone mark and Fulfein’s leaf mark, then center a personal symbol for the child’s own name and path.
+Child crests intentionally keep a small echo of Dolkin’s stone mark and Fulfein’s leaf mark, then center a personal symbol for the child’s own name and path. Sigils strip that down to a single personal glyph.

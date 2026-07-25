@@ -34,6 +34,8 @@ Ours run like this:
 4. Kalhien: ink blue and copper, eager and forward
 5. Astiale: soft rose, cream, and a touch of sky
 
+Each of us also has a personal sigil: one simple mark in our colors, like a seal. Crests are the fuller signs. Sigils are the quick ones.
+
 The images live with the town crest under the Alzenhiem crest archive.
 
 ## The Knoleburn family

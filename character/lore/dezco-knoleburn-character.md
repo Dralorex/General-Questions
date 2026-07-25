@@ -39,7 +39,7 @@ Alzenhiem is small enough that everyone knows your footsteps before they know yo
 
 I call it home even when I am far from it. Especially when I am far from it.
 
-When I left for military training at eight years old, Alzenhiem was the last soft place my hands remembered. The yard taught me how to stand. Alzenhiem taught me what I was standing for. On hard nights under the Lion, I did not dream of glory. I dreamed of the lane behind our house, of my mother’s voice through an open window, of my father’s shadow crossing the doorway at dusk.
+When I left for military training at eight years old, Alzenhiem was the last soft place my hands remembered. The yard taught me how to stand. Alzenhiem taught me what I was standing for. On hard nights under Rilock, I did not dream of glory. I dreamed of the lane behind our house, of my mother’s voice through an open window, of my father’s shadow crossing the doorway at dusk.
 
 If the world ever asks what I am protecting when I talk about hope, the true answer begins there.
 
@@ -95,7 +95,7 @@ When I see him now, I still look for the boy who used to trail me down the lane.
 
 Astiale is eight. Sweet in a way the world has not managed to sand down yet. She was not born when I first left Alzenhiem. I met my own sister in pieces: visits, letters, the sudden shock of a child who already knew my name before I knew her face.
 
-She calls me home even when the rest of the realm calls me other things. To Astiale I am not a rumor, not a prophecy, not the Lion’s apprentice. I am her older brother who comes and goes, who kneels so she can reach me, who pretends not to notice when she hides behind Fulfein for the first minute and then refuses to let go for the last.
+She calls me home even when the rest of the realm calls me other things. To Astiale I am not a rumor, not a prophecy, not Rilock’s student or the Lion’s chosen trainee. I am her older brother who comes and goes, who kneels so she can reach me, who pretends not to notice when she hides behind Fulfein for the first minute and then refuses to let go for the last.
 
 If there is still softness left in me after years of training, a great deal of it has her name on it.
 

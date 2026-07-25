@@ -10,7 +10,7 @@ I don’t really understand why I’ve been chosen. But here I am, trying my bes
 
 I’m writing my experience from the beginning of when I started my journey to get to where I am today, with some details I only know now. Looking back changes the shape of things. Shadows I once dismissed as tricks of the light turn out to have been watching. Victories I thought were mine alone belonged to someone else’s hand on the scales. Still. This is my story, as true as I can make it.
 
-Before the yard, before the Lion, before anyone called me anything larger than my name, there was Alzenhiem. My father Dolkin. My mother Fulfein. My brother Kalhien. Later, my sister Astiale. I carry them through every page that follows, even when I do not write their names.
+Before the yard, before the Lion’s order, before Rilock’s training, before anyone called me anything larger than my name, there was Alzenhiem. My father Dolkin. My mother Fulfein. My brother Kalhien. Later, my sister Astiale. I carry them through every page that follows, even when I do not write their names.
 
 ## The Yard at Eight
 
@@ -84,13 +84,15 @@ Gods of old fed on worship. Yua does not. She grows through the hope, courage, a
 
 That bond between us began before I knew her name. It has only deepened since.
 
-## The King’s Lion
+## The King’s Lion and Rilock
 
 Watching the duel was the King’s greatest swordsman, known throughout the realm as The King’s Lion.
 
 He witnessed not only my victory, but Yua’s appearance. He was the only one who truly saw her. While the rest of the yard argued over light and rumor, he understood the significance of what had stood in the open air: a being from a race thought lost to centuries, breaking silence for a boy of twelve who should have been broken himself.
 
-He accepted me as his personal apprentice.
+He did not take me as his personal apprentice.
+
+Instead, the Lion directed one of his royal guard to train me: Rilock, the royal master swordsman. If the Lion was the will that chose my path, Rilock was the steel that carved it. The Lion pointed. Rilock taught. That distinction mattered to me even when the realm blurred it.
 
 Many believed Yua’s appearance marked the beginning of an ancient prophecy long thought impossible. Her kind had not been seen for hundreds of years. If she had returned, if she had chosen, then the old stories were no longer stories. They were warnings. Or promises. Or both.
 
@@ -98,13 +100,13 @@ I did not feel like prophecy.
 
 I felt like a boy who had been handed a future too large for his hands.
 
-The Lion did not care what I felt. He cared what I would become.
+The Lion did not care what I felt. He cared what I would become. Rilock cared how I would survive becoming it.
 
-## Years Under the Lion (Twelve to Seventeen)
+## Years Under Rilock (Twelve to Seventeen)
 
-Training under the King’s Lion was merciless.
+Training under Rilock was merciless.
 
-Endless swordsmanship drills until form lived in muscle instead of thought. Physical conditioning beyond what any ordinary human body should endure. Pain tolerance and endurance until pain became information, not a reason to stop. Tactical education: maps, supply lines, the cruel arithmetic of when to hold and when to cut. And real combat missions throughout the kingdom, each one harder than the last.
+Endless swordsmanship drills until form lived in muscle instead of thought. Physical conditioning beyond what any ordinary human body should endure. Pain tolerance and endurance until pain became information, not a reason to stop. Tactical education: maps, supply lines, the cruel arithmetic of when to hold and when to cut. And real combat missions throughout the kingdom, each one harder than the last. The Lion’s direction hung over the work like a seal. Rilock’s hands did the forging.
 
 These were never simulations.
 
@@ -116,11 +118,11 @@ Before I reached fifteen, my name was already known throughout much of the realm
 
 That is when the stories turned wrong.
 
-They did not only speak of the Lion’s apprentice. They spoke of me as the Hero of centuries. The one prophecy had waited for. The boy marked by a forgotten being. The answer to fading magic. Red and black on a battlefield, moving faster than sense allowed, as if destiny itself had dressed me for the part. Inns repeated it. Markets sold it. Soldiers whispered it like a comfort they could not afford to question.
+They spoke of the Lion’s apprentice, as if I had trained at the Lion’s hip. Closer to truth: I trained under Rilock by the Lion’s order. Then the stories grew teeth. They spoke of me as the Hero of centuries. The one prophecy had waited for. The boy marked by a forgotten being. The answer to fading magic. Red and black on a battlefield, moving faster than sense allowed, as if destiny itself had dressed me for the part. Inns repeated it. Markets sold it. Soldiers whispered it like a comfort they could not afford to question.
 
 I was no such thing.
 
-In those years I had no blessing that made me a Hero. No ancient title. No sacred charge. Only pure training under a merciless master, and whatever skill pain and survival could carve into me. The duel in the yard had been real. The Lion’s choice had been real. The sweat, the blood, the missions that could have killed me: all real. The rest was a fabrication that spread from people’s own ideas and rumors, grown fat on hope and fear and the hunger for a legend the world had gone too long without.
+In those years I had no blessing that made me a Hero. No ancient title. No sacred charge. Only pure training under a merciless master, and whatever skill pain and survival could carve into me. The duel in the yard had been real. The Lion’s direction had been real. Rilock’s teaching had been real. The sweat, the blood, the missions that could have killed me: all real. The rest was a fabrication that spread from people’s own ideas and rumors, grown fat on hope and fear and the hunger for a legend the world had gone too long without.
 
 I tried, once or twice, to correct it. It never mattered. A boy denying a prophecy only sounds like humility to those who already believe. So I trained. I fought. I lived. I let their story walk ahead of me like a stranger wearing my face.
 
@@ -130,15 +132,15 @@ I still rarely saw her clearly in those years. A flicker at the edge of campfire
 
 ## The Title of Hero
 
-At seventeen, after years of relentless training, my master declared that I had learned everything he could teach. It was time for me to venture into the world and help restore the peace.
+At seventeen, after years of relentless training, my master Rilock declared that I had learned everything he could teach. It was time for me to venture into the world and help restore the peace.
 
 He meant to name me his successor.
 
-Until that day, Hero had been other people’s word for me. A rumor. A fabrication. Then Yua appeared once more, this time before both of us, and the word stopped belonging only to strangers.
+Until that day, Hero had been other people’s word for me. A rumor. A fabrication. Then Yua appeared once more, this time before Rilock and me, with the King’s Lion present as the one who had set this path in motion, and the word stopped belonging only to strangers.
 
-For the first time in centuries, she openly revealed herself to another witness and did not run from my gaze. No trick at the corner of the eye. No vanishing when I turned. She stood there, ancient and present, and I finally understood that every shadow I had doubted since I was eight years old had been her choosing me in silence.
+For the first time in centuries, she openly revealed herself to other witnesses and did not run from my gaze. No trick at the corner of the eye. No vanishing when I turned. She stood there, ancient and present, and I finally understood that every shadow I had doubted since I was eight years old had been her choosing me in silence.
 
-Standing before the King’s Lion, she bestowed upon me the ancient title of Hero.
+Standing before the King’s Lion and my master Rilock, she bestowed upon me the ancient title of Hero.
 
 She entrusted me with a sacred mission:
 
@@ -148,7 +150,7 @@ She entrusted me with a sacred mission:
 4. Become the symbol of hope the world has long forgotten.
 5. Bring together the two halves of the world.
 
-My master gave his blessing. Yua gave her charge. I left my training behind, not as a student, but as the first Hero the world had seen in generations.
+My master gave his blessing. The Lion’s silence felt like permission edged in steel. Yua gave her charge. I left my training behind, not as a student, but as the first Hero the world had seen in generations.
 
 Yua joins me on this adventure. She aids me in the times I fall short. Most days she appears only as the shape of a small pixie, light enough to perch near my shoulder, old enough to remember when the world still believed magic would last forever.
 
@@ -156,7 +158,7 @@ I am seventeen. Five foot ten. Slender. Black hair. Half of one people and half 
 
 I still don’t fully understand why I was chosen.
 
-But I am writing this so that if I fail, or if I don’t, there will be a record of how it began: with a boy from a small hamlet, a yard that tried to remake him, a rival who thought destiny belonged only to him, a Lion who saw what others missed, and a forgotten being who broke an oath older than kingdoms because magic was dying… and because, for reasons I may never earn, she looked at me and decided the world was not finished yet.
+But I am writing this so that if I fail, or if I don’t, there will be a record of how it began: with a boy from a small hamlet, a yard that tried to remake him, a rival who thought destiny belonged only to him, a Lion who saw what others missed, a royal master swordsman named Rilock who made the seeing into training, and a forgotten being who broke an oath older than kingdoms because magic was dying… and because, for reasons I may never earn, she looked at me and decided the world was not finished yet.
 
 *Dezco Knoleburn of Alzenhiem*
 *Hero, whether I am ready or not*

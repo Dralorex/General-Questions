@@ -1,0 +1,32 @@
+---
+description: Keep Dezco party reference sheet updated with any new lore
+alwaysApply: true
+---
+
+# Dezco party reference must stay current
+
+Whenever Dezco Knoleburn lore changes in this repo, update the quick party reference in the same turn:
+
+`character/lore/dezco-party-reference.md`
+
+## What counts as a change
+
+Update the sheet if you add or edit any of:
+
+1. Dezco’s identity, stats, colors, titles, mission, or personality
+2. Family, Alzenhiem, names, crests, sigils
+3. Yua, the King’s Lion, the rival, timeline events
+4. Secrets, what party members may know, or reveal timing
+5. New play-session facts meant for party conversation
+
+## How to update
+
+1. Put the new fact in the matching quick section (tables preferred).
+2. Bump **Last updated** at the top of the sheet.
+3. If it is a new in-play discovery, also add a row under **Blank lines for new party facts**.
+4. Keep entries short and scannable. Long prose belongs in the other lore files; this sheet is for short-term memory friendly lookup while talking to party members.
+5. Mark secrets clearly under **Secrets / do not spoil yet** when Dezco himself does not know them yet.
+
+## Do not skip
+
+Even small lore tweaks must land on the party reference sheet. The sheet exists because the player relies on it for short-term memory support.

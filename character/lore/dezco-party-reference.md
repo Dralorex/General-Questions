@@ -3,14 +3,14 @@
 *Use this when talking about yourself to other party members.*
 *Keep it short. Scan the section you need. Full stories live in the other lore files.*
 
-**Last updated:** 2026-07-26 (trainer clarified: Rilock under the King’s Lion)  
+**Last updated:** 2026-07-26 (fixed Rilock age timing + intro training start)  
 **Update rule:** any new Dezco / Alzenhiem / Knoleburn / Yua fact must be mirrored here the same turn.
 
 ---
 
 ## 30 second intro (say this)
 
-> I’m Dezco Knoleburn. Seventeen. From a hamlet called Alzenhiem. Dwarven and Elven blood. Trained since twelve by Rilock, royal master swordsman, by order of the King’s Lion. People called me Hero for years before it was true. Yua made it true at seventeen. I love red and black. I’m trying my best.
+> I’m Dezco Knoleburn. Seventeen. From a hamlet called Alzenhiem. Dwarven and Elven blood. Military trained since eight. From twelve, trained by Rilock, royal master swordsman of the King’s Lion’s royal guard, by the Lion’s order. People called me Hero for years before it was true. Yua made it true at seventeen. I love red and black. I’m trying my best.
 
 ---
 

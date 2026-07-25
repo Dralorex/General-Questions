@@ -1,10 +1,10 @@
 # Journal Entry 01: After the Charge
 
-*Written at seventeen, after Yua and my master laid the Hero’s charge on me.*
+*Written at seventeen, after Yua laid the Hero’s charge on me, with Rilock and the King’s Lion present.*
 *Who I am, my home, and my family are told properly in the character introduction. For quick party talk, use the party reference sheet.*
 *Journal folder: each new entry is its own file in order.*
 
-This is my first journal entry after Yua and my master bestrode a heavy responsibility on my shoulders.
+This is my first journal entry after Yua bestrode a heavy responsibility on my shoulders, and my master Rilock sent me into the world with his blessing.
 
 I don’t really understand why I’ve been chosen. But here I am, trying my best.
 

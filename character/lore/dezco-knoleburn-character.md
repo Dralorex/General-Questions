@@ -39,7 +39,7 @@ Alzenhiem is small enough that everyone knows your footsteps before they know yo
 
 I call it home even when I am far from it. Especially when I am far from it.
 
-When I left for military training at eight years old, Alzenhiem was the last soft place my hands remembered. The yard taught me how to stand. Alzenhiem taught me what I was standing for. On hard nights under Rilock, I did not dream of glory. I dreamed of the lane behind our house, of my mother’s voice through an open window, of my father’s shadow crossing the doorway at dusk.
+When I left for military training at eight years old, Alzenhiem was the last soft place my hands remembered. The yard taught me how to stand. Alzenhiem taught me what I was standing for. Later, on hard nights under Rilock, I did not dream of glory. I dreamed of the lane behind our house, of my mother’s voice through an open window, of my father’s shadow crossing the doorway at dusk.
 
 If the world ever asks what I am protecting when I talk about hope, the true answer begins there.
 

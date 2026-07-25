@@ -18,8 +18,18 @@ Update the sheet if you add or edit any of:
 3. Yua, the King’s Lion, the rival, timeline events
 4. Secrets, what party members may know, or reveal timing
 5. New play-session facts meant for party conversation
+6. New journal entries, inventory, places, or travel status
 
-## How to update
+## Journal entries
+
+Dezco’s journal lives as sequential files under `character/lore/journal/`:
+
+1. Use the next number: `03-short-title.md`, then `04-...`, and so on
+2. Do not dump new entries into one giant journal file
+3. Update `character/lore/journal/README.md` when adding an entry
+4. Keep the stub index at `character/lore/dezco-knoleburn-journal.md` in sync if needed
+
+## How to update the party sheet
 
 1. Put the new fact in the matching quick section (tables preferred).
 2. Bump **Last updated** at the top of the sheet.

@@ -22,6 +22,20 @@ When I left for military training at eight years old, Alzenhiem was the last sof
 
 If the world ever asks what I am protecting when I talk about hope, the true answer begins there.
 
+## Crests of Alzenhiem
+
+Alzenhiem keeps a quiet crest tradition. The hamlet has its own flag: wheat, roof, and lane in gold, green, brown, and cream. Each child is also given a personal crest that embodies the name they receive, their gender, and marks from both parents. Parent crests are fuller. Child crests stay simpler, but no two are the same. Colors follow the person’s vibe.
+
+Ours run like this:
+
+1. Dolkin: charcoal, iron, and bronze amber over stone and hammer
+2. Fulfein: sage, silver, and pale gold around leaf and crescent
+3. Mine: red and black, a simple blade of balance between their marks
+4. Kalhien: ink blue and copper, eager and forward
+5. Astiale: soft rose, cream, and a touch of sky
+
+The images live with the town crest under the Alzenhiem crest archive.
+
 ## The Knoleburn family
 
 We are not a house of lords. We are a family that stayed, worked, and loved in a place too small for maps to bother with. That is enough. That has always been enough.

@@ -1,7 +1,7 @@
 # Journal of Dezco Knoleburn
 
 *First entry, written at seventeen, after the charge was laid upon me*
-*Who I am, my home, and my family are told properly in the character introduction. This journal is the road that led me here.*
+*Who I am, my home, and my family are told properly in the character introduction. For quick party talk, use the party reference sheet. This journal is the road that led me here.*
 
 This is my first journal entry after Yua and my master bestrode a heavy responsibility on my shoulders.
 

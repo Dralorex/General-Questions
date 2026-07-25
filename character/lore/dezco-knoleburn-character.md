@@ -2,6 +2,8 @@
 
 *Character introduction. Separate from the journal. This is who he is before the story of how he became Hero takes over.*
 
+*Need a short memory friendly sheet for talking to party members? Use `dezco-party-reference.md`.*
+
 ## At a glance
 
 Hi. I am Dezco Knoleburn.

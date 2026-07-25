@@ -6,11 +6,27 @@
 
 Hi. I am Dezco Knoleburn.
 
+**Name meaning:** stands firm; one who holds his ground
+
 I am seventeen years old, five foot and ten inches tall, slender, with black hair that never quite stays where I want it. I love the colors red and black. Always have. Maybe that says something about me. Maybe it doesn’t. My family tree is a tangled thing, roots sunk deep into both Dwarven stone and Elven blood, and I have spent half my life wondering which half of me people see first.
 
 I don’t really understand why I’ve been chosen. But here I am, trying my best.
 
 Home is not a barracks, and it is not a prophecy. Home is a hamlet called Alzenhiem.
+
+## What our names mean
+
+In Alzenhiem, a name is the first charge laid on a life. Crest and sigil are painted to serve it.
+
+1. **Alzenhiem:** sheltered home under a kind sky
+2. **Knoleburn:** stream by the knoll; a house tied to living land
+3. **Dolkin** (Dol kin): steadfast of kin
+4. **Fulfein** (Fule fe in): full fair light
+5. **Dezco:** stands firm
+6. **Kalhien** (Kal he en): rises in pursuit
+7. **Astiale** (as T ale): gentle star
+
+The longer naming notes live in the Knoleburn names lore.
 
 ## Alzenhiem
 
@@ -44,17 +60,23 @@ We are not a house of lords. We are a family that stayed, worked, and loved in a
 
 ### Dolkin Knoleburn (Dol kin), father, 38
 
+**Name meaning:** steadfast of kin
+
 My father is thirty eight. Steady in the way stone is steady: not flashy, not loud, simply there when weight needs somewhere to rest. Dolkin carries the Dwarven depth in our line more openly than the rest of us. He believes in work done properly, in keeping your word, and in protecting your own without making a speech about it.
 
 He did not send me away at eight because he wanted a legend. He sent me because he believed a hard road might keep me alive in a harder world. I think that choice still sits heavy on him. Fathers like Dolkin do not waste words on guilt. They show it by asking if you have eaten, by checking your hands for new scars, by saying your name like it still belongs to Alzenhiem first.
 
 ### Fulfein Knoleburn (Fule fe in), mother, 36
 
+**Name meaning:** full fair light
+
 My mother is thirty six. Fulfein holds more of the Elven grace in our blood, though she wears it quietly, the way soft light wears on water. She is warm without being fragile. Kind without being blind. If Alzenhiem has a center for me, it is her.
 
 She writes when she can. She remembers dates nobody else keeps. She asked me once, when I was still small enough to fit under her arm, whether I was afraid of leaving. I told her no. She knew I was lying and loved me anyway. That is Fulfein: she sees the truth, then stays beside you while you grow brave enough to say it.
 
 ### Kalhien Knoleburn (Kal he en), younger brother, 15
+
+**Name meaning:** rises in pursuit
 
 Kalhien is fifteen. Two years behind me, and somehow already trying to walk like he can catch up. He was six when I left for the yard. Old enough to remember me as a brother, young enough that my absence became part of how he grew.
 
@@ -63,6 +85,8 @@ He is sharp, restless, and proud in the way younger brothers are proud when the 
 When I see him now, I still look for the boy who used to trail me down the lane. He looks back like he is measuring the distance between us and deciding whether to close it or race it.
 
 ### Astiale Knoleburn (as T ale), younger sister, 8
+
+**Name meaning:** gentle star
 
 Astiale is eight. Sweet in a way the world has not managed to sand down yet. She was not born when I first left Alzenhiem. I met my own sister in pieces: visits, letters, the sudden shock of a child who already knew my name before I knew her face.
 

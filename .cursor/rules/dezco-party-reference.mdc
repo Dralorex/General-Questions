@@ -19,6 +19,15 @@ Update the sheet if you add or edit any of:
 4. Secrets, what party members may know, or reveal timing
 5. New play-session facts meant for party conversation
 6. New journal entries, inventory, places, or travel status
+7. Yua story plots, reveals, or magic systems (Mana Well, red/black meaning, etc.)
+
+## Yua story plots
+
+Longer Yua side plots live under `character/lore/yua-story-plots/`.
+
+1. Keep future Yua reveals in that folder until a journal entry catches up
+2. Still mirror any player facing facts onto the party reference sheet
+3. Mark unrevealed material under **Secrets / do not spoil yet**
 
 ## Journal entries
 

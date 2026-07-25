@@ -3,7 +3,7 @@
 *Use this when talking about yourself to other party members.*
 *Keep it short. Scan the section you need. Full stories live in the other lore files.*
 
-**Last updated:** 2026-07-25 (shovel double meaning clarified)  
+**Last updated:** 2026-07-25 (journal entry 03: Saltrock staff falls; mid siege)  
 **Update rule:** any new Dezco / Alzenhiem / Knoleburn / Yua fact must be mirrored here the same turn.
 
 ---
@@ -32,8 +32,8 @@
 | Companion | Yua (often appears as a small pixie) |
 | Crest colors | crimson red + deep black |
 | Sigil | vertical blade / flame split red and black |
-| Current location | Saltrock (lodging at the tavern for the night) |
-| Travel status | Just left Alzenhiem after final family goodbye |
+| Current location | Saltrock general building (doors sealed; under attack) |
+| Travel status | Adventure day 2 gone wrong; protective staff fell; mid siege |
 
 ---
 
@@ -91,7 +91,10 @@
 | 17 | Yua appeared to me and the Lion; gave me the ancient title Hero + sacred mission |
 | 17 | Final goodbye at Alzenhiem; family gifts; left for the road |
 | 17 | Reached Saltrock; lodging at the tavern; seeking where to travel next |
-| Now | In Saltrock after leaving home; traveling with Yua’s aid |
+| 17 | Saltrock staff fell; monsters attacked (massive crabs + others) |
+| 17 | Fought with 4 other defenders; missed a short bow creature; saved by an elf girl’s arrow |
+| 17 | Barely sealed inside the general building; many townsfolk fate unknown |
+| Now | Trapped in Saltrock general building during the attack; entry open ended |
 
 ---
 
@@ -102,6 +105,8 @@
 | Yua | Ancient being tied to magic; broke a millennia oath to act; watched me since childhood; gave me Hero title; often appears as a small pixie |
 | The King’s Lion | King’s greatest swordsman; only one who truly saw Yua at the duel; my master |
 | The Rival | Older trainee who believed he was the chosen one; challenged me at 12; lost after Yua’s hidden aid |
+| Elf girl archer | One of 4 defenders in Saltrock attack; pinned a short bow creature through the mouth and into the ground; name not known yet |
+| 3 other defenders | Fought beside us getting townsfolk to the general building; names not known yet |
 
 ---
 
@@ -124,10 +129,12 @@
 |---|---|
 | Alzenhiem | Home hamlet; my center |
 | Saltrock | Traveling town of people coming and going; I know it well |
-| Saltrock general building | Holds a floating magic staff; protects the town from any monster/creature whose name is written on the stones below |
-| Saltrock tavern | Current lodging; “best bread” only if you have nostalgia (actually bland; never say that out loud) |
+| Saltrock general building | Holds the protective magic staff; we are sealed inside it during the attack |
+| Saltrock protective staff | Used to float and block named monsters/creatures; has fallen; reason unknown |
+| Saltrock tavern | Where I lodged the night before the attack; “best bread” only with nostalgia |
 
-**First magic item I ever saw:** the floating protective staff in Saltrock.
+**First magic item I ever saw:** the floating protective staff in Saltrock.  
+**Current crisis:** staff down; crabs and other creatures overran the streets; unknown how many people remain outside.
 
 ---
 
@@ -212,6 +219,7 @@ Black = Dwarven caves / void / dark over light. Red = Elven holy blood after ill
 | Journal index | `character/lore/journal/README.md` |
 | Journal 01 (backstory) | `character/lore/journal/01-after-the-charge.md` |
 | Journal 02 (leave home / Saltrock) | `character/lore/journal/02-leaving-home-for-saltrock.md` |
+| Journal 03 (staff falls / mid siege) | `character/lore/journal/03-saltrock-staff-falls.md` |
 | Name meanings | `character/lore/knoleburn-names.md` |
 | Crest / sigil deep meanings | `assets/crests/alzenhiem/README.md` |
 | Red/black reveal (future) | `character/lore/yua-on-red-and-black.md` |

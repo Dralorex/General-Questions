@@ -16,13 +16,17 @@ Parent crests are the fuller household signs, made when Dolkin and Fulfein came 
 
 A sigil is made the same day as the crest. Crests are for doors, cloth, and formal keeping. Sigils are for wax, tools, letters, and quick recognition: one mark, same colors, same soul, fewer lines.
 
+Full name meanings also live in `character/lore/knoleburn-names.md`.
+
 ## Town flag: Alzenhiem
 
 ![Alzenhiem town flag](alzenhiem-town-crest.png)
 
+**Name meaning:** sheltered home under a kind sky
+
 **Colors:** wheat gold, meadow green, earth brown, cream
 
-**Meaning:** roof, wheat, and the lane that knows your footsteps.
+**Crest meaning:** roof, wheat, and the lane that knows your footsteps.
 
 **Significance:** Alzenhiem’s flag is not a conquest banner. It is a promise of ordinary shelter. The roof says people stay. The wheat says people feed each other. The lane says everyone is known before they are ranked.
 
@@ -32,13 +36,17 @@ GitHub: https://github.com/Dralorex/General-Questions/blob/main/assets/crests/al
 
 ## Dolkin Knoleburn (father, 38)
 
+**Name meaning:** steadfast of kin; the firm portion given to the family
+
+**Said:** Dol kin
+
 ### Crest
 
 ![Dolkin crest](dolkin-crest.png)
 
 **Colors:** charcoal, iron gray, bronze amber
 
-**Meaning:** a stone arch and hammer: work that holds, and shelter that does not boast.
+**Crest meaning:** a stone arch and hammer: work that holds, and shelter that does not boast.
 
 **Significance:** Dolkin’s crest is the Dwarven depth in the family made visible. Charcoal and iron are the cave and the tool. Bronze amber is the warm spark of labor well done, not the glitter of status. The arch is protection. The hammer is responsibility. Together they say a man is measured by what he builds and what he keeps standing.
 
@@ -62,13 +70,17 @@ Sigil: https://github.com/Dralorex/General-Questions/blob/main/assets/crests/alz
 
 ## Fulfein Knoleburn (mother, 36)
 
+**Name meaning:** full fair light; spirit filled with gentle shining
+
+**Said:** Fule fe in
+
 ### Crest
 
 ![Fulfein crest](fulfein-crest.png)
 
 **Colors:** sage green, silver, pale gold
 
-**Meaning:** a leaf curling around a crescent: living care under gentle light.
+**Crest meaning:** a leaf curling around a crescent: living care under gentle light.
 
 **Significance:** Fulfein’s crest carries the Elven grace in the family without turning soft into weak. Sage is growth that knows seasons. Silver is clear sight. Pale gold is warmth that does not burn. The leaf is nurture. The crescent is watchfulness through dark hours. This is a mother’s sign as much as an Elven one: she sees, she tends, she stays.
 
@@ -92,13 +104,15 @@ Sigil: https://github.com/Dralorex/General-Questions/blob/main/assets/crests/alz
 
 ## Dezco Knoleburn (son, 17)
 
+**Name meaning:** stands firm; one who holds his ground
+
 ### Crest
 
 ![Dezco crest](dezco-crest.png)
 
 **Colors:** crimson red and deep black
 
-**Meaning:** a blade or rising flame split between red and black: resolve held in balance.
+**Crest meaning:** a blade or rising flame split between red and black: resolve held in balance.
 
 **Significance:** Dezco’s crest is a child crest, simpler than his parents’, yet heavier with joined blood. Tiny echoes of Dolkin’s stone and Fulfein’s leaf sit near a personal upright mark. Red and black are not costume colors. They are the vibe the family felt in him from the start: intensity, contrast, a life that would have to hold darkness and living fire together. The masculine child form is upright and pointed, but not crowded with adult claims.
 
@@ -122,13 +136,17 @@ Sigil: https://github.com/Dralorex/General-Questions/blob/main/assets/crests/alz
 
 ## Kalhien Knoleburn (son, 15)
 
+**Name meaning:** rises in pursuit; the one who climbs toward what he seeks
+
+**Said:** Kal he en
+
 ### Crest
 
 ![Kalhien crest](kalhien-crest.png)
 
 **Colors:** ink blue and copper
 
-**Meaning:** a forward chevron or eager running mark: motion toward a place not yet reached.
+**Crest meaning:** a forward chevron or eager running mark: motion toward a place not yet reached.
 
 **Significance:** Kalhien’s crest names the restless pride of a second son without insulting him. Ink blue is deep will and night thinking. Copper is bright heat that wants to prove itself now. The forward mark leans into the future. Small parent echoes remain, because he is still Dolkin and Fulfein’s, but the center belongs to his own hunger to catch up, to be seen as himself.
 
@@ -152,13 +170,17 @@ Sigil: https://github.com/Dralorex/General-Questions/blob/main/assets/crests/alz
 
 ## Astiale Knoleburn (daughter, 8)
 
+**Name meaning:** gentle star; soft rising of dawn light
+
+**Said:** as T ale
+
 ### Crest
 
 ![Astiale crest](astiale-crest.png)
 
 **Colors:** soft rose, cream, pale sky
 
-**Meaning:** a blossoming bud or gentle star: sweetness that is still becoming.
+**Crest meaning:** a blossoming bud or gentle star: sweetness that is still becoming.
 
 **Significance:** Astiale’s crest is the tenderest of the set, and that is its strength. Rose is affection. Cream is unspoiled light. Pale sky is room to grow. The bud or soft star says she was named as promise, not as weapon. Parent marks remain small beside her, so she is held by the house without being made into its shield.
 

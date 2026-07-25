@@ -46,6 +46,20 @@ Dezco’s journal lives as sequential files under `character/lore/journal/`:
 4. Keep entries short and scannable. Long prose belongs in the other lore files; this sheet is for short-term memory friendly lookup while talking to party members.
 5. Mark secrets clearly under **Secrets / do not spoil yet** when Dezco himself does not know them yet.
 
+## Downloadable Google export
+
+When lore/journal/Yua/crest content changes in a meaningful way, regenerate the Google Drive export pack in the same turn:
+
+```bash
+python3 character/lore/exports/build_dezco_lore_export.py
+```
+
+Outputs:
+1. `character/lore/exports/Dezco_Knoleburn_Lore_Tabs.xlsx` (tabbed Google Sheets upload)
+2. `character/lore/exports/Dezco_Knoleburn_Lore.docx` (Google Docs upload)
+
+Commit the rebuilt files with the lore change.
+
 ## Do not skip
 
 Even small lore tweaks must land on the party reference sheet. The sheet exists because the player relies on it for short-term memory support.

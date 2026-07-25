@@ -206,6 +206,20 @@ Mana pool stored within soul confines but separate from the soul. Simple imbue m
 
 ---
 
+## Abilities (Mana Well)
+
+| Piece | Quick fact |
+|---|---|
+| Source | Bestowed by Yua with the Hero charge; unexplained at first |
+| Well | Stored mana pool within soul confines; separate from the soul |
+| Simple imbue | Innate; should feel as easy as breathing once understood |
+| Sword effect | Lighter, sharper; short burst of swiftness / agility |
+| First use | Saltrock battle (journal 03); accidental ~15 ft dash mid swing = faceplant |
+| Training needed | Control timing, avoid waste, move with the burst instead of being thrown |
+| Yua’s plan | Stay quiet until I ask or figure it out; changed after watching me biff |
+
+---
+
 ## How I sound when I talk about myself
 
 1. Honest, a little unsure about being chosen

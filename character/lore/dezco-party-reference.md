@@ -3,7 +3,7 @@
 *Use this when talking about yourself to other party members.*
 *Keep it short. Scan the section you need. Full stories live in the other lore files.*
 
-**Last updated:** 2026-07-25  
+**Last updated:** 2026-07-25 (journal entry 02: Saltrock departure)  
 **Update rule:** any new Dezco / Alzenhiem / Knoleburn / Yua fact must be mirrored here the same turn.
 
 ---
@@ -32,6 +32,8 @@
 | Companion | Yua (often appears as a small pixie) |
 | Crest colors | crimson red + deep black |
 | Sigil | vertical blade / flame split red and black |
+| Current location | Saltrock (lodging at the tavern for the night) |
+| Travel status | Just left Alzenhiem after final family goodbye |
 
 ---
 
@@ -87,7 +89,9 @@
 | Before 15 | Name known across much of the realm |
 | 17 | Master said I had learned all he could teach |
 | 17 | Yua appeared to me and the Lion; gave me the ancient title Hero + sacred mission |
-| Now | Traveling with Yua’s aid; first Hero in generations |
+| 17 | Final goodbye at Alzenhiem; family gifts; left for the road |
+| 17 | Reached Saltrock; lodging at the tavern; seeking where to travel next |
+| Now | In Saltrock after leaving home; traveling with Yua’s aid |
 
 ---
 
@@ -98,6 +102,32 @@
 | Yua | Ancient being tied to magic; broke a millennia oath to act; watched me since childhood; gave me Hero title; often appears as a small pixie |
 | The King’s Lion | King’s greatest swordsman; only one who truly saw Yua at the duel; my master |
 | The Rival | Older trainee who believed he was the chosen one; challenged me at 12; lost after Yua’s hidden aid |
+
+---
+
+## Current gear / gifts from home
+
+| Item | From | Notes |
+|---|---|---|
+| New sword | Dolkin | Hand forged goodbye; his love without saying the words |
+| First smithing tools | Dolkin | His original set; “you are the master of your steel” |
+| 10 gold pieces | Fulfein | Travel money |
+| Cooking pot | Fulfein | Eat warm when you can |
+| New clothing | Fulfein | Wearing them out of respect; left home in them |
+| Shovel | Fulfein | For a harder duty: burying the dead with dignity when needed |
+
+---
+
+## Places
+
+| Place | What it is |
+|---|---|
+| Alzenhiem | Home hamlet; my center |
+| Saltrock | Traveling town of people coming and going; I know it well |
+| Saltrock general building | Holds a floating magic staff; protects the town from any monster/creature whose name is written on the stones below |
+| Saltrock tavern | Current lodging; “best bread” only if you have nostalgia (actually bland; never say that out loud) |
+
+**First magic item I ever saw:** the floating protective staff in Saltrock.
 
 ---
 
@@ -179,7 +209,9 @@ Black = Dwarven caves / void / dark over light. Red = Elven holy blood after ill
 | Need | File |
 |---|---|
 | Full character intro | `character/lore/dezco-knoleburn-character.md` |
-| Full backstory journal | `character/lore/dezco-knoleburn-journal.md` |
+| Journal index | `character/lore/journal/README.md` |
+| Journal 01 (backstory) | `character/lore/journal/01-after-the-charge.md` |
+| Journal 02 (leave home / Saltrock) | `character/lore/journal/02-leaving-home-for-saltrock.md` |
 | Name meanings | `character/lore/knoleburn-names.md` |
 | Crest / sigil deep meanings | `assets/crests/alzenhiem/README.md` |
 | Red/black reveal (future) | `character/lore/yua-on-red-and-black.md` |
@@ -192,5 +224,6 @@ Add new rows here whenever something new becomes true in play:
 
 | Date / session | New fact | Share with party? |
 |---|---|---|
-| | | |
+| Journal 02 | Left Alzenhiem with Dolkin’s sword + smithing tools; Fulfein’s gold, pot, clothes, shovel | Yes |
+| Journal 02 | In Saltrock tavern overnight; knows the floating protective staff | Yes |
 | | | |

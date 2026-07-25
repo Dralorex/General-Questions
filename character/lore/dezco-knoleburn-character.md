@@ -24,19 +24,19 @@ If the world ever asks what I am protecting when I talk about hope, the true ans
 
 ## Crests of Alzenhiem
 
-Alzenhiem keeps a quiet crest tradition. The hamlet has its own flag: wheat, roof, and lane in gold, green, brown, and cream. Each child is also given a personal crest that embodies the name they receive, their gender, and marks from both parents. Parent crests are fuller. Child crests stay simpler, but no two are the same. Colors follow the person’s vibe.
+Alzenhiem keeps a quiet crest tradition. Signs are a naming rite, not noble vanity. The hamlet has its own flag: wheat, roof, and lane in gold, green, brown, and cream. When a child is born, they receive a crest that must hold three truths: the name they are given, their gender, and marks from both parents. Parent crests are fuller. Child crests stay simpler on purpose, so a newborn is not buried under a complicated fate. Colors follow the person’s vibe as the family first felt it.
 
 Ours run like this:
 
-1. Dolkin: charcoal, iron, and bronze amber over stone and hammer
-2. Fulfein: sage, silver, and pale gold around leaf and crescent
-3. Mine: red and black, a simple blade of balance between their marks
-4. Kalhien: ink blue and copper, eager and forward
-5. Astiale: soft rose, cream, and a touch of sky
+1. Dolkin: charcoal, iron, and bronze amber over stone and hammer, made for bearing weight and keeping shelter
+2. Fulfein: sage, silver, and pale gold around leaf and crescent, made for care and watchfulness
+3. Mine: red and black, a simple blade of balance between their marks, set that way at birth because both lines already lived in me
+4. Kalhien: ink blue and copper, eager and forward, colored apart from me so he would not grow under my shadow
+5. Astiale: soft rose, cream, and a touch of sky, kept gentle on purpose so kindness stayed part of our house
 
-Each of us also has a personal sigil: one simple mark in our colors, like a seal. Crests are the fuller signs. Sigils are the quick ones.
+Each of us also has a personal sigil made the same day as the crest: one simple mark in our colors, like a seal. Crests are the fuller signs. Sigils are the quick ones.
 
-The images live with the town crest under the Alzenhiem crest archive.
+The full meanings, birth design reasons, and images live under the Alzenhiem crest archive.
 
 ## The Knoleburn family
 

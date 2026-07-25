@@ -112,11 +112,19 @@ I nearly died more times than I care to count. I saved people whose names I stil
 
 Before I reached fifteen, my name was already known throughout much of the realm.
 
-They spoke of the Lion’s apprentice. Of the boy blessed by a forgotten being. Of red and black on a battlefield, moving faster than sense allowed. Some of that was true. Some of it was the story growing teeth of its own. Reputation is a second sword; it cuts whether you draw it or not.
+That is when the stories turned wrong.
 
-And as more people came to know my name, Yua’s favor toward me continued to grow. Not as a prize. As a bond. Lives saved. Selflessness chosen when selfishness would have been easier. Hope placed in me by strangers who had never seen my face, and somehow, through that hope, she grew stronger beside me.
+They did not only speak of the Lion’s apprentice. They spoke of me as the Hero of centuries. The one prophecy had waited for. The boy marked by a forgotten being. The answer to fading magic. Red and black on a battlefield, moving faster than sense allowed, as if destiny itself had dressed me for the part. Inns repeated it. Markets sold it. Soldiers whispered it like a comfort they could not afford to question.
 
-I still rarely saw her clearly in those years. A flicker at the edge of campfire light. A presence in the breath before a fight I should not have survived. Always near. Almost never held.
+I was no such thing.
+
+In those years I had no blessing that made me a Hero. No ancient title. No sacred charge. Only pure training under a merciless master, and whatever skill pain and survival could carve into me. The duel in the yard had been real. The Lion’s choice had been real. The sweat, the blood, the missions that could have killed me: all real. The rest was a fabrication that spread from people’s own ideas and rumors, grown fat on hope and fear and the hunger for a legend the world had gone too long without.
+
+I tried, once or twice, to correct it. It never mattered. A boy denying a prophecy only sounds like humility to those who already believe. So I trained. I fought. I lived. I let their story walk ahead of me like a stranger wearing my face.
+
+And still, as more people came to know my name, Yua’s favor toward me continued to grow. Not because their rumors were true. Not as a prize for a title I did not hold. As a bond. Lives saved. Selflessness chosen when selfishness would have been easier. Hope placed in me by strangers who had never seen my face, even when that hope was aimed at a Hero I was not yet, and somehow, through that hope, she grew stronger beside me.
+
+I still rarely saw her clearly in those years. A flicker at the edge of campfire light. A presence in the breath before a fight I should not have survived. Always near. Almost never held. She did not step forward to crown their rumor. She let me become something first, the hard way.
 
 ## The Title of Hero
 
@@ -124,7 +132,7 @@ At seventeen, after years of relentless training, my master declared that I had 
 
 He meant to name me his successor.
 
-Before he could speak the formal words, Yua appeared once more, this time before both of us.
+Until that day, Hero had been other people’s word for me. A rumor. A fabrication. Then Yua appeared once more, this time before both of us, and the word stopped belonging only to strangers.
 
 For the first time in centuries, she openly revealed herself to another witness and did not run from my gaze. No trick at the corner of the eye. No vanishing when I turned. She stood there, ancient and present, and I finally understood that every shadow I had doubted since I was eight years old had been her choosing me in silence.
 

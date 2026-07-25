@@ -15,9 +15,9 @@ A full frontal attack. No warning worth the name. No time for speeches.
 
 Townsfolk ran for the general building. Four others and I tried to hold back the creatures that had already closed too far into town. I do not know those four well yet. Names can wait when teeth are present. What I know is that they stood when standing mattered.
 
-During the panic of battle I swung at a creature I had only ever read about. It was so short I was not prepared. My blade cut clean air where a taller foe’s chest should have been. Momentum punished me for the arrogance of assuming height. I went face first into gravel.
+During the panic of battle I swung at a creature I had only ever read about. It was so short I was not prepared. Then something else happened that I still do not have clean words for. Mid swing, my body shoved forward hard, maybe fifteen feet in a blink, sword coming from my side to my front as if the steel had grown eager. My blade cut clean air where a taller foe’s chest should have been. The creature was still below the arc. Momentum and that sudden dash put me face first into gravel.
 
-Disappointment hit harder than the ground.
+Disappointment hit harder than the ground. So did confusion. I know my own footwork. That was not only a bad read on height. Something in me answered the fight before I understood the question.
 
 The creature turned on me with a bow already drawn. Point blank. I had time to understand that Hero is a title, not armor. Then luck, or Yua, or sheer stupid mercy, stepped in. The shot missed. At that range it should not have. I am not proud enough to call it skill. It was survival wearing a borrowed face.
 

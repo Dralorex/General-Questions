@@ -3,7 +3,7 @@
 *Use this when talking about yourself to other party members.*
 *Keep it short. Scan the section you need. Full stories live in the other lore files.*
 
-**Last updated:** 2026-07-25 (journal entry 03: Saltrock staff falls; mid siege)  
+**Last updated:** 2026-07-25 (Yua Mana Well plot added; journal 03 dash clarified)  
 **Update rule:** any new Dezco / Alzenhiem / Knoleburn / Yua fact must be mirrored here the same turn.
 
 ---
@@ -46,6 +46,8 @@
 | People rumored I was the Hero of centuries during ages 12 to 17 | Those years were title + sacred charge (they were rumor) |
 | Yua watched me from childhood | I always understood why she chose me |
 | I love red and black | I already know the deep reason why (Yua has not told me yet) |
+| Yua set a Mana Well in me when she made me Hero | I understood it before Saltrock (I did not) |
+| I accidentally used a simple imbue in Saltrock | I meant to dash 15 feet and faceplant on purpose |
 
 ---
 
@@ -193,10 +195,28 @@ Use this when roleplaying what party members know.
 | People rumored I was Hero early | Yes | Emphasize it was rumor then |
 | Yua made me Hero at 17 | Yes, if trust is there | She often looks like a pixie |
 | Exact red/black blood meaning | No | Yua will tell me later; I do not know yet |
+| Mana Well / sword imbue details | Not yet / soon | Yua stayed quiet on purpose; after my Saltrock faceplant she will explain |
 | Full private family crest theology | Optional | Share lightly unless asked |
 
 **Red/black truth (for you / DM only, not my current knowledge):**  
 Black = Dwarven caves / void / dark over light. Red = Elven holy blood after ill happens. Together = balance.
+
+**Mana Well truth (for you / DM; Yua explains after Saltrock biff):**  
+Mana pool stored within soul confines but separate from the soul. Simple imbue makes sword lighter/sharper and grants a short agility burst. First accidental use: ~15 ft dash mid swing in journal 03, causing the faceplant. Needs training.
+
+---
+
+## Abilities (Mana Well)
+
+| Piece | Quick fact |
+|---|---|
+| Source | Bestowed by Yua with the Hero charge; unexplained at first |
+| Well | Stored mana pool within soul confines; separate from the soul |
+| Simple imbue | Innate; should feel as easy as breathing once understood |
+| Sword effect | Lighter, sharper; short burst of swiftness / agility |
+| First use | Saltrock battle (journal 03); accidental ~15 ft dash mid swing = faceplant |
+| Training needed | Control timing, avoid waste, move with the burst instead of being thrown |
+| Yua’s plan | Stay quiet until I ask or figure it out; changed after watching me biff |
 
 ---
 
@@ -222,7 +242,9 @@ Black = Dwarven caves / void / dark over light. Red = Elven holy blood after ill
 | Journal 03 (staff falls / mid siege) | `character/lore/journal/03-saltrock-staff-falls.md` |
 | Name meanings | `character/lore/knoleburn-names.md` |
 | Crest / sigil deep meanings | `assets/crests/alzenhiem/README.md` |
-| Red/black reveal (future) | `character/lore/yua-on-red-and-black.md` |
+| Yua story plots index | `character/lore/yua-story-plots/README.md` |
+| Red/black reveal (future) | `character/lore/yua-story-plots/yua-on-red-and-black.md` |
+| Mana Well / sword imbue | `character/lore/yua-story-plots/yua-mana-well.md` |
 
 ---
 
@@ -235,4 +257,9 @@ Add new rows here whenever something new becomes true in play:
 | Journal 02 | Left Alzenhiem with Dolkin’s sword + smithing tools; Fulfein’s gold, pot, clothes, shovel | Yes |
 | Journal 02 | Shovel is mom’s bathroom dig joke first; burial meaning is the quiet second read | Optional / tonal |
 | Journal 02 | In Saltrock tavern overnight; knows the floating protective staff | Yes |
+| Journal 03 | Saltrock staff fell; crabs + creatures attacked | Yes |
+| Journal 03 | Missed a short bow creature; faceplant; nearly shot; saved by elf girl archer | Yes |
+| Journal 03 | Faceplant tied to accidental ~15 ft mana dash / simple imbue (not understood yet) | After Yua explains |
+| Journal 03 | Sealed in general building with townsfolk; people outside unknown; story paused mid siege | Yes |
+| Yua plots | Mana Well bestowed at Hero charge; Yua will explain after watching the biff | After she tells me |
 | | | |

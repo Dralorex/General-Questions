@@ -6,11 +6,11 @@
 
 Hi. I am Dezco Knoleburn.
 
-This is my first journal entry after Yua and my master bestrode a heavy responsibility on my shoulders. I am seventeen years old, five foot and ten inches tall, slender, with black hair that never quite stays where I want it. I love the colors red and black — always have. Maybe that says something about me. Maybe it doesn’t. My family tree is a tangled thing, roots sunk deep into both Dwarven stone and Elven blood, and I have spent half my life wondering which half of me people see first.
+This is my first journal entry after Yua and my master bestrode a heavy responsibility on my shoulders. I am seventeen years old, five foot and ten inches tall, slender, with black hair that never quite stays where I want it. I love the colors red and black, always have. Maybe that says something about me. Maybe it doesn’t. My family tree is a tangled thing, roots sunk deep into both Dwarven stone and Elven blood, and I have spent half my life wondering which half of me people see first.
 
 I don’t really understand why I’ve been chosen. But here I am, trying my best.
 
-I’m writing my experience from the beginning of when I started my journey to get to where I am today — with some details I only know now. Looking back changes the shape of things. Shadows I once dismissed as tricks of the light turn out to have been watching. Victories I thought were mine alone belonged to someone else’s hand on the scales. Still. This is my story, as true as I can make it.
+I’m writing my experience from the beginning of when I started my journey to get to where I am today, with some details I only know now. Looking back changes the shape of things. Shadows I once dismissed as tricks of the light turn out to have been watching. Victories I thought were mine alone belonged to someone else’s hand on the scales. Still. This is my story, as true as I can make it.
 
 ---
 

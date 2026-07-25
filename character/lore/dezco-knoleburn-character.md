@@ -11,6 +11,8 @@ Hi. I am Dezco Knoleburn.
 
 **Name meaning:** stands firm; one who holds his ground
 
+**Birthday:** November 6
+
 I am seventeen years old, five foot and ten inches tall, slender, with black hair that never quite stays where I want it. I love the colors red and black. Always have. Maybe that says something about me. Maybe it doesn’t. My family tree is a tangled thing, roots sunk deep into both Dwarven stone and Elven blood, and I have spent half my life wondering which half of me people see first.
 
 I don’t really understand why I’ve been chosen. But here I am, trying my best.

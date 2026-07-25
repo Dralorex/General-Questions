@@ -3,7 +3,7 @@
 *Use this when talking about yourself to other party members.*
 *Keep it short. Scan the section you need. Full stories live in the other lore files.*
 
-**Last updated:** 2026-07-25 (Yua Mana Well plot added; journal 03 dash clarified)  
+**Last updated:** 2026-07-25 (Google Drive lore export pack added)  
 **Update rule:** any new Dezco / Alzenhiem / Knoleburn / Yua fact must be mirrored here the same turn.
 
 ---
@@ -21,6 +21,7 @@
 | Full name | Dezco Knoleburn |
 | Name means | stands firm; one who holds his ground |
 | Age | 17 |
+| Birthday | November 6 |
 | Height | 5'10" |
 | Build | slender |
 | Hair | black |
@@ -82,7 +83,7 @@
 
 | Age | What happened |
 |---|---|
-| 0 | Named Dezco; red/black crest + sigil at birth |
+| 0 | Born November 6; named Dezco; red/black crest + sigil at birth |
 | 8 | Left Alzenhiem for military training; Kalhien was 6; Astiale not born yet |
 | 8 to 12 | Overshadowed by a stronger rival; Yua watched unseen |
 | 12 | Rival (nearly 18) dueled me; Yua secretly blessed my speed/strength; only the King’s Lion truly saw her |
@@ -245,6 +246,7 @@ Mana pool stored within soul confines but separate from the soul. Simple imbue m
 | Yua story plots index | `character/lore/yua-story-plots/README.md` |
 | Red/black reveal (future) | `character/lore/yua-story-plots/yua-on-red-and-black.md` |
 | Mana Well / sword imbue | `character/lore/yua-story-plots/yua-mana-well.md` |
+| Downloadable Google export | `character/lore/exports/` (Sheets tabs `.xlsx` + Docs `.docx`) |
 
 ---
 
@@ -262,4 +264,6 @@ Add new rows here whenever something new becomes true in play:
 | Journal 03 | Faceplant tied to accidental ~15 ft mana dash / simple imbue (not understood yet) | After Yua explains |
 | Journal 03 | Sealed in general building with townsfolk; people outside unknown; story paused mid siege | Yes |
 | Yua plots | Mana Well bestowed at Hero charge; Yua will explain after watching the biff | After she tells me |
+| Lore | Birthday is November 6 | Yes |
+| Export | Tabbed Sheets + Docs lore pack in character/lore/exports/ | Yes |
 | | | |

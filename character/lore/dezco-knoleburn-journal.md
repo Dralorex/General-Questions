@@ -18,17 +18,17 @@ I’m writing my experience from the beginning of when I started my journey to g
 
 I began military training at eight years old.
 
-I was far younger than the other recruits. Most of them were already twelve, thirteen — boys with broader shoulders and louder voices, boys who laughed when I lined up beside them in the practice yard. The instructors did not laugh. They simply trained me as if age were a detail that could be beaten out of a person with enough drills.
+I was far younger than the other recruits. Most of them were already twelve to thirteen, boys with broader shoulders and louder voices, boys who laughed when I lined up beside them in the practice yard. The instructors did not laugh. They simply trained me as if age were a detail that could be beaten out of a person with enough drills.
 
 I was naturally talented. That is not boastfulness; it is the truth I was too young to name then. The sword settled into my hands as if it had been waiting for me. Footwork came easier than reading. Pain, somehow, never stayed as long in me as it seemed to stay in the others.
 
 None of that mattered.
 
-There was another student — older, stronger, faster, more gifted in every way the yard measured. Where I earned a nod, he earned applause. Where I finished a form cleanly, he finished it like a storm. Instructors spoke his name with certainty. Fellow trainees followed him as if destiny had already chosen its favorite and the rest of us were only scenery.
+There was another student... older, stronger, faster, more gifted in every way the yard measured. Where I earned a nod, he earned applause. Where I finished a form cleanly, he finished it like a storm. Instructors spoke his name with certainty. Fellow trainees followed him as if destiny had already chosen its favorite and the rest of us were only scenery.
 
 I trained anyway. I slept with sore arms and woke with them still sore. I learned to keep my eyes forward.
 
-What I did not know — what I could not have known — was that something ancient had already taken an interest in me.
+What I did not know, what I could not have known, was that something ancient had already taken an interest in me.
 
 She never spoke. She never intervened. She appeared only on rare occasions, the way a curious child might watch someone from the edge of a room: always in the corner of my eye, always in the shadows between torchlight and wall. If I turned to look, nothing was there. Empty air. Ordinary darkness. I thought my mind was playing tricks on me. I told no one. Who would believe an eight-year-old who claimed the shadows watched him?
 
@@ -40,11 +40,11 @@ At eight, she was only a shiver I could not explain.
 
 ## The Rival at Twelve
 
-By twelve, my skills had sharpened enough that praise found me at last — not all at once, but in pieces. An instructor’s rare word of approval. A trainee asking me to spar again. Small things. Enough to change the air around me.
+By twelve, my skills had sharpened enough that praise found me at last. Not all at once, but in pieces. An instructor’s rare word of approval. A trainee asking me to spar again. Small things. Enough to change the air around me.
 
 My rival noticed.
 
-He was nearly eighteen by then, standing at the edge of graduation, and jealousy sat on him like a second skin. He believed he alone deserved recognition. He believed no one should surprise him. He believed — and this I know only because he said it aloud, more than once, to anyone who would listen — that he was the chosen one.
+He was nearly eighteen by then, standing at the edge of graduation, and jealousy sat on him like a second skin. He believed he alone deserved recognition. He believed no one should surprise him. He believed, and this I know only because he said it aloud, more than once, to anyone who would listen, that he was the chosen one.
 
 He challenged me to a duel to prove his superiority.
 
@@ -52,7 +52,7 @@ I should have lost. Everyone knew that. He had years on me, reach on me, raw str
 
 We fought.
 
-He was everything they said he was. Faster than I could track. Stronger than I could match. Every exchange drove me backward. My arms burned. My breath tore. Somewhere in the middle of it, I understood — with the cold clarity of a child about to be broken — that talent was not enough.
+He was everything they said he was. Faster than I could track. Stronger than I could match. Every exchange drove me backward. My arms burned. My breath tore. Somewhere in the middle of it, I understood, with the cold clarity of a child about to be broken, that talent was not enough.
 
 That was when she intervened.
 

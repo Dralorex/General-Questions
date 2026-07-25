@@ -1,18 +1,19 @@
 # Journal of Dezco Knoleburn
 
 *First entry, written at seventeen, after the charge was laid upon me*
+*Who I am, my home, and my family are told properly in the character introduction. This journal is the road that led me here.*
 
-Hi. I am Dezco Knoleburn.
-
-This is my first journal entry after Yua and my master bestrode a heavy responsibility on my shoulders. I am seventeen years old, five foot and ten inches tall, slender, with black hair that never quite stays where I want it. I love the colors red and black. Always have. Maybe that says something about me. Maybe it doesn’t. My family tree is a tangled thing, roots sunk deep into both Dwarven stone and Elven blood, and I have spent half my life wondering which half of me people see first.
+This is my first journal entry after Yua and my master bestrode a heavy responsibility on my shoulders.
 
 I don’t really understand why I’ve been chosen. But here I am, trying my best.
 
 I’m writing my experience from the beginning of when I started my journey to get to where I am today, with some details I only know now. Looking back changes the shape of things. Shadows I once dismissed as tricks of the light turn out to have been watching. Victories I thought were mine alone belonged to someone else’s hand on the scales. Still. This is my story, as true as I can make it.
 
+Before the yard, before the Lion, before anyone called me anything larger than my name, there was Alzenhiem. My father Dolkin. My mother Fulfein. My brother Kalhien. Later, my sister Astiale. I carry them through every page that follows, even when I do not write their names.
+
 ## The Yard at Eight
 
-I began military training at eight years old.
+I began military training at eight years old, leaving Alzenhiem while Kalhien was still small and Astiale not yet born.
 
 I was far younger than the other recruits. Most of them were already twelve or thirteen: boys with broader shoulders and louder voices, boys who laughed when I lined up beside them in the practice yard. The instructors did not laugh. They simply trained me as if age were a detail that could be beaten out of a person with enough drills.
 
@@ -150,11 +151,11 @@ My master gave his blessing. Yua gave her charge. I left my training behind, not
 
 Yua joins me on this adventure. She aids me in the times I fall short. Most days she appears only as the shape of a small pixie, light enough to perch near my shoulder, old enough to remember when the world still believed magic would last forever.
 
-I am seventeen. Five foot ten. Slender. Black hair. Half of one people and half of another, carrying red and black into a world that has forgotten how to hope.
+I am seventeen. Five foot ten. Slender. Black hair. Half of one people and half of another, carrying red and black into a world that has forgotten how to hope. Somewhere behind all of that, Alzenhiem is still waiting: Dolkin, Fulfein, Kalhien, and sweet Astiale, who should never have to learn my title before she learns my face.
 
 I still don’t fully understand why I was chosen.
 
-But I am writing this so that if I fail, or if I don’t, there will be a record of how it began: with a boy in a yard, a rival who thought destiny belonged only to him, a Lion who saw what others missed, and a forgotten being who broke an oath older than kingdoms because magic was dying… and because, for reasons I may never earn, she looked at me and decided the world was not finished yet.
+But I am writing this so that if I fail, or if I don’t, there will be a record of how it began: with a boy from a small hamlet, a yard that tried to remake him, a rival who thought destiny belonged only to him, a Lion who saw what others missed, and a forgotten being who broke an oath older than kingdoms because magic was dying… and because, for reasons I may never earn, she looked at me and decided the world was not finished yet.
 
-*Dezco Knoleburn*
+*Dezco Knoleburn of Alzenhiem*
 *Hero, whether I am ready or not*

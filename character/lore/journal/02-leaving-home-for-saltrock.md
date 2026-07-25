@@ -30,7 +30,13 @@ Fulfein handed me ten gold pieces, a cooking pot, a set of new clothing, and a s
 
 The gold is practical. The pot is love disguised as sense: eat warm when you can. The clothing was folded the way only she folds things, seams true, no wasted cloth. I put the new clothes on before I left, out of respect and appreciation. It felt like wearing her blessing in fabric form.
 
-The shovel… that one sat differently in my hands. She did not need to explain all of it. A different kind of duty. Travelers die. Roads take people. Sometimes protecting the living means giving the dead a place that is not ditches and forgetting. I hope I use it rarely. I will not pretend I will never need it.
+The shovel made her smile first. Fulfein is practical enough to pack gold and a pot, and mother enough to pack dignity for the road’s least dignified chore. When a Hero has to go number two, the woods still expect him to dig like everybody else. She called it a different kind of duty, and Kalhien almost choked trying not to laugh.
+
+I laughed too. Then the shovel sat a little heavier in my hands than a joke should.
+
+Because roads take people. Not everyone makes it through. Sometimes a shovel is for privacy behind a tree. Sometimes it is for giving the dead a place that is not a ditch and a forgetting. I do not think Fulfein said that part aloud. She did not have to. Mothers who send children into danger pack hope in funny shapes, and still pack for the truth underneath.
+
+I will try to need it only for the funny reason.
 
 Kalhien stood a little apart, jaw set, trying to look older than fifteen. He clasped my forearm hard enough to mean both pride and anger at being left behind again. I told him to watch the house. He told me not to become so legendary that I forget how to come home ordinary. Fair.
 

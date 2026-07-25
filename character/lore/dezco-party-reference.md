@@ -3,7 +3,7 @@
 *Use this when talking about yourself to other party members.*
 *Keep it short. Scan the section you need. Full stories live in the other lore files.*
 
-**Last updated:** 2026-07-25 (journal entry 02: Saltrock departure)  
+**Last updated:** 2026-07-25 (shovel double meaning clarified)  
 **Update rule:** any new Dezco / Alzenhiem / Knoleburn / Yua fact must be mirrored here the same turn.
 
 ---
@@ -114,7 +114,7 @@
 | 10 gold pieces | Fulfein | Travel money |
 | Cooking pot | Fulfein | Eat warm when you can |
 | New clothing | Fulfein | Wearing them out of respect; left home in them |
-| Shovel | Fulfein | For a harder duty: burying the dead with dignity when needed |
+| Shovel | Fulfein | Funny gift for roadside “number two” duty; also quietly useful if not everyone makes it |
 
 ---
 
@@ -225,5 +225,6 @@ Add new rows here whenever something new becomes true in play:
 | Date / session | New fact | Share with party? |
 |---|---|---|
 | Journal 02 | Left Alzenhiem with Dolkin’s sword + smithing tools; Fulfein’s gold, pot, clothes, shovel | Yes |
+| Journal 02 | Shovel is mom’s bathroom dig joke first; burial meaning is the quiet second read | Optional / tonal |
 | Journal 02 | In Saltrock tavern overnight; knows the floating protective staff | Yes |
 | | | |

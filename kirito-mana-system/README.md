@@ -55,6 +55,7 @@ No projectile / blade-throw skills in this kit.
 |---|---:|---|---|
 | Retreat | 2 | Bonus Action | Backstep / “switch”; 15 ft backward, no OA, 1/turn |
 | Deflect | 10 | Special Reaction | Guard a melee hit; **unlimited/turn** while you have mana |
+| Shield | 15 | Special Reaction | Halve damage from **one** melee hit; **1/turn** |
 
 ### Dual Blades (Unique Skill)
 | Skill | Hits | Role |
@@ -89,7 +90,7 @@ Every skill has two gates:
 
 Starter kit at Level 1 (all **Learned**):
 - **Horizontal**, **Vertical**, **Slant** → free (**0 mana**)
-- **Retreat**, **Deflect**, **Rage Spike**
+- **Retreat**, **Deflect**, **Shield**, **Rage Spike**
 
 Full drill times live in [TRAINING.md](TRAINING.md).
 

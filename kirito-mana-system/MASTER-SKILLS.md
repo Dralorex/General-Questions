@@ -17,6 +17,7 @@ One-page GitHub view of the Kirito Aincrad mana kit.
 | Horizontal / Vertical / Slant | **0** | Action | Free basics |
 | Retreat | 2 | Bonus Action | Backstep / switch |
 | Deflect | 10 | Special Reaction | Unlimited/turn while mana lasts |
+| Shield | 15 | Special Reaction | Half damage from one melee hit · 1/turn |
 | Rage Spike | 8 | Action | Leap gap-closer |
 
 ---
@@ -30,6 +31,7 @@ One-page GitHub view of the Kirito Aincrad mana kit.
 | Slant | 0 | Action | 1 | 0 | 0 | 0 | — | YES |
 | Retreat | 2 | Bonus Action | 1 | 0 | 0 | 0 | — | YES |
 | Deflect | 10 | Special Reaction | 1 | 0 | 0 | 0 | — | YES |
+| Shield | 15 | Special Reaction | 1 | 0 | 0 | 0 | — | YES |
 | Rage Spike | 8 | Action | 1 | 0 | 0 | 0 | — | YES |
 | Uppercut | 5 | Action | 2 | 1 | 1 | 1 | 10 | NO |
 | Night Needle | 6 | Action | 2 | 1 | 1 | 1 | 10 | NO |

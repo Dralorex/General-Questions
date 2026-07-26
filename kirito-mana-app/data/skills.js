@@ -127,6 +127,32 @@ window.KIRITO_SKILLS = [
     starter: true,
   },
   {
+    id: "shield",
+    name: "Shield",
+    category: "Defense Technique",
+    hits: 0,
+    tier: "Defense",
+    mana: 15,
+    actionType: "Special Reaction",
+    range: "Melee (5 ft)",
+    shape: "Full guard",
+    aoe: "None",
+    target: "Self (vs one attack)",
+    duration: "Instant",
+    useLimit: "1/turn",
+    levelRequired: 1,
+    trainingNeeded: 0,
+    hoursEach: 0,
+    trainDc: 0,
+    drill: "Known at creation — no training.",
+    fieldGoal: "—",
+    prerequisite: [],
+    effect:
+      "When you take damage from one melee attack, reduce that damage by half (round down). Does not consume Reaction.",
+    notes: "Harder guard than Deflect · 1/turn",
+    starter: true,
+  },
+  {
     id: "rage-spike",
     name: "Rage Spike",
     category: "One-Handed Sword",
@@ -832,7 +858,7 @@ window.KIRITO_SKILLS = [
 
 window.STARTER_SKILL_IDS = window.KIRITO_SKILLS.filter((s) => s.starter).map((s) => s.id);
 window.STORAGE_KEY = "kirito-mana-pwa-v1";
-window.APP_VERSION = "2.1.0";
+window.APP_VERSION = "2.2.0";
 
 window.TRAINING_RULES = {
   sessionHoursDefault: 1,

@@ -4,6 +4,7 @@ Vertical,0,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,0,0,YES
 Slant,0,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,1,0,0,0,YES
 Retreat,2,Bonus Action,Self,Line (backward),None,1/turn,Mobility,1,0,0,0,YES
 Deflect,10,Special Reaction,Melee (5 ft),Melee guard,None,Unlimited/turn,Defense,1,0,0,0,YES
+Shield,15,Special Reaction,Melee (5 ft),Full guard,None,1/turn,Defense,1,0,0,0,YES
 Rage Spike,8,Action,15 ft charge,Line (forward),None,1/Action,Mobility,1,0,0,0,YES
 Uppercut,5,Action,Melee (5 ft),Melee arc,None,1/Action,Basic,2,1,1,10,NO
 Night Needle,6,Action,Melee (5 ft),Line thrust,None,1/Action,Basic,2,1,1,10,NO

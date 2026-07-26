@@ -74,6 +74,7 @@ Use **Profile → Export Backup** for a JSON copy you can import later.
 | Horizontal / Vertical / Slant | 0 (free) |
 | Retreat | 2 (Bonus Action, 1/turn) |
 | Deflect | 10 (unlimited Special Reactions / turn) |
+| Shield | 15 (half damage from one melee hit · 1/turn) |
 | Rage Spike | 8 |
 
 No projectile skills.

@@ -3,14 +3,14 @@
 *Use this when talking about yourself to other party members.*
 *Keep it short. Scan the section you need. Full stories live in the other lore files.*
 
-**Last updated:** 2026-07-25 (Google Drive lore export pack added)  
+**Last updated:** 2026-07-26 (fixed Rilock age timing + intro training start)  
 **Update rule:** any new Dezco / Alzenhiem / Knoleburn / Yua fact must be mirrored here the same turn.
 
 ---
 
 ## 30 second intro (say this)
 
-> I’m Dezco Knoleburn. Seventeen. From a hamlet called Alzenhiem. Dwarven and Elven blood. Trained since I was eight under the King’s Lion. People called me Hero for years before it was true. Yua made it true at seventeen. I love red and black. I’m trying my best.
+> I’m Dezco Knoleburn. Seventeen. From a hamlet called Alzenhiem. Dwarven and Elven blood. Military trained since eight. From twelve, trained by Rilock, royal master swordsman of the King’s Lion’s royal guard, by the Lion’s order. People called me Hero for years before it was true. Yua made it true at seventeen. I love red and black. I’m trying my best.
 
 ---
 
@@ -29,7 +29,8 @@
 | Ancestry | Dwarven + Elven |
 | Home | Alzenhiem (hamlet) |
 | Title now | Hero (given by Yua at 17) |
-| Master | The King’s Lion |
+| Master / trainer | Rilock (royal master swordsman; King’s Lion royal guard) |
+| Directed by | The King’s Lion (ordered Rilock to train me) |
 | Companion | Yua (often appears as a small pixie) |
 | Crest colors | crimson red + deep black |
 | Sigil | vertical blade / flame split red and black |
@@ -43,7 +44,7 @@
 | True | Not true (or not yet) |
 |---|---|
 | Hero by Yua’s formal charge at age 17 | Born already crowned as Hero |
-| Trained hard under the King’s Lion | Famous because of easy blessing alone |
+| Trained hard under Rilock by the Lion’s order | Trained personally day to day by the King’s Lion himself |
 | People rumored I was the Hero of centuries during ages 12 to 17 | Those years were title + sacred charge (they were rumor) |
 | Yua watched me from childhood | I always understood why she chose me |
 | I love red and black | I already know the deep reason why (Yua has not told me yet) |
@@ -87,11 +88,11 @@
 | 8 | Left Alzenhiem for military training; Kalhien was 6; Astiale not born yet |
 | 8 to 12 | Overshadowed by a stronger rival; Yua watched unseen |
 | 12 | Rival (nearly 18) dueled me; Yua secretly blessed my speed/strength; only the King’s Lion truly saw her |
-| 12 | Became the King’s Lion’s personal apprentice |
-| 12 to 17 | Merciless real missions; reputation spread; people falsely called me Hero of centuries |
+| 12 | King’s Lion directed royal master swordsman Rilock (royal guard) to train me |
+| 12 to 17 | Merciless real missions under Rilock; reputation spread; people falsely called me Hero of centuries |
 | Before 15 | Name known across much of the realm |
-| 17 | Master said I had learned all he could teach |
-| 17 | Yua appeared to me and the Lion; gave me the ancient title Hero + sacred mission |
+| 17 | Master Rilock said I had learned all he could teach |
+| 17 | Yua appeared before me, Rilock, and the Lion; gave me the ancient title Hero + sacred mission |
 | 17 | Final goodbye at Alzenhiem; family gifts; left for the road |
 | 17 | Reached Saltrock; lodging at the tavern; seeking where to travel next |
 | 17 | Saltrock staff fell; monsters attacked (massive crabs + others) |
@@ -106,7 +107,8 @@
 | Person | Who they are to me |
 |---|---|
 | Yua | Ancient being tied to magic; broke a millennia oath to act; watched me since childhood; gave me Hero title; often appears as a small pixie |
-| The King’s Lion | King’s greatest swordsman; only one who truly saw Yua at the duel; my master |
+| The King’s Lion | King’s greatest swordsman; only one who truly saw Yua at the duel; directed that I be trained |
+| Rilock | Royal master swordsman; one of the King’s Lion’s royal guard; my actual trainer/master from ages 12 to 17 |
 | The Rival | Older trainee who believed he was the chosen one; challenged me at 12; lost after Yua’s hidden aid |
 | Elf girl archer | One of 4 defenders in Saltrock attack; pinned a short bow creature through the mouth and into the ground; name not known yet |
 | 3 other defenders | Fought beside us getting townsfolk to the general building; names not known yet |
@@ -151,7 +153,7 @@
 
 ---
 
-## Training under the Lion included
+## Training under Rilock included
 
 1. Endless swordsmanship drills
 2. Physical conditioning beyond normal limits
@@ -192,7 +194,7 @@ Use this when roleplaying what party members know.
 | Topic | Party can know? | Notes |
 |---|---|---|
 | I am from Alzenhiem + family basics | Yes | Safe to share |
-| Trained since 8 under the Lion | Yes | Safe to share |
+| Trained since 8 in the yard; from 12 under Rilock by Lion’s order | Yes | Clarify: Lion directed, Rilock taught |
 | People rumored I was Hero early | Yes | Emphasize it was rumor then |
 | Yua made me Hero at 17 | Yes, if trust is there | She often looks like a pixie |
 | Exact red/black blood meaning | No | Yua will tell me later; I do not know yet |
@@ -266,4 +268,5 @@ Add new rows here whenever something new becomes true in play:
 | Yua plots | Mana Well bestowed at Hero charge; Yua will explain after watching the biff | After she tells me |
 | Lore | Birthday is November 6 | Yes |
 | Export | Tabbed Sheets + Docs lore pack in character/lore/exports/ | Yes |
+| Lore | Trainer is Rilock (royal master swordsman); King’s Lion directed him | Yes |
 | | | |

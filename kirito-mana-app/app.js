@@ -41,6 +41,7 @@
       lastSkillId: null,
       lastWasUltimate: false,
       retreatUsedThisTurn: false,
+      shieldUsedThisTurn: false,
       reactionTrial: false,
       dualUnlocked: false,
       combatLog: [],
@@ -296,6 +297,7 @@
     if (skillStatus(skill) !== "learned") return false;
     if (skill.dual && !dualGateOpen()) return false;
     if (skill.id === "retreat" && state.retreatUsedThisTurn) return false;
+    if (skill.id === "shield" && state.shieldUsedThisTurn) return false;
     if (skill.mana > state.mana) return false;
     if (skill.isGate) return false;
     return true;
@@ -321,6 +323,8 @@
       if (status !== "learned") return toast("Not learned yet", "warn");
       if (skill.id === "retreat" && state.retreatUsedThisTurn)
         return toast("Retreat already used this turn", "warn");
+      if (skill.id === "shield" && state.shieldUsedThisTurn)
+        return toast("Shield already used this turn", "warn");
       if (skill.mana > state.mana) return toast("Not enough mana", "warn");
       return toast("Can't use that now", "warn");
     }
@@ -329,6 +333,7 @@
     state.lastSkillId = skill.id;
     state.lastWasUltimate = skill.tier === "Ultimate";
     if (skill.id === "retreat") state.retreatUsedThisTurn = true;
+    if (skill.id === "shield") state.shieldUsedThisTurn = true;
     pushLog({ skill: skill.name, cost: skill.mana, before, after: state.mana, kind: "spend" });
     persist();
     render();
@@ -346,6 +351,7 @@
     state.mana = clamp(state.mana + regen, 0, state.maxMana);
     state.round += 1;
     state.retreatUsedThisTurn = false;
+    state.shieldUsedThisTurn = false;
     state.lastSkillId = null;
     state.lastWasUltimate = false;
     pushLog({ skill: "Turn regen", cost: 0, regen, before, after: state.mana, kind: "regen" });
@@ -371,6 +377,7 @@
     state.mana = clamp(state.mana + 50, 0, state.maxMana);
     state.round = 1;
     state.retreatUsedThisTurn = false;
+    state.shieldUsedThisTurn = false;
     state.lastSkillId = null;
     state.lastWasUltimate = false;
     persist();
@@ -387,6 +394,7 @@
     livedPopupShown = false;
     state.round = 1;
     state.retreatUsedThisTurn = false;
+    state.shieldUsedThisTurn = false;
     state.lastSkillId = null;
     state.lastWasUltimate = false;
     persist();
@@ -915,7 +923,15 @@
 
   function renderCombat() {
     const learned = SKILLS.filter((s) => skillStatus(s) === "learned" && !s.isGate);
-    const quickIds = ["deflect", "retreat", "rage-spike", "slant", "horizontal", "vertical"];
+    const quickIds = [
+      "deflect",
+      "shield",
+      "retreat",
+      "rage-spike",
+      "slant",
+      "horizontal",
+      "vertical",
+    ];
     $("#quickSkills").innerHTML = quickIds
       .map((id) => byId[id])
       .filter(Boolean)

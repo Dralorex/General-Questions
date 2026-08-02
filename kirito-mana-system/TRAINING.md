@@ -9,7 +9,7 @@ How sword skills are unlocked and learned in this homebrew.
 3. **Complete training sessions** (drills / checks / field goals)  
 4. Skill becomes **Learned** → can spend mana in combat  
 
-Starters (Horizontal, Vertical, Slant, Retreat, Deflect, Rage Spike) skip training.
+Starters (Horizontal, Vertical, Slant, Retreat, Deflect, Shield, Rage Spike) skip training.
 
 ## Time rules
 

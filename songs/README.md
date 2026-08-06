@@ -29,3 +29,9 @@ This requires [LilyPond](https://lilypond.org/) (tested with 2.24+).
   [`ammunition/ammunition.pdf`](ammunition/ammunition.pdf) for the sheet music and
   [`ammunition/ammunition-lyrics.md`](ammunition/ammunition-lyrics.md) for the lyrics
   with chord chart.
+
+- **[We Try](we-try/)** — Soft pop in G major with a big communal chorus.
+  Piano/vocal score, key of G, ♩ = 82. See
+  [`we-try/we-try.pdf`](we-try/we-try.pdf) for the sheet music and
+  [`we-try/we-try-lyrics.md`](we-try/we-try-lyrics.md) for the lyrics
+  with chord chart.

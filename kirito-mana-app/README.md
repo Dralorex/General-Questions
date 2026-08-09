@@ -2,7 +2,10 @@
 
 Mobile-first Progressive Web App for the Kirito mana system.
 
-- Combat mana tracker with quick buttons (Deflect / Retreat / Rage Spike / free basics)
+- Combat mana tracker with quick buttons (Deflect / Shield / Retreat / Rage Spike / free basics)
+- **Fighter class** features that auto-update with level (Second Wind, Action Surge, Extra Attack, Indomitable…)
+- Fighter abilities on the **Combat** tab with short/long rest tracking
+- **Max mana scales with level**: 100 at L1, +10 each level
 - Full D&D sheet: ability scores, saves/skills + proficiency, HP/temp, AC, speed, initiative, death saves
 - Equipment list, portrait upload, backstory / features / coins / XP
 - Skills browser + training unlocks (drills, hours, DCs in **Train** tab)

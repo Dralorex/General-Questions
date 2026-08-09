@@ -3,7 +3,17 @@
   const ABILITIES = window.DND_ABILITIES;
   const byId = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
   const STORAGE_KEY = window.STORAGE_KEY;
-  const MAX_MANA_DEFAULT = 100;
+  const MAX_MANA_DEFAULT = window.maxManaForLevel
+    ? window.maxManaForLevel(1)
+    : 100;
+  const SAVE_ID_BY_KEY = {
+    str: "str-save",
+    dex: "dex-save",
+    con: "con-save",
+    int: "int-save",
+    wis: "wis-save",
+    cha: "cha-save",
+  };
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -29,14 +39,17 @@
       name: "Kirito",
       level: 1,
       xp: 0,
-      className: "",
+      classId: "fighter",
+      className: "Fighter",
       subclass: "",
+      fightingStyle: "",
       race: "",
       background: "",
       alignment: "",
-      hitDice: "1d8",
+      hitDice: "1d10",
       maxMana: MAX_MANA_DEFAULT,
       mana: MAX_MANA_DEFAULT,
+      maxManaCustom: false,
       round: 1,
       lastSkillId: null,
       lastWasUltimate: false,
@@ -44,6 +57,12 @@
       shieldUsedThisTurn: false,
       reactionTrial: false,
       dualUnlocked: false,
+      fighterUses: {
+        "second-wind": 0,
+        "action-surge": 0,
+        indomitable: 0,
+      },
+      autoSaveKeys: [],
       combatLog: [],
       progress,
       abilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 },
@@ -93,7 +112,19 @@
         },
         coins: { ...base.coins, ...(parsed.coins || {}) },
         equipment: Array.isArray(parsed.equipment) ? parsed.equipment : [],
+        fighterUses: {
+          ...base.fighterUses,
+          ...(parsed.fighterUses || {}),
+        },
+        autoSaveKeys: Array.isArray(parsed.autoSaveKeys)
+          ? parsed.autoSaveKeys
+          : base.autoSaveKeys,
       };
+      if (!merged.classId) {
+        const name = String(merged.className || "").toLowerCase();
+        merged.classId = name === "fighter" || !merged.className ? "fighter" : "custom";
+        if (merged.classId === "fighter") merged.className = "Fighter";
+      }
       while (merged.deathSaves.success.length < 3) merged.deathSaves.success.push(false);
       while (merged.deathSaves.fail.length < 3) merged.deathSaves.fail.push(false);
       merged.deathSaves.success = merged.deathSaves.success.slice(0, 3);
@@ -380,9 +411,12 @@
     state.shieldUsedThisTurn = false;
     state.lastSkillId = null;
     state.lastWasUltimate = false;
+    if (!state.fighterUses) state.fighterUses = {};
+    state.fighterUses["second-wind"] = 0;
+    state.fighterUses["action-surge"] = 0;
     persist();
     render();
-    toast("Short rest · +50 mana", "ok");
+    toast("Short rest · +50 mana · Fighter short-rest abilities refresh", "ok");
   }
 
   function longRest() {
@@ -397,9 +431,150 @@
     state.shieldUsedThisTurn = false;
     state.lastSkillId = null;
     state.lastWasUltimate = false;
+    state.fighterUses = { "second-wind": 0, "action-surge": 0, indomitable: 0 };
     persist();
     render();
-    toast("Long rest · full mana & HP", "ok");
+    toast("Long rest · full mana & HP · Fighter abilities refresh", "ok");
+  }
+
+  function isFighter() {
+    return (state.classId || "fighter") === "fighter";
+  }
+
+  function formatFighterFeatureNotes(level) {
+    if (!window.fighterFeaturesUpToLevel) return "";
+    return window
+      .fighterFeaturesUpToLevel(level)
+      .map((f) => `L${f.level} · ${f.name}`)
+      .join("\n");
+  }
+
+  function applyFighterSaves() {
+    for (const key of state.autoSaveKeys || []) {
+      const saveId = SAVE_ID_BY_KEY[key];
+      if (saveId) state.proficiencies[saveId] = false;
+    }
+    state.autoSaveKeys = [];
+    if (!isFighter()) return;
+    const keys = (window.FIGHTER_CLASS && window.FIGHTER_CLASS.savingThrows) || ["str", "con"];
+    for (const key of keys) {
+      const saveId = SAVE_ID_BY_KEY[key];
+      if (saveId) state.proficiencies[saveId] = true;
+    }
+    state.autoSaveKeys = [...keys];
+  }
+
+  function syncMaxManaForLevel({ announce = false } = {}) {
+    if (!window.maxManaForLevel) return;
+    const next = window.maxManaForLevel(state.level);
+    const prev = Number(state.maxMana) || next;
+    if (state.maxManaCustom && prev === next) return;
+    const gain = Math.max(0, next - prev);
+    state.maxMana = next;
+    state.maxManaCustom = false;
+    state.mana = clamp((Number(state.mana) || 0) + gain, 0, next);
+    if (announce && gain > 0) {
+      toast(`Level ${state.level} · Max mana ${next} (+${gain})`, "ok");
+    }
+  }
+
+  function refreshClassDerived({ announceMana = false } = {}) {
+    if (isFighter()) {
+      state.className = "Fighter";
+      state.hitDice = `${state.level}d10`;
+      state.classFeatures = formatFighterFeatureNotes(state.level);
+      const style = (window.FIGHTER_FIGHTING_STYLES || []).find(
+        (s) => s.id === state.fightingStyle
+      );
+      const profBits = [
+        window.FIGHTER_CLASS?.proficiencies || "",
+        style ? `Fighting Style: ${style.name} — ${style.description}` : "Fighting Style: (choose in Profile)",
+      ];
+      state.proficienciesText = profBits.filter(Boolean).join("\n");
+      applyFighterSaves();
+    }
+    syncMaxManaForLevel({ announce: announceMana });
+  }
+
+  function rollDie(sides) {
+    return 1 + Math.floor(Math.random() * sides);
+  }
+
+  function useFighterAbility(id) {
+    if (!isFighter()) return toast("Switch class to Fighter to use these", "warn");
+    const abs = (window.fighterCombatAbilities || (() => []))(state.level);
+    const ab = abs.find((a) => a.id === id);
+    if (!ab) return toast("Not unlocked yet", "warn");
+    if (ab.usesMax === 0) {
+      return toast(ab.summary || ab.name, "info");
+    }
+    if (!state.fighterUses) state.fighterUses = {};
+    const used = Number(state.fighterUses[id] || 0);
+    if (used >= ab.usesMax) {
+      return toast(
+        `${ab.name} spent — needs a ${ab.rest === "long" ? "long" : "short"} rest`,
+        "warn"
+      );
+    }
+
+    if (id === "second-wind") {
+      const roll = rollDie(10);
+      const heal = roll + state.level;
+      state.hp.current += heal;
+      state.fighterUses[id] = used + 1;
+      pushLog({
+        skill: `Second Wind`,
+        cost: 0,
+        before: state.mana,
+        after: state.mana,
+        kind: "spend",
+      });
+      // richer log line
+      state.combatLog[0] = {
+        t: Date.now(),
+        round: state.round,
+        skill: `Second Wind (+${heal} HP · d10=${roll})`,
+        cost: 0,
+        before: state.mana,
+        after: state.mana,
+        kind: "spend",
+      };
+      persist();
+      render();
+      toast(`Second Wind · +${heal} HP`, "ok");
+      if (navigator.vibrate) navigator.vibrate(18);
+      return;
+    }
+
+    state.fighterUses[id] = used + 1;
+    const left = ab.usesMax - state.fighterUses[id];
+    pushLog({
+      skill: ab.name,
+      cost: 0,
+      before: state.mana,
+      after: state.mana,
+      kind: "spend",
+    });
+    state.combatLog[0] = {
+      t: Date.now(),
+      round: state.round,
+      skill: `${ab.name}${left ? ` (${left} left)` : " (spent)"}`,
+      cost: 0,
+      before: state.mana,
+      after: state.mana,
+      kind: "spend",
+    };
+    persist();
+    render();
+    toast(
+      id === "action-surge"
+        ? "Action Surge · take one extra action!"
+        : id === "indomitable"
+          ? "Indomitable · reroll that failed save"
+          : ab.name,
+      "ok"
+    );
+    if (navigator.vibrate) navigator.vibrate(14);
   }
 
   function train(id) {
@@ -919,9 +1094,99 @@
         <div class="skill-rows">${rows}</div>
       </article>`;
     }).join("");
+    renderFighterFeatures();
+  }
+
+  function renderFighterCombat() {
+    const root = $("#fighterCombatAbilities");
+    const hint = $("#fighterCombatHint");
+    if (!root) return;
+    if (!isFighter()) {
+      if (hint) hint.textContent = "Set Class to Fighter in Profile to use class abilities.";
+      root.innerHTML = `<p class="muted">No fighter abilities active.</p>`;
+      return;
+    }
+    const abs = (window.fighterCombatAbilities || (() => []))(state.level);
+    if (hint) {
+      hint.textContent = `Fighter Lv ${state.level} · short-rest abilities refresh on Short Rest`;
+    }
+    if (!abs.length) {
+      root.innerHTML = `<p class="muted">No combat abilities yet.</p>`;
+      return;
+    }
+    root.innerHTML = abs
+      .map((ab) => {
+        const used = Number(state.fighterUses?.[ab.id] || 0);
+        const passive = ab.usesMax === 0;
+        const spent = !passive && used >= ab.usesMax;
+        const usesLabel = passive
+          ? "Passive"
+          : `${Math.max(0, ab.usesMax - used)}/${ab.usesMax}`;
+        return `<button type="button" class="fighter-ability ${spent ? "is-disabled" : ""} ${
+          passive ? "is-passive" : ""
+        }" data-fighter-use="${ab.id}" ${spent ? "disabled" : ""} title="${escapeAttr(
+          ab.detail || ""
+        )}">
+          <span class="fa-name">${escapeText(ab.name)}</span>
+          <span class="fa-summary">${escapeText(ab.summary)}</span>
+          <span class="fa-meta">${escapeText(ab.actionType)} · ${usesLabel}</span>
+        </button>`;
+      })
+      .join("");
+  }
+
+  function renderFighterFeatures() {
+    const root = $("#fighterFeatureList");
+    if (!root) return;
+    if (!isFighter()) {
+      root.innerHTML = `<p class="muted">Select Fighter in Profile to load class features.</p>`;
+      return;
+    }
+    const feats = (window.fighterFeaturesUpToLevel || (() => []))(state.level);
+    if (!feats.length) {
+      root.innerHTML = `<p class="muted">No features at this level.</p>`;
+      return;
+    }
+    root.innerHTML = feats
+      .map((f) => {
+        const styleNote =
+          f.id === "fighting-style" && state.fightingStyle
+            ? (() => {
+                const s = (window.FIGHTER_FIGHTING_STYLES || []).find(
+                  (x) => x.id === state.fightingStyle
+                );
+                return s
+                  ? `<p class="feature-desc"><strong>Chosen:</strong> ${escapeText(
+                      s.name
+                    )} — ${escapeText(s.description)}</p>`
+                  : "";
+              })()
+            : "";
+        return `<article class="feature-card">
+          <header>
+            <h3>${escapeText(f.name)}</h3>
+            <span class="pill">L${f.level}</span>
+          </header>
+          <p class="feature-desc">${escapeText(f.description || "—")}</p>
+          ${styleNote}
+        </article>`;
+      })
+      .join("");
+  }
+
+  function escapeAttr(s) {
+    return String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;");
+  }
+
+  function escapeText(s) {
+    return String(s || "").replace(/</g, "&lt;");
   }
 
   function renderCombat() {
+    renderFighterCombat();
     const learned = SKILLS.filter((s) => skillStatus(s) === "learned" && !s.isGate);
     const quickIds = [
       "deflect",
@@ -949,15 +1214,17 @@
     $("#combatLog").innerHTML = state.combatLog.length
       ? state.combatLog
           .slice(0, 12)
-          .map((e) =>
-            e.kind === "regen"
-              ? `<li><span>R${e.round}</span> +${e.regen} regen → ${e.after}</li>`
-              : `<li><span>R${e.round}</span> ${e.skill}${
-                  e.cost ? ` −${e.cost}` : " free"
-                } → ${e.after}</li>`
-          )
+          .map((e) => {
+            if (e.kind === "regen") {
+              return `<li><span>R${e.round}</span> +${e.regen} regen → ${e.after}</li>`;
+            }
+            const costBit = e.cost ? ` −${e.cost}` : "";
+            const manaBit =
+              e.after != null && e.cost ? ` → ${e.after}` : "";
+            return `<li><span>R${e.round}</span> ${e.skill}${costBit}${manaBit}</li>`;
+          })
           .join("")
-      : `<li class="muted">No sword-skill actions yet.</li>`;
+      : `<li class="muted">No combat actions yet.</li>`;
   }
 
   function renderSkills() {
@@ -1022,18 +1289,25 @@
       .join("");
   }
 
-  function escapeAttr(s) {
-    return String(s || "")
-      .replace(/&/g, "&amp;")
-      .replace(/"/g, "&quot;")
-      .replace(/</g, "&lt;");
-  }
-
-  function escapeText(s) {
-    return String(s || "").replace(/</g, "&lt;");
-  }
-
   function renderProfile() {
+    const classSelect = $("#classSelect");
+    if (classSelect) classSelect.value = state.classId || "fighter";
+    const customField = $("#customClassField");
+    if (customField) customField.hidden = isFighter();
+    const styleSel = $("#fightingStyleSelect");
+    if (styleSel && styleSel.options.length <= 1) {
+      for (const s of window.FIGHTER_FIGHTING_STYLES || []) {
+        const opt = document.createElement("option");
+        opt.value = s.id;
+        opt.textContent = s.name;
+        styleSel.appendChild(opt);
+      }
+    }
+    if (styleSel) {
+      styleSel.value = state.fightingStyle || "";
+      styleSel.disabled = !isFighter();
+    }
+
     $("#nameInput").value = state.name || "";
     $("#levelInput").value = String(state.level);
     $("#xpInput").value = String(state.xp || 0);
@@ -1111,6 +1385,10 @@
       const btn = e.target.closest("[data-use]");
       if (btn) useSkill(btn.dataset.use);
     });
+    $("#fighterCombatAbilities")?.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-fighter-use]");
+      if (btn) useFighterAbility(btn.dataset.fighterUse);
+    });
     $("#trainSkills").addEventListener("click", (e) => {
       const btn = e.target.closest("[data-train]");
       if (btn) train(btn.dataset.train);
@@ -1163,11 +1441,18 @@
 
     const profileMap = [
       ["nameInput", (v) => (state.name = v.trim() || "Kirito")],
-      ["levelInput", (v) => (state.level = clamp(Number(v) || 1, 1, 20))],
+      [
+        "levelInput",
+        (v) => {
+          state.level = clamp(Number(v) || 1, 1, 20);
+          refreshClassDerived({ announceMana: true });
+        },
+      ],
       ["xpInput", (v) => (state.xp = Math.max(0, Number(v) || 0))],
       ["maxManaInput", (v) => {
         state.maxMana = clamp(Number(v) || 100, 1, 999);
         state.mana = clamp(state.mana, 0, state.maxMana);
+        state.maxManaCustom = true;
       }],
       ["classInput", (v) => (state.className = v)],
       ["subclassInput", (v) => (state.subclass = v)],
@@ -1198,6 +1483,27 @@
         render();
       });
     }
+
+    $("#classSelect")?.addEventListener("change", (e) => {
+      state.classId = e.target.value || "fighter";
+      if (state.classId === "fighter") {
+        state.className = "Fighter";
+        refreshClassDerived({ announceMana: false });
+      } else {
+        state.className = state.className === "Fighter" ? "" : state.className;
+        applyFighterSaves(); // clears auto saves when leaving fighter
+      }
+      persist();
+      render();
+      toast(state.classId === "fighter" ? "Fighter features applied" : "Custom class", "ok");
+    });
+
+    $("#fightingStyleSelect")?.addEventListener("change", (e) => {
+      state.fightingStyle = e.target.value || "";
+      if (isFighter()) refreshClassDerived({ announceMana: false });
+      persist();
+      render();
+    });
 
     $("#dmLinkToggle")?.addEventListener("change", (e) => {
       state.dmLinkEnabled = !!e.target.checked;
@@ -1303,6 +1609,11 @@
       deferred = null;
       btn.hidden = true;
     });
+  }
+
+  // Keep Fighter features / saves / mana cap in sync for existing phone saves.
+  if (isFighter()) {
+    refreshClassDerived({ announceMana: false });
   }
 
   bind();

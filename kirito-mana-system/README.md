@@ -214,7 +214,7 @@ Best SAO feel: skills leave you stiff, then the system recovers.
 | Short rest (1 hour) | Recover **50 mana** |
 | Long rest | Recover **all mana** |
 
-Optional: max mana cannot go above 100 unless you take a “Mana Crystal / Floor Clear” boon.
+**Max mana by level (app default):** start at **100**, then **+10 max mana each level** (L2=110 … L20=290). The phone app applies this on level-up.
 
 ### Package B — “Breathing Room” (simpler table)
 - **In combat:** regain **1d6 + CON mod** mana at the start of each turn (min 3).

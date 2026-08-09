@@ -1,4 +1,4 @@
-const CACHE = "aincrad-mana-v10";
+const CACHE = "aincrad-mana-v11";
 const ASSETS = [
   "./",
   "./index.html",
@@ -6,6 +6,7 @@ const ASSETS = [
   "./app.js",
   "./data/skills.js",
   "./data/dnd.js",
+  "./data/fighter.js",
   "./data/dm-link.js",
   "./manifest.webmanifest",
   "./icons/icon-180.png",

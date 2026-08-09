@@ -858,7 +858,7 @@ window.KIRITO_SKILLS = [
 
 window.STARTER_SKILL_IDS = window.KIRITO_SKILLS.filter((s) => s.starter).map((s) => s.id);
 window.STORAGE_KEY = "kirito-mana-pwa-v1";
-window.APP_VERSION = "2.2.0";
+window.APP_VERSION = "2.3.0";
 
 window.TRAINING_RULES = {
   sessionHoursDefault: 1,

@@ -264,6 +264,94 @@ body {
   font-size: 0.92rem;
 }
 
+.fighter-ability-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.fighter-ability {
+  appearance: none;
+  border: 1px solid rgba(230, 196, 122, 0.28);
+  background: linear-gradient(180deg, rgba(230, 196, 122, 0.14), rgba(255, 255, 255, 0.02));
+  border-radius: 14px;
+  padding: 0.7rem 0.65rem;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  display: grid;
+  gap: 0.2rem;
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+
+.fighter-ability:active {
+  transform: scale(0.97);
+}
+
+.fighter-ability.is-disabled,
+.fighter-ability:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.fighter-ability.is-passive {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.fa-name {
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.fa-summary {
+  font-size: 0.78rem;
+  color: var(--gold);
+}
+
+.fa-meta {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.feature-card {
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+
+.feature-card header {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: start;
+}
+
+.feature-card h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+}
+
+.feature-desc {
+  margin: 0.45rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.mini-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
 .quick-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

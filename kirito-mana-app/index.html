@@ -73,6 +73,11 @@
         </div>
         <div id="combatVitals" class="vitals-root"></div>
         <div class="section-head tight">
+          <h2>Fighter Abilities</h2>
+          <p class="muted tiny" id="fighterCombatHint">Second Wind and more unlock as you level.</p>
+        </div>
+        <div id="fighterCombatAbilities" class="fighter-ability-grid"></div>
+        <div class="section-head tight">
           <h2>Sword Skills</h2>
         </div>
         <div id="quickSkills" class="quick-grid"></div>
@@ -96,6 +101,10 @@
           </p>
         </div>
         <div id="abilityBlocks" class="ability-list"></div>
+        <div class="section-head tight"><h2>Class Features</h2></div>
+        <div id="fighterFeatureList" class="card-list">
+          <p class="muted">Fighter features appear here by level.</p>
+        </div>
       </section>
 
       <!-- SWORD SKILLS -->
@@ -182,14 +191,28 @@
           <label class="field">
             <span>Max Mana</span>
             <input id="maxManaInput" type="number" min="1" max="999" inputmode="numeric" />
+            <span class="mini-hint">Auto: 100 + 10×(level−1). Editing locks a custom cap until next level-up sync.</span>
           </label>
           <label class="field">
             <span>Class</span>
+            <select id="classSelect">
+              <option value="fighter">Fighter</option>
+              <option value="custom">Custom</option>
+            </select>
+          </label>
+          <label class="field" id="customClassField" hidden>
+            <span>Custom Class Name</span>
             <input id="classInput" type="text" />
           </label>
           <label class="field">
             <span>Subclass</span>
-            <input id="subclassInput" type="text" placeholder="Optional" />
+            <input id="subclassInput" type="text" placeholder="e.g. Champion" />
+          </label>
+          <label class="field">
+            <span>Fighting Style</span>
+            <select id="fightingStyleSelect">
+              <option value="">Choose…</option>
+            </select>
           </label>
           <label class="field">
             <span>Race</span>
@@ -330,6 +353,7 @@
 
     <script src="./data/skills.js"></script>
     <script src="./data/dnd.js"></script>
+    <script src="./data/fighter.js"></script>
     <script src="./data/dm-link.js"></script>
     <script src="./app.js"></script>
   </body>

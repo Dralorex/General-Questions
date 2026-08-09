@@ -66,7 +66,7 @@ window.FIGHTER_CLASS = {
         id: "second-wind",
         name: "Second Wind",
         description:
-          "On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level. Once you use this feature, you must finish a short or long rest before you can use it again.",
+          "On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level. You can use this feature twice, and regain all expended uses when you finish a long rest.",
       },
     ],
     2: [

@@ -412,11 +412,11 @@
     state.lastSkillId = null;
     state.lastWasUltimate = false;
     if (!state.fighterUses) state.fighterUses = {};
-    state.fighterUses["second-wind"] = 0;
+    // Second Wind is 2/long rest — does not refresh on short rest.
     state.fighterUses["action-surge"] = 0;
     persist();
     render();
-    toast("Short rest · +50 mana · Fighter short-rest abilities refresh", "ok");
+    toast("Short rest · +50 mana · Action Surge refreshes", "ok");
   }
 
   function longRest() {

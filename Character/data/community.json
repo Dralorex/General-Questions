@@ -1,0 +1,48 @@
+{
+  "format": "gq-character-pack-v1",
+  "exportedAt": "2026-07-24T00:00:00.000Z",
+  "notes": "Shared starter community pack. Players can Fetch shared pack in Library, or Export their own published pieces for others to Import.",
+  "pieces": [
+    {
+      "id": "community-hat-mushroom",
+      "slot": "hat",
+      "name": "Mushroom Cap",
+      "author": "official-community",
+      "source": "community",
+      "published": true,
+      "underHat": false,
+      "transform": { "x": 0, "y": 0, "scale": 1, "rotate": 0 },
+      "svg": "<g class=\"piece-hat\"><ellipse cx=\"200\" cy=\"108\" rx=\"72\" ry=\"14\" fill=\"#6a4030\"/><path d=\"M130 105 Q200 20 270 105 Q200 125 130 105Z\" fill=\"#c05040\"/><circle cx=\"175\" cy=\"70\" r=\"8\" fill=\"#f0e0d0\"/><circle cx=\"210\" cy=\"55\" r=\"6\" fill=\"#f0e0d0\"/><circle cx=\"230\" cy=\"80\" r=\"7\" fill=\"#f0e0d0\"/></g>"
+    },
+    {
+      "id": "community-weapon-hammer",
+      "slot": "weapon-main",
+      "name": "War Hammer",
+      "author": "official-community",
+      "source": "community",
+      "published": true,
+      "transform": { "x": 0, "y": 0, "scale": 1, "rotate": 0 },
+      "svg": "<g class=\"piece-weapon\" transform=\"translate(292 290) rotate(-14)\"><rect x=\"-5\" y=\"20\" width=\"10\" height=\"110\" rx=\"2\" fill=\"#5a4030\"/><rect x=\"-28\" y=\"-15\" width=\"56\" height=\"40\" rx=\"4\" fill=\"#6a7080\"/><rect x=\"-22\" y=\"-8\" width=\"44\" height=\"26\" rx=\"2\" fill=\"#8a90a0\"/></g>"
+    },
+    {
+      "id": "community-glasses-goggles",
+      "slot": "glasses",
+      "name": "Aviator Goggles",
+      "author": "official-community",
+      "source": "community",
+      "published": true,
+      "transform": { "x": 0, "y": 0, "scale": 1, "rotate": 0 },
+      "svg": "<g class=\"piece-glasses\" fill=\"none\" stroke=\"#3a2a18\" stroke-width=\"4\"><circle cx=\"174\" cy=\"96\" r=\"18\"/><circle cx=\"226\" cy=\"96\" r=\"18\"/><path d=\"M192 96 H208 M156 96 H145 M244 96 H255\"/><path d=\"M156 88 Q200 70 244 88\" stroke-width=\"3\"/></g>"
+    },
+    {
+      "id": "community-bg-tavern",
+      "slot": "background",
+      "name": "Tavern Glow",
+      "author": "official-community",
+      "source": "community",
+      "published": true,
+      "transform": { "x": 0, "y": 0, "scale": 1, "rotate": 0 },
+      "svg": "<defs><radialGradient id=\"tav\" cx=\"50%\" cy=\"40%\" r=\"65%\"><stop offset=\"0%\" stop-color=\"#6a3a18\"/><stop offset=\"75%\" stop-color=\"#1a1210\" stop-opacity=\"0\"/></radialGradient></defs><rect width=\"400\" height=\"560\" fill=\"#14100e\"/><rect width=\"400\" height=\"560\" fill=\"url(#tav)\"/><path d=\"M0 400 H400 V560 H0Z\" fill=\"#2a1a12\"/><path d=\"M40 0 V560 M360 0 V560\" stroke=\"#3a2a20\" stroke-width=\"22\"/>"
+    }
+  ]
+}

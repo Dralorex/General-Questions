@@ -1,0 +1,7 @@
+{
+  "format": "gq-character-overrides-v1",
+  "updatedAt": "2026-07-24T00:00:00.000Z",
+  "notes": "Admin placement / layer overrides. Merge exported overrides here and deploy so everyone gets them.",
+  "slotOrder": null,
+  "pieces": {}
+}

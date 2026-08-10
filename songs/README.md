@@ -24,8 +24,14 @@ This requires [LilyPond](https://lilypond.org/) (tested with 2.24+).
 
 ## Songs
 
-- **[Ammunition](ammunition/)** — A ballad in A minor about being loved conditionally.
-  Piano/vocal score, key of Am, ♩ = 70. See
-  [`ammunition/ammunition.pdf`](ammunition/ammunition.pdf) for the sheet music and
-  [`ammunition/ammunition-lyrics.md`](ammunition/ammunition-lyrics.md) for the lyrics
-  with chord chart.
+- **[Ammunition](ammunition/)** — A piano ballad in A minor about being loved
+  conditionally. Piano/vocal score, key of Am, ♩ = 70. See
+  [`ammunition/ammunition.pdf`](ammunition/ammunition.pdf) for the sheet music
+  and [`ammunition/ammunition-lyrics.md`](ammunition/ammunition-lyrics.md) for
+  lyrics with chord chart.
+
+- **[Sanded Down](sanded-down/)** — A guitar ballad (capo 3, fingerpicked) about
+  the slow erosion of self inside a relationship. The quieter counterpart to
+  *Ammunition* — it doesn't accuse, it grieves. See
+  [`sanded-down/sanded-down.md`](sanded-down/sanded-down.md) for chord shapes,
+  progressions, picking pattern, and full lyrics with chords.

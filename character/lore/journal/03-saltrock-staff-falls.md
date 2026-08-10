@@ -5,7 +5,7 @@
 
 Not a good start to my adventure.
 
-I woke to shouting, then stone, then the kind of silence that means something holy has broken. The staff in the general building, the floating one that keeps Saltrock safe, had fallen. I do not know why yet. I only know what followed.
+I woke to shouting, then hearing stone crumbling, then the kind of silence that means something holy has broken. The staff in the general building, the floating one that keeps Saltrock safe, had fallen. I do not know why yet. I only know what followed.
 
 Monsters came from all sides.
 

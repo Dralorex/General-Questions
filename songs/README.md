@@ -29,3 +29,9 @@ This requires [LilyPond](https://lilypond.org/) (tested with 2.24+).
   [`ammunition/ammunition.pdf`](ammunition/ammunition.pdf) for the sheet music and
   [`ammunition/ammunition-lyrics.md`](ammunition/ammunition-lyrics.md) for the lyrics
   with chord chart.
+
+- **[Nothing Too](nothing-too/)** — A sad guitar song about feeling washed up and empty-handed.
+  Verse: C – A – Fm – Dm · Chorus: A – E – Cadd9 – C · ♩ = 74. See
+  [`nothing-too/nothing-too.pdf`](nothing-too/nothing-too.pdf) for the sheet music and
+  [`nothing-too/nothing-too-lyrics.md`](nothing-too/nothing-too-lyrics.md) for the lyrics
+  with chord chart.

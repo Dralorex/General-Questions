@@ -6,7 +6,7 @@ Each entry is its own file, in sequential order.
 |---|---|---|
 | 01 | [01-after-the-charge.md](01-after-the-charge.md) | Age 17, after Yua names him Hero; full backstory to that moment |
 | 02 | [02-leaving-home-for-saltrock.md](02-leaving-home-for-saltrock.md) | Age 17, leaves Alzenhiem; lodges in Saltrock |
-| 03 | [03-saltrock-staff-falls.md](03-saltrock-staff-falls.md) | Age 17, Saltrock attacked after the protective staff falls; open ended mid siege |
+| 03 | [03-saltrock-staff-falls.md](03-saltrock-staff-falls.md) | Age 17, Saltrock staff falls; keep siege, tomb quest, focus restored; feast; choice by dawn |
 
 ## How to add the next entry
 

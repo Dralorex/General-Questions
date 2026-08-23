@@ -38,7 +38,8 @@ Tabs included:
 14. Journal 03
 15. Yua Red And Black
 16. Yua Mana Well
-17. Crest Lore Full
+17. Yua Stays Hidden
+18. Crest Lore Full
 
 ### Document version (recommended for reading / sharing prose)
 

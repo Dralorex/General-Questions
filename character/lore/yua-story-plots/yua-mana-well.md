@@ -68,7 +68,19 @@ Yua had wanted discovery, curiosity, a question from him first.
 
 After watching him biff a live battle while fully unprepared for his own gift, she decided waiting was a bad idea. Silence had almost written his ending on Saltrock gravel.
 
-She will explain the Well: what it is, that it is not his soul, how simple imbument should feel once understood, and that sword mana can lighten, sharpen, and briefly hasten him. She will also make clear that knowing is not mastery. He must train. He must practice draws, bursts, recovery, and control until the Well’s breath matches his own.
+On the tomb return, alone in the woods near Saltrock, she remembered more than she had on the mountain. She named the gift as coming directly from Lord AO. They would have to grow together and learn the power through training. No shortcuts. No temper.
+
+She also warned that she feels a darkness unlike any she has known. Source unknown yet.
+
+## Second use: keep goblin fight
+
+During the troll breach at the keep, Dezco used the simple imbue again, this time with less accident and more hunger.
+
+The blade felt eager. His body matched it. He surged forward, cleaved one goblin at the waist, and the momentum carried the edge to a second goblin more than ten feet away, opening his gut. Still untrained, but no faceplant.
+
+## What remains to teach
+
+She will still explain the Well in full: what it is, that it is not his soul, how simple imbue should feel once understood, and that sword mana can lighten, sharpen, and briefly hasten him. Naming Lord AO is not the same as mastery. He must train. He must practice draws, bursts, recovery, and control until the Well’s breath matches his own.
 
 Until that training is real, every panic swing risks another fifteen feet of unwanted truth.
 

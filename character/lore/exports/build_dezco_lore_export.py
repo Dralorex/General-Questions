@@ -116,7 +116,8 @@ def build_workbook() -> Path:
         ("13 Journal 03", "The Staff Falls"),
         ("14 Yua Red And Black", "Later color reveal"),
         ("15 Yua Mana Well", "Full Mana Well plot"),
-        ("16 Crest Lore Full", "Full crest/sigil writeups"),
+        ("16 Yua Stays Hidden", "Why Dezco hides Yua from the party"),
+        ("17 Crest Lore Full", "Full crest/sigil writeups"),
     ]
     cover["A6"] = "Tab"
     cover["B6"] = "Contents"
@@ -155,8 +156,8 @@ def build_workbook() -> Path:
             ["Companion", "Yua (often appears as a small pixie)"],
             ["Crest colors", "crimson red + deep black"],
             ["Sigil", "vertical blade / flame split red and black"],
-            ["Current location", "Saltrock general building (doors sealed; under attack)"],
-            ["Travel status", "Adventure day 2 gone wrong; protective staff fell; mid siege"],
+            ["Current location", "Saltrock (protection restored; feast over; dawn choice pending)"],
+            ["Travel status", "Adventure day 2; staff fell then focus restored; Lyndor vs Lořel by morning"],
         ],
         "Quick identity card for party talk.",
     )
@@ -206,9 +207,10 @@ def build_workbook() -> Path:
             ["17", "Yua gave ancient title Hero + sacred mission + Mana Well (unexplained); Lion and Rilock present"],
             ["17", "Final goodbye at Alzenhiem; family gifts"],
             ["17", "Reached Saltrock; tavern lodging"],
-            ["17", "Protective staff fell; monster attack"],
-            ["17", "Accidental mana dash / faceplant; elf girl archer save"],
-            ["Now", "Sealed in Saltrock general building; journal 03 open ended"],
+            ["17", "Protective staff fell; storm attack; accidental mana dash / muddy faceplant; Eden saved him"],
+            ["17", "Keep siege: troll + goblins; second imbue; first King’s Lion tomb quest; focus recovered"],
+            ["17", "Focus restored with mayor, Vita, Yeara; feast; choose Lyndor escort or Lořel"],
+            ["Now", "Resting after feast; foot bruised; Yua and Dezco still need to talk"],
         ],
     )
 
@@ -218,9 +220,14 @@ def build_workbook() -> Path:
         ["Type", "Name", "Details"],
         [
             ["Place", "Alzenhiem", "Home hamlet; Dezco’s center"],
-            ["Place", "Saltrock", "Traveling town; many come and go"],
-            ["Place", "Saltrock general building", "Protective staff location; currently sealed inside during attack"],
-            ["Place", "Saltrock protective staff", "Used to float and block named monsters; has fallen"],
+            ["Place", "Saltrock", "Traveling town; focus restored; feast; dawn choice pending"],
+            ["Place", "Saltrock keep / general building", "Shelter during attack; focus set back with Vita and Yeara"],
+            ["Place", "Saltrock library", "Old map book to first King’s Lion tomb"],
+            ["Place", "Lyndor", "Capital; Lord Keivan; mayor wants escort"],
+            ["Place", "Lořel", "City of churches; priestess Yeara wants the party there"],
+            ["Place", "First King’s Lion tomb", "Hilltop beyond Saltrock; held the recovered focus"],
+            ["Place", "Yolon statue", "Stone dragon on tomb path; spoke after rain bowl drink"],
+            ["Place", "Owlbear bridge", "Rickety crossing past sleeping giant owlbear"],
             ["Place", "Saltrock tavern", "Lodged night before attack; nostalgia bread"],
             ["Gear", "New sword", "From Dolkin; hand forged goodbye"],
             ["Gear", "First smithing tools", "From Dolkin; master of your steel"],
@@ -228,6 +235,7 @@ def build_workbook() -> Path:
             ["Gear", "Cooking pot", "From Fulfein"],
             ["Gear", "New clothing", "From Fulfein; worn out of respect"],
             ["Gear", "Shovel", "From Fulfein; funny roadside duty + darker second meaning"],
+            ["Gear", "Tomb focus (recovered)", "Faint glow; restored Saltrock protection with mayor, Vita, Yeara"],
         ],
     )
 
@@ -256,13 +264,15 @@ def build_workbook() -> Path:
         "08 Abilities Mana Well",
         ["Piece", "Quick fact"],
         [
-            ["Source", "Bestowed by Yua with the Hero charge; unexplained at first"],
+            ["Source", "Gift from Lord AO per Yua; Well bestowed with Hero charge"],
             ["Well", "Stored mana pool within soul confines; separate from the soul"],
             ["Simple imbue", "Innate; should feel as easy as breathing once understood"],
             ["Sword effect", "Lighter, sharper; short burst of swiftness / agility"],
-            ["First use", "Saltrock battle (journal 03); accidental ~15 ft dash mid swing = faceplant"],
+            ["First use", "Saltrock street fight; accidental ~15 ft dash mid swing = muddy faceplant"],
+            ["Second use", "Keep goblin fight; cleaved one at waist, gutted another >10 ft away"],
+            ["Yua’s explanation", "Woods talk: Lord AO gift; grow together through training"],
+            ["Yua’s warning", "Feels unknown darkness; source not yet named"],
             ["Training needed", "Control timing, avoid waste, move with the burst instead of being thrown"],
-            ["Yua’s plan", "Stay quiet until Dezco asks or figures it out; changed after watching the biff"],
         ],
         "Full plot: character/lore/yua-story-plots/yua-mana-well.md",
     )
@@ -276,8 +286,11 @@ def build_workbook() -> Path:
             ["Trained since 8 under the Lion", "Yes", "Safe to share"],
             ["Early Hero of centuries rumors", "Yes", "Emphasize it was rumor then"],
             ["Yua made him Hero at 17", "Yes, if trust", "Often looks like a pixie"],
+            ["Yua walks with Dezco daily", "No", "Only King’s Lion + Rilock know"],
+            ["Divine being seen in the world", "Yes", "Public knowledge; not tied to Dezco"],
             ["Exact red/black blood meaning", "No", "Later Yua reveal"],
-            ["Mana Well / sword imbue details", "Not yet / soon", "Yua explains after Saltrock faceplant"],
+            ["Mana Well / Lord AO gift", "Partial", "Named in private woods talk; training ahead"],
+            ["Why Dezco hides Yua", "No", "See yua-why-she-stays-hidden.md"],
             ["Birthday November 6", "Yes", "Safe"],
         ],
         "DM truths: Black = Dwarven caves/void/dark. Red = Elven holy blood after ill. Together = balance. Mana Well separate from soul.",
@@ -289,7 +302,8 @@ def build_workbook() -> Path:
     add_text_sheet(wb, "13 Journal 03", read(LORE / "journal" / "03-saltrock-staff-falls.md"), "character/lore/journal/03-saltrock-staff-falls.md")
     add_text_sheet(wb, "14 Yua Red And Black", read(LORE / "yua-story-plots" / "yua-on-red-and-black.md"), "character/lore/yua-story-plots/yua-on-red-and-black.md")
     add_text_sheet(wb, "15 Yua Mana Well", read(LORE / "yua-story-plots" / "yua-mana-well.md"), "character/lore/yua-story-plots/yua-mana-well.md")
-    add_text_sheet(wb, "16 Crest Lore Full", read(CRESTS / "README.md"), "assets/crests/alzenhiem/README.md")
+    add_text_sheet(wb, "16 Yua Stays Hidden", read(LORE / "yua-story-plots" / "yua-why-she-stays-hidden.md"), "character/lore/yua-story-plots/yua-why-she-stays-hidden.md")
+    add_text_sheet(wb, "17 Crest Lore Full", read(CRESTS / "README.md"), "assets/crests/alzenhiem/README.md")
 
     out = OUT / "Dezco_Knoleburn_Lore_Tabs.xlsx"
     wb.save(out)
@@ -333,7 +347,7 @@ def build_docx() -> Path:
         "Upload this file to Google Drive → Open with Google Docs. "
         "For clickable tabs, upload Dezco_Knoleburn_Lore_Tabs.xlsx and open with Google Sheets."
     )
-    doc.add_paragraph("Suggested Google Docs tabs after upload: Party Ref | Character | Journal 01 | Journal 02 | Journal 03 | Yua Red Black | Yua Mana Well | Crests.")
+    doc.add_paragraph("Suggested Google Docs tabs after upload: Party Ref | Character | Journal 01 | Journal 02 | Journal 03 | Yua Red Black | Yua Mana Well | Yua Stays Hidden | Crests.")
 
     sections = [
         ("Party Quick Reference", LORE / "dezco-party-reference.md"),
@@ -344,6 +358,7 @@ def build_docx() -> Path:
         ("Journal 03: The Staff Falls", LORE / "journal" / "03-saltrock-staff-falls.md"),
         ("Yua Story Plot: Red and Black", LORE / "yua-story-plots" / "yua-on-red-and-black.md"),
         ("Yua Story Plot: Mana Well", LORE / "yua-story-plots" / "yua-mana-well.md"),
+        ("Yua Story Plot: Why She Stays Hidden", LORE / "yua-story-plots" / "yua-why-she-stays-hidden.md"),
         ("Crests and Sigils (Full Lore)", CRESTS / "README.md"),
     ]
 

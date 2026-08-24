@@ -187,6 +187,29 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [lava-crack-floor-tile](lava-crack-floor-tile/) | Broken stone with magma crack channels |
 | [web-covered-floor-tile](web-covered-floor-tile/) | Thick spider webs across cobblestones |
 
+### Outdoor & nature terrain (set of 18)
+
+| Folder | Concept |
+|---|---|
+| [leafy-tree](leafy-tree/) | Thick trunk, clustered canopy, wide stable base |
+| [dead-tree](dead-tree/) | Bare branches, gnarled trunk, spooky silhouette |
+| [tree-stump-fallen-log](tree-stump-fallen-log/) | Stump with axe marks, fallen log, moss |
+| [dense-bush-hedge](dense-bush-hedge/) | Leafy mass, low profile hedge scatter |
+| [boulder-cluster](boulder-cluster/) | Three grouped rocks, moss and cracks |
+| [cliff-edge](cliff-edge/) | Rock face with drop-off, modular edge piece |
+| [cave-entrance](cave-entrance/) | Rocky arch opening, dark recessed interior |
+| [wooden-wagon](wooden-wagon/) | Horseless wagon, cargo bed, travel-worn wood |
+| [broken-wagon](broken-wagon/) | Cracked wheel, scattered cargo, damaged frame |
+| [stone-road-milestone](stone-road-milestone/) | Weathered post, worn illegible carving |
+| [wooden-bridge](wooden-bridge/) | Planks and rope rails, short span segment |
+| [river-stream-tile](river-stream-tile/) | Flowing water surface, stone banks, square tile |
+| [marsh-pool-tile](marsh-pool-tile/) | Muddy water, reeds, bubbles, square tile |
+| [standing-stones-circle](standing-stones-circle/) | Three to five megaliths on grassy base |
+| [ancient-obelisk](ancient-obelisk/) | Tall carved pillar, hieroglyphs, chipped apex |
+| [ruined-outdoor-shrine](ruined-outdoor-shrine/) | Broken statue, collapsed stones, overgrown vines |
+| [giant-mushroom-cluster](giant-mushroom-cluster/) | Three varied caps, thick stems, forest floor |
+| [spider-nest](spider-nest/) | Web cocoons, bones, thick webs on rocks |
+
 ### Other figures
 
 | Folder | Concept |

@@ -33,6 +33,23 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [zombie-child-5](zombie-child-5/) | Child-sized, non-graphic decay, standing upright, matted hair |
 | [zombie-brute-6](zombie-brute-6/) | Oversized muscular corpse, broken chains, heavy cleaver, stitched limbs |
 
+### Tavern & town NPCs (set of 12)
+
+| Folder | Concept |
+|---|---|
+| [tavern-keeper](tavern-keeper/) | Stout keeper, apron, polishing mug, bar towel over shoulder |
+| [tavern-server-1](tavern-server-1/) | Tray of mugs, practical dress, balanced walking pose |
+| [tavern-server-2](tavern-server-2/) | Writing order on slate, pencil behind ear, coin pouch |
+| [blacksmith](blacksmith/) | Leather apron, hammer raised over on-base anvil |
+| [stable-hand](stable-hand/) | Hay bale and brush, straw in hair, relaxed working pose |
+| [noble](noble/) | Embroidered coat, jeweled ring, hand on hip, arrogant posture |
+| [traveling-merchant](traveling-merchant/) | Heavy backpack, ledger, belt scales, cautious stance |
+| [market-merchant](market-merchant/) | Goods crate, cloth sample, persuasive sales gesture |
+| [street-urchin-1](street-urchin-1/) | Patched clothes, stolen apple, sneaky pose, oversized cap |
+| [street-urchin-2](street-urchin-2/) | Sitting on crate, playing dice, fingerless gloves |
+| [priest](priest/) | Holy symbol, simple robes, blessing gesture |
+| [scholar](scholar/) | Long robe, books, quill and scroll, adjusting spectacles |
+
 ### Bandit gang (set of 8)
 
 | Folder | Concept |

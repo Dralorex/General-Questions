@@ -7,8 +7,9 @@ Concept: glass bottles on bandolier, apron with stains, stirring rod, curious ex
 | Image | Notes |
 |---|---|
 | [`alchemist-v1.png`](alchemist-v1.png) | First pass. Front three-quarter view, product reference photo style. Bottles fused to bandolier. |
+| [`alchemist-v2.png`](alchemist-v2.png) | Revised: stirring rod tucked into bandolier, open potion held by bottle neck. No floating objects. |
 
-Print note: stirring rod and individual bottle necks are thin — thicken or fuse to the body.
+Print note: individual bottle necks are thin — thicken or fuse to the bandolier.
 
 ## Direct links (viewable on phone via GitHub)
 

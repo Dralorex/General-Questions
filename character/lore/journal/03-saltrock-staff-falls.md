@@ -45,33 +45,33 @@ Then the back of the keep screamed.
 
 BOOM. BOOM. BOOM.
 
-A troll broke through with five goblins pouring behind it. The same defenders gathered again. A human priest joined us in the chaos, Vita, early thirties, robes soaked, voice steady. He had already healed a snake man among us, Alem, who speaks mind to mind when words are too slow.
+A troll broke through the back wall with five goblins pouring behind it. The same defenders gathered again. A human priest joined us in the chaos, Vita, early thirties, robes soaked, voice steady. He had already healed a snake man among us, Alem, who speaks mind to mind when words are too slow.
 
-I had seen trolls in training records. I had never stood against one. This one was worse than the texts. Spells slid off it like rain off slate. Wounds closed as soon as they opened. Eden found the crack in its hide: fire. While the others hammered it from the front, I slipped to the rear to keep the goblins from flanking.
+I had seen trolls in training records. I had never stood against one. From the first swing I knew this fight would not be easy. This one was worse than the texts. It resisted all magic. Spells slid off it like rain off slate. Wounds closed on the spot as soon as they opened. Eden found the crack in its hide: fire. While the others hammered it from the front, I slipped to the rear to keep the goblins from flanking and to hold the troll as the only problem worth fearing.
 
 Two saw me. I raised Dolkin’s sword.
 
 The tingling returned.
 
-Not fear this time. Not accident alone. The blade felt hungry. My legs felt ready. I surged forward through the space in front of me and cleaved the first goblin clean at the waist. The momentum did not stop. The edge found a second goblin more than ten feet away and opened his gut. He stumbled, ruined but not yet dead.
+Again it felt as if the sword was eager to fight and my body was eager to move with it. I bolted forward through the space in front of me and sliced straight through the first goblin, cutting him in two at the waist. The momentum did not stop. The edge found a second goblin more than ten feet away and opened his gut. Not quite enough to kill him, but he was not looking good.
 
-When I turned, the troll was a burning heap collapsing to the floor. Goblins broke and ran. The wounded one made it only a few strides before Eden put an arrow through his back.
+When I turned, the troll was burning to a crisp. It thumped to the floor, motionless, while everyone watched it fall. Goblins broke and ran. The wounded one made it only a few strides before Eden shot him in the back and finished him off.
 
 For a moment the hall actually quieted.
 
-Then the mayor found us and said the fight was not over.
+Then the mayor found us and said the fight was not over. We still had work to do before Saltrock could breathe.
 
 ## The First King’s Lion
 
-He spoke of a title I already knew from my own life, though not this far back in its bloodline.
+He spoke of a grave, and of a title I already knew from my own life, though not this far back in its bloodline.
 
-The King’s Lion serves the holy city’s king and is said to be the realm’s greatest living swordsman. Each Lion succeeds the last. The first of that line is buried in a tomb somewhere beyond Saltrock. The mayor did not know where. The library might.
+The King’s Lion is the name of the chief guard who stands at the holy city king’s side. Each generation’s Lion is believed to be the realm’s greatest living swordsman, and every Lion must succeed the one before him. The first of that line is buried in a tomb somewhere beyond Saltrock. The mayor did not know where. He said the library might hold answers.
 
 He was right.
 
-Vita deciphered an old book the rest of us could barely read. More than a hundred years of shifting land lay between its map and the world. Still, it gave a direction. We left at once.
+We searched the library and found an old book with a location for the grave. Vita was the only one among us who could read it. The map inside was more than a hundred years old. Rivers had moved. Hills had softened. Roads had vanished. It was not precise, but it gave us a direction, and we set off at once.
 
-On the path Yua appeared at my shoulder, visible only to me, and pointed the way the road should bend. The others doubted me. I told them to check the book. Vita did. The scrappy map inside matched the terrain in the direction I had named. They stopped arguing. They did not stop watching me oddly.
+On the path Yua appeared at my shoulder, visible only to me, and pointed the way the road should bend. The group doubted me. I told them to look at the book. Vita looked back into it and, based on the old scrappy map inside, agreed the terrain matched the direction I had named. They stopped arguing. They did not stop watching me oddly.
 
 I need to write this plainly, because if I lie to my own page I will forget why I am lying to everyone else.
 
@@ -89,79 +89,89 @@ I hide her not because I am ashamed. Because her silence is part of the gift. If
 
 Rain had not stopped when we found the statue.
 
-It rose from the hillside crusted in moss, mud, and old vines: a dragon carved in stone with a bowl at its feet. Something in me wanted to pray there, not to the dragon itself, but near it. When I did, warmth moved through my chest like an ember carefully placed. I felt steadier on the road we were already walking.
+It rose from the hillside crusted in grime from years upon years of weather: mud, moss, vines, and filth packed into every carved scale. Up close it was a dragon carved in stone with a wide bowl set before its feet.
 
-Jylia drank the rainwater pooled in the bowl.
+Something in me wanted to pray there, not to the dragon itself, but simply to pray beside it. When I did, an odd warmth moved through my chest like an ember carefully placed. I felt inspired to keep walking the path we were already on.
+
+Right as I finished, Jylia drank the rainwater pooled in the bowl.
 
 The statue spoke without moving its mouth.
 
-His name is Yolon. He was a true dragon once, turned to stone as magic thinned from the world. He has stood there more than a hundred years waiting to be freed. When we asked about the first King’s Lion, he laughed until the sound rolled through the wet trees.
+His name is Yolon. He was a true dragon once, turned to stone as magic thinned from the world. He has stood there more than a hundred years, waiting to be freed. We told him our quest: find the tomb of the first King’s Lion.
 
-He had fought that Lion many times. Battles that went on until both of them were spent. Every duel ended in a draw. Every duel made them stronger. In time they stopped trying to kill each other and simply tested one another, as if respect had outgrown victory. Yolon never learned the Lion’s final fate, but he knew where the tomb lay.
+At the name King’s Lion, he roared into laughter until the sound rolled through the wet trees.
 
-Keep on this path, he said. Eventually take the right fork.
+He had fought that Lion many times. Battles that went on forever, never relenting, and each one always ended in a draw. Every duel made them both stronger. In time they realized neither truly wanted the other dead. They sparred instead, testing strength the way honest warriors do when respect outgrows victory. Yolon never learned the first Lion’s final fate, but he knew where the tomb lay.
+
+Keep following the path you are on, he said. When you reach the next fork, take the right.
 
 We thanked him and went on.
 
 ## The Bridge and the Owlbear
 
-The right fork brought us to a wooden bridge so old it complained under its own weight. Across it sat a boulder that looked deliberately wrong, like a lump dropped by a careless giant.
+Yolon’s path brought us to an old, rickety wooden bridge that groaned under its own weight. On the far side sat an odd shaped boulder we did not trust. It felt deliberately out of place, like a lump dropped by a careless giant.
 
-Eden vanished while we debated how to cross. By the time we noticed, she was already on the far side.
+Eden vanished while we debated how to cross. By the time we noticed, she was already on the other side.
 
-Alem reached her with telepathy. Eden’s thoughts came back to us in pieces. Inside the stone slept an owlbear, the largest she had ever seen: bear body, owl head, claws long enough to split a person in two. Lucky for us, it was still sleeping.
+Alem reached her with telepathy, speaking mind to mind. Eden relayed what she found. Inside that false boulder slept an owlbear, the largest she had ever seen: the body of a bear, the head and beak of an owl, giant claws jutting from its fists, claws long enough to slash a person in half. Lucky for us, it was still sleeping.
 
-One by one we crossed as Eden directed our steps. One board. One breath. No sound. Somehow every one of us made it over.
+The bridge was so old and so rickety that crossing it wrong could wake the beast. We had to figure out how to get across without a sound. One at a time, we took the steps Eden told us to take. One board. One breath. No creak we could avoid. Somehow, by the luck of our skin, every one of us made it over.
 
-At the next split, the elven sisters went down toward the river. The rest of us climbed the cliff stairs.
+## The Fork Yolon Named
+
+Farther on we reached the fork he had warned us about.
+
+One path dropped toward the rivers below. The other climbed a cliff in a long run of stone stairs to the hilltop. Yolon had said to go right. The right path was the stairs.
+
+Eden and Alice went left, down toward the water. The rest of us went right, up the cliff. I do not know yet what the sisters found by the river. We had a tomb to reach.
 
 ## The Tomb and the Focus
 
-At the hilltop we found a heavy door set into stone.
+At the hilltop we found a tomb with a large door set into the stone.
 
 Jylia pushed it open without hesitation.
 
-Goblins. Maybe five. The same breed that hit the keep. We cut them down fast, almost embarrassingly so. We dragged the bodies aside and went deeper.
+Goblins. Five of them, maybe the same breed that hit the keep. We took them out fast, without much issue. We moved the bodies aside and went deeper.
 
 The real tomb waited beyond.
 
-Inside we found a focus, faintly glowing, beautiful, and completely mysterious. None of us knew what it did. I wanted to hold it longer than I should have.
+We opened it and found a focus inside. It had a slight glow to it and looked genuinely cool sitting there in the dark. None of us had any idea what it did. I wanted to hold it longer than I should have.
 
-When we climbed back out, sunlight hit my face for the first time since the attack began. I thought that meant relief.
+When we climbed back out, sunlight hit my face for the first time since the battles started. I thought that meant relief.
 
-I spoke to Yua about the tingling in battle. She knew what it was and could not say. Like the knowledge lived beneath language and would not come up when I demanded it. I did not ask well. I think I angered her.
+I spoke to Yua about the tingling in battle. She knew what it was, but she could not pull the answer forward, as if the knowledge lived in some subconscious place she could feel but not reach. I did not bring it up in the best way. I think I angered her.
 
-On the return path something lifted me two feet off the ground and dropped me over a fifteen foot edge. No proof. Strong suspicion. My foot hurts. So does whatever pride I had left.
+On the return path something lifted me two feet off the ground and dropped me over a fifteen foot cliff edge. No proof. Strong suspicion. My foot hurts. So does whatever pride I had left.
 
-At the bridge the owlbear was gone. We saw no sign of it. We counted that as blessing and did not question fortune too loudly.
+When we reached the bridge again, the owlbear was gone. We did not even search properly. We simply could not see it anywhere. We counted that as a blessing.
 
-I tried to recreate the lift Yua had given me, if it was her at all. I attempted to leap a gap back onto the bridge. Nothing answered. I fell. One hand caught the edge. Eden reached with her bow to help. She smacked my fingers instead. I dropped farther. Alice caught my other hand. Vita hauled us both up.
+I tried to recreate the lift Yua had given me, if it was her at all. I attempted to jump a gap back onto the bridge. Nothing answered. I started to fall into the deep cavern below. One hand barely hooked the edge. Eden reached with her bow to help me grab it. She smacked my fingers instead. I lost my grip and dropped farther. Alice caught my other hand just in time. Vita came over and helped pull me all the way up.
 
 I shouted at empty air afterward. Yua was furious, or hurt, or both. She said we would need to talk later. The party saw only a boy cursing at nothing. I blamed the vines on Yolon’s statue. That lie held.
 
-On the way back Vita collected those same vines for herbs, or so he said. I hope that is true. The vines did nothing to me. I was only scrambling for an excuse.
+On the way back we passed the dragon statue again. Vita collected those same vines for herbs, or so he said. I hope that is true. The vines did nothing to me. I was only scrambling for an excuse.
 
 ## What Yua Told Me in the Woods
 
-When Saltrock came into view again, I slipped away to speak with her alone.
+When Saltrock came into view again, I walked away from the group into the woods to speak with her alone.
 
-She remembered more there than she had on the mountain. She said I had received a gift directly from Lord AO. We would have to grow together and learn the power through training. No shortcuts. No temper.
+She remembered more there than she had on the mountain. She said I had received a gift directly from Lord AO. Yua and I would have to grow together and learn the power through training. No shortcuts. No temper.
 
-She also said she feels a darkness unlike any she has known. She does not know its source yet. Only that I should be careful.
+She also said she feels a darkness she has never felt before. She is not sure from what or whom. Only that I should be careful.
 
 I rejoined the group with mud on my knees and no good answers for their questions.
 
 ## The Focus Restored
 
-We brought the glowing focus home.
+We brought the focus back to the mayor.
 
-The mayor, Vita, and a priestess named Yeara set it back into place. Protection returned to Saltrock. For the first time since the staff fell, the town felt like it might hold.
+He worked with Vita and a priestess named Yeara to set it back into place. Protection returned to Saltrock. For the first time since the staff fell, the town felt like it might hold.
 
 Then choice arrived with gratitude.
 
-The mayor wants us to escort him to Lyndor, the capital, to stand before Lord Keivan. Yeara wants us instead to travel with her to Lořel, the city of churches. We are to decide by morning.
+The mayor wants us to escort him to Lyndor, the capital, to stand before Lord Keivan. Yeara wants us instead to travel with her to Lořel, the city of churches. They have asked us to decide by morning.
 
-Tonight they threw a feast to celebrate survival. After the food, the music, and too many eyes on me, I finally slept.
+Tonight they threw a feast to celebrate survival. After the food, the music, and too many eyes on me, I finally got to rest for the night.
 
 Tomorrow we choose a road.
 

@@ -3,7 +3,7 @@
 *Use this when talking about yourself to other party members.*
 *Keep it short. Scan the section you need. Full stories live in the other lore files.*
 
-**Last updated:** 2026-08-23 (Journal 03 complete: tomb quest, focus restored, feast, dawn choice)  
+**Last updated:** 2026-08-23 (Journal 03 detail pass: Yolon fork, river split, owlbear bridge)  
 **Update rule:** any new Dezco / Alzenhiem / Knoleburn / Yua fact must be mirrored here the same turn.
 
 ---
@@ -119,7 +119,7 @@
 | Vita | Human priest (~30s); healer and spellcaster; read the old library map; helped restore the focus; collected Yolon statue vines |
 | Alem | Snake man; telepathy mind to mind; healed before I met him properly; relayed Eden’s owlbear scouting |
 | Yeara | Priestess in Saltrock; worked with Vita and the mayor to set the focus back; wants us at Lořel by morning decision |
-| Yolon | Stone dragon statue (>100 years); spoke after Jylia drank bowl rain; fought first King’s Lion to endless draws; gave tomb direction |
+| Yolon | Stone dragon statue (>100 years); spoke after Jylia drank bowl rain; fought first King’s Lion to endless draws; said take the right fork at the next split |
 | Saltrock mayor | Town leader; sent us to the tomb; wants escort to Lord Keivan in Lyndor |
 | Lord Keivan | Ruler in capital Lyndor; mayor wants to present us there |
 
@@ -151,8 +151,9 @@
 | Lyndor | Capital; Lord Keivan; mayor wants escort there |
 | Lořel | City of churches; priestess Yeara wants us to go there instead |
 | First King’s Lion tomb | Hilltop beyond Saltrock; goblin hideout behind outer door; real tomb held the focus |
-| Yolon statue | Stone dragon with rain bowl on tomb path; spoke when Jylia drank; pointed us onward |
-| Owlbear bridge | Rickety crossing; sleeping giant owlbear in false boulder; gone on return trip |
+| Yolon statue | Stone dragon with rain bowl on tomb path; grime, moss, vines; spoke when Jylia drank; said keep path then take right at fork |
+| Tomb road fork | Left path down to rivers (Eden + Alice went); right path cliff stairs to hilltop tomb (rest of party) |
+| Owlbear bridge | Rickety crossing past false boulder; sleeping giant owlbear inside; gone on return trip |
 
 **First magic item I ever saw:** the floating protective staff in Saltrock.  
 **Current crisis resolved:** focus back in place; town shielded again.  
@@ -294,7 +295,7 @@ Add new rows here whenever something new becomes true in play:
 | Journal 03 | Faceplant tied to accidental ~15 ft mana dash / simple imbue (not understood yet) | After Yua explains |
 | Journal 03 | Keep siege: troll (magic resistant, regenerating) + 5 goblins; Eden/fire; second imbue on goblins | Yes |
 | Journal 03 | Party names: Eden, Alice, Jylia, Vita, Alem | Yes |
-| Journal 03 | First King’s Lion tomb quest; library map; Yolon; owlbear bridge; focus recovered | Yes |
+| Journal 03 | Yolon fork: right = cliff stairs to tomb; Eden + Alice went left to rivers (their find unknown) | Yes |
 | Journal 03 | Yua visible only to me; party doubts path until Vita confirms map | No (hide Yua) |
 | Journal 03 | Talked to air on bridge; blamed dragon statue vines | They believe vine story |
 | Journal 03 | Lord AO gift named in woods; Yua warns of unknown darkness | Private for now |

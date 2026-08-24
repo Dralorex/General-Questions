@@ -108,6 +108,21 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [stone-sarcophagus](stone-sarcophagus/) | Carved relief lid, weathered stone, rectangular base |
 | [small-iron-lockbox](small-iron-lockbox/) | Keyhole, reinforced corners, portable size |
 
+### Furniture terrain (set of 10)
+
+| Folder | Concept |
+|---|---|
+| [wooden-tavern-table](wooden-tavern-table/) | Sturdy legs, scratched tabletop, no fragile spindles |
+| [wooden-bench](wooden-bench/) | Backless plank seat, tavern style |
+| [wooden-stool](wooden-stool/) | Three-legged stable design |
+| [bookshelf](bookshelf/) | Varied book sizes some leaning, carved wood frame |
+| [weapon-rack](weapon-rack/) | Swords spears and axes mounted, wooden stand |
+| [armor-stand](armor-stand/) | Mannequin with helmet and breastplate, wooden base |
+| [writing-desk](writing-desk/) | Open drawer, inkwell quill and papers, chair tucked in |
+| [canopy-bed](canopy-bed/) | Draped fabric, pillow and blanket folds, four sturdy posts |
+| [temple-altar](temple-altar/) | Stone slab, candle niches, cloth runner, holy symbol |
+| [church-pew-row](church-pew-row/) | Three connected benches, simple gothic carving |
+
 ### Other figures
 
 | Folder | Concept |

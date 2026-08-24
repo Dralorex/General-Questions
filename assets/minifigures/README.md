@@ -50,6 +50,23 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [priest](priest/) | Holy symbol, simple robes, blessing gesture |
 | [scholar](scholar/) | Long robe, books, quill and scroll, adjusting spectacles |
 
+### Additional town NPCs (set of 12)
+
+| Folder | Concept |
+|---|---|
+| [town-crier](town-crier/) | Bell, proclamation scroll, loud speaking pose, official sash |
+| [mayor](mayor/) | Formal coat, chain of office, authoritative pointing pose |
+| [guard-captain](guard-captain/) | Decorated armor, cape, sword at side, command whistle |
+| [bard](bard/) | Lute in hands, colorful travel clothes, performance pose, feathered hat |
+| [cloaked-stranger](cloaked-stranger/) | Deep hood, wrapped packages, standing still ominous pose |
+| [assassin](assassin/) | Dark fitted leather, hood, poison vial and dagger, silent step |
+| [sailor](sailor/) | Tricorn hat, cutlass, rope belt, sea-worn coat, swagger stance |
+| [farmer](farmer/) | Pitchfork, straw hat, simple tunic, tired but sturdy pose |
+| [miner](miner/) | Pickaxe, headlamp helmet, ore sack, dust-covered clothes |
+| [hunter](hunter/) | Bow on back, skinning knife, fur cloak, tracking crouch |
+| [hedge-witch](hedge-witch/) | Herb basket, crooked staff, layered shawls, knowing smile |
+| [alchemist](alchemist/) | Bottles on bandolier, stained apron, stirring rod, curious expression |
+
 ### Bandit gang (set of 8)
 
 | Folder | Concept |

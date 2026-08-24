@@ -210,6 +210,34 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [giant-mushroom-cluster](giant-mushroom-cluster/) | Three varied caps, thick stems, forest floor |
 | [spider-nest](spider-nest/) | Web cocoons, bones, thick webs on rocks |
 
+### Buildings & fortifications (set of 23)
+
+| Folder | Concept |
+|---|---|
+| [fantasy-cottage](fantasy-cottage/) | Thatched roof, chimney, exterior shell |
+| [two-story-townhouse](two-story-townhouse/) | Timber frame, shuttered windows, tiled roof |
+| [inn-tavern](inn-tavern/) | Mug signboard, large door, exterior shell |
+| [blacksmith-shop](blacksmith-shop/) | Open forge, anvil visible, chimney |
+| [general-store](general-store/) | Display window, hanging sign, porch |
+| [small-chapel](small-chapel/) | Bell tower, stained glass, stone and wood |
+| [town-hall](town-hall/) | Clock/bell tower, banner poles, formal facade |
+| [guard-barracks](guard-barracks/) | Reinforced door, arrow slits, watch banner |
+| [fortified-gatehouse](fortified-gatehouse/) | Portcullis, murder holes, twin towers |
+| [stone-watchtower](stone-watchtower/) | Crenellations, elevated platform top |
+| [stable-building](stable-building/) | Open stalls, hay loft, fused fence |
+| [farm-barn](farm-barn/) | Double doors, pitched roof, weathered planks |
+| [windmill](windmill/) | Fixed blade pose, stone base, wooden upper |
+| [warehouse](warehouse/) | Wide doors, crate piles, flat roof |
+| [harbor-dock-shack](harbor-dock-shack/) | Stilts/pier base, nets and barrels |
+| [market-stall-fruit](market-stall-fruit/) | Cloth canopy fruit stall with crates |
+| [market-stall-weapons](market-stall-weapons/) | Weapon rack and banner |
+| [market-stall-textile](market-stall-textile/) | Hanging fabrics, cloth canopy |
+| [city-wall-segment](city-wall-segment/) | Crenellations, walkway, straight modular section |
+| [city-wall-corner](city-wall-corner/) | 90-degree bend, crenellations |
+| [ruined-house-shell](ruined-house-shell/) | Collapsed roof, broken walls, char marks |
+| [crypt-entrance](crypt-entrance/) | Stone stairs, iron gate, grave markers |
+| [stone-mausoleum](stone-mausoleum/) | Ornate door, angel niche, domed/peaked roof |
+
 ### Other figures
 
 | Folder | Concept |

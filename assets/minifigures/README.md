@@ -172,6 +172,21 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [small-canvas-tent](small-canvas-tent/) | Tied ropes and stakes, open flap, travel camp |
 | [camp-bedroll-scatter](camp-bedroll-scatter/) | Rolled blanket, backpack, bedroll, small footprint |
 
+### Trap & hazard terrain (set of 10)
+
+| Folder | Concept |
+|---|---|
+| [floor-spike-trap-tile](floor-spike-trap-tile/) | Spikes sprung upward through square floor tile |
+| [covered-pit-trap-tile](covered-pit-trap-tile/) | Suspicious floor panel with seam lines |
+| [open-pit-trap-tile](open-pit-trap-tile/) | Floor hole with bottom spikes, broken planks |
+| [bear-trap](bear-trap/) | Sprung metal jaws, chain attached |
+| [dungeon-wall-trap-panel](dungeon-wall-trap-panel/) | Dart holes, trigger plate, stone wall segment |
+| [pendulum-blade-trap](pendulum-blade-trap/) | Pressure-plate floor marker with faint crescent scratch |
+| [arcane-rune-trap-token](arcane-rune-trap-token/) | Carved rune circle, low-profile disc |
+| [acid-pool-tile](acid-pool-tile/) | Bubbling liquid in stone basin, square tile |
+| [lava-crack-floor-tile](lava-crack-floor-tile/) | Broken stone with magma crack channels |
+| [web-covered-floor-tile](web-covered-floor-tile/) | Thick spider webs across cobblestones |
+
 ### Other figures
 
 | Folder | Concept |

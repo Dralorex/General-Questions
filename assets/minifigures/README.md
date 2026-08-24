@@ -160,6 +160,18 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [stone-well](stone-well/) | Circular wall, bucket and rope, optional roof beams |
 | [sewer-pipe](sewer-pipe/) | Round culvert segment, moss and grime, open end |
 
+### Camp & lighting terrain (set of 7)
+
+| Folder | Concept |
+|---|---|
+| [metal-brazier](metal-brazier/) | Bowl on stand, charcoal and flame, sturdy tripod |
+| [tall-candle-stand](tall-candle-stand/) | Multiple melted candles, brass gothic holder |
+| [wall-torch-sconce](wall-torch-sconce/) | Iron bracket, burning torch, mounting plate |
+| [chains-and-manacles](chains-and-manacles/) | Coiled chain pile with cuffs, rust texture |
+| [campfire](campfire/) | Stone ring, logs and flame, low profile scatter |
+| [small-canvas-tent](small-canvas-tent/) | Tied ropes and stakes, open flap, travel camp |
+| [camp-bedroll-scatter](camp-bedroll-scatter/) | Rolled blanket, backpack, bedroll, small footprint |
+
 ### Other figures
 
 | Folder | Concept |

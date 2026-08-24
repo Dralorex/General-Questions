@@ -9,6 +9,19 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 
 ## Current minifigures
 
+### Heroic party (set of 8)
+
+| Folder | Concept |
+|---|---|
+| [heroic-fighter](heroic-fighter/) | Sword and shield, plate armor, determined stance, cape clipped to base |
+| [heroic-great-weapon-fighter](heroic-great-weapon-fighter/) | Two-handed sword over shoulder, heavy armor, wide powerful stance |
+| [heroic-ranger](heroic-ranger/) | Longbow drawn, hooded cloak, leather armor, quiver and survival gear |
+| [heroic-rogue](heroic-rogue/) | Twin daggers, light leather, mask or hood, dynamic lunging pose |
+| [heroic-wizard](heroic-wizard/) | Staff and spellbook, embroidered robes, casting gesture, pointed hat |
+| [heroic-warlock](heroic-warlock/) | Eldritch blast pose, dark elegant coat, occult talisman |
+| [heroic-cleric](heroic-cleric/) | Mace and holy-symbol shield, chain mail with tabard |
+| [heroic-druid](heroic-druid/) | Wooden staff, nature armor, antler or leaf motifs, calm pose |
+
 ### Skeleton warband (set of 8)
 
 | Folder | Concept |

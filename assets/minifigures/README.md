@@ -80,6 +80,23 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [hedge-witch](hedge-witch/) | Herb basket, crooked staff, layered shawls, knowing smile |
 | [alchemist](alchemist/) | Bottles on bandolier, stained apron, stirring rod, curious expression |
 
+### Familiars & companions (set of 12)
+
+| Folder | Concept |
+|---|---|
+| [owl-familiar](owl-familiar/) | Tiny 10mm, wings slightly spread, perched, large eyes |
+| [raven-familiar](raven-familiar/) | Tiny 10mm, wings open, one foot on skull or branch nub |
+| [cat-familiar](cat-familiar/) | Tiny 10mm, sitting/arched, curved tail, witchy collar |
+| [rat-familiar](rat-familiar/) | Tiny 10mm, sniffing pose, tail looped on base |
+| [toad-familiar](toad-familiar/) | Tiny 10mm, crouched on coin stack, warty skin |
+| [ferret-familiar](ferret-familiar/) | Tiny 10mm, stretched pose, stolen key in mouth |
+| [pseudodragon-familiar](pseudodragon-familiar/) | Small 25mm, dragon wings, tail stinger, perched on rock |
+| [imp-familiar](imp-familiar/) | Small 25mm, bat wings, spaded tail, crouched, mischievous grin |
+| [sprite-familiar](sprite-familiar/) | Tiny 10mm, insect wings, hovering above flower |
+| [wolf-companion](wolf-companion/) | 25mm, loyal sitting pose, heroic proportions, collar |
+| [hawk-companion](hawk-companion/) | 25mm, wings wide landing pose, jesses, glove stump |
+| [bear-companion](bear-companion/) | 40mm, roar or lumbering pose, thick limbs, saddle bags |
+
 ### Bandit gang (set of 8)
 
 | Folder | Concept |

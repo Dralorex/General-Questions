@@ -181,7 +181,7 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [open-pit-trap-tile](open-pit-trap-tile/) | Floor hole with bottom spikes, broken planks |
 | [bear-trap](bear-trap/) | Sprung metal jaws, chain attached |
 | [dungeon-wall-trap-panel](dungeon-wall-trap-panel/) | Dart holes, trigger plate, stone wall segment |
-| [pendulum-blade-trap](pendulum-blade-trap/) | Swinging scythe blade on stable arch frame |
+| [pendulum-blade-trap](pendulum-blade-trap/) | Pressure-plate floor marker with faint crescent scratch |
 | [arcane-rune-trap-token](arcane-rune-trap-token/) | Carved rune circle, low-profile disc |
 | [acid-pool-tile](acid-pool-tile/) | Bubbling liquid in stone basin, square tile |
 | [lava-crack-floor-tile](lava-crack-floor-tile/) | Broken stone with magma crack channels |

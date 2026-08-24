@@ -140,6 +140,26 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [temple-altar](temple-altar/) | Stone slab, candle niches, cloth runner, holy symbol |
 | [church-pew-row](church-pew-row/) | Three connected benches, simple gothic carving |
 
+### Dungeon terrain (set of 15)
+
+| Folder | Concept |
+|---|---|
+| [heavy-dungeon-door](heavy-dungeon-door/) | Iron studs, ring handle, closed in stone frame |
+| [open-dungeon-door](open-dungeon-door/) | Door swung inward, visible hinges, stone frame |
+| [iron-barred-prison-door](iron-barred-prison-door/) | Vertical bars, reinforced frame, lock plate |
+| [portcullis-gate](portcullis-gate/) | Lowered metal grid, stone groove tracks |
+| [floor-grate-tile](floor-grate-tile/) | Rusted bars, recessed pit, square tile |
+| [wooden-ladder-segment](wooden-ladder-segment/) | Two rails and rungs, freestanding stable design |
+| [stone-stair-segment](stone-stair-segment/) | Three to five ascending steps, modular tile |
+| [stone-stair-down-segment](stone-stair-down-segment/) | Descending steps, torch sconce on wall |
+| [stone-column](stone-column/) | Fluted or plain shaft, capital and base |
+| [broken-stone-pillar](broken-stone-pillar/) | Toppled section and rubble, cracked capital |
+| [rubble-pile](rubble-pile/) | Broken stone chunks, low fused mound |
+| [floor-ritual-circle-tile](floor-ritual-circle-tile/) | Carved arcane symbols, burn marks, square tile |
+| [prison-cell-wall-segment](prison-cell-wall-segment/) | Iron bars between stone posts, gate section |
+| [stone-well](stone-well/) | Circular wall, bucket and rope, optional roof beams |
+| [sewer-pipe](sewer-pipe/) | Round culvert segment, moss and grime, open end |
+
 ### Other figures
 
 | Folder | Concept |

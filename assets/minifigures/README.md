@@ -110,6 +110,36 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [bandit-spearman-7](bandit-spearman-7/) | Roadblock stance, spear and skull-painted wooden shield, patched cloak |
 | [bandit-thief-8](bandit-thief-8/) | Lockpicks in hand, empty coin bag, stealth pose, dark hood |
 
+### Scatter terrain (set of 10)
+
+| Folder | Concept |
+|---|---|
+| [wooden-storage-crate](wooden-storage-crate/) | Iron banding, rope handles, square footprint |
+| [broken-wooden-crate](broken-wooden-crate/) | Splintered boards, spilled contents, rubble base |
+| [closed-wooden-barrel](closed-wooden-barrel/) | Metal hoops, sealed bung, stable cylinder |
+| [open-wooden-barrel](open-wooden-barrel/) | Lid removed, empty interior, hoop detail |
+| [burlap-sack-bundle](burlap-sack-bundle/) | Tied rope top, cloth wrinkles, small scatter base |
+| [treasure-pile](treasure-pile/) | Coins, gems, chest fragments fused into a low mound |
+| [closed-treasure-chest](closed-treasure-chest/) | Iron bands and lock, lid shut |
+| [open-treasure-chest](open-treasure-chest/) | Lid thrown back, fused coins and trinkets inside |
+| [stone-sarcophagus](stone-sarcophagus/) | Carved relief lid, weathered stone, rectangular base |
+| [small-iron-lockbox](small-iron-lockbox/) | Keyhole, reinforced corners, portable size |
+
+### Furniture terrain (set of 10)
+
+| Folder | Concept |
+|---|---|
+| [wooden-tavern-table](wooden-tavern-table/) | Sturdy legs, scratched tabletop, no fragile spindles |
+| [wooden-bench](wooden-bench/) | Backless plank seat, tavern style |
+| [wooden-stool](wooden-stool/) | Three-legged stable design |
+| [bookshelf](bookshelf/) | Varied book sizes some leaning, carved wood frame |
+| [weapon-rack](weapon-rack/) | Swords spears and axes mounted, wooden stand |
+| [armor-stand](armor-stand/) | Mannequin with helmet and breastplate, wooden base |
+| [writing-desk](writing-desk/) | Open drawer, inkwell quill and papers, chair tucked in |
+| [canopy-bed](canopy-bed/) | Draped fabric, pillow and blanket folds, four sturdy posts |
+| [temple-altar](temple-altar/) | Stone slab, candle niches, cloth runner, holy symbol |
+| [church-pew-row](church-pew-row/) | Three connected benches, simple gothic carving |
+
 ### Other figures
 
 | Folder | Concept |

@@ -33,6 +33,40 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [zombie-child-5](zombie-child-5/) | Child-sized, non-graphic decay, standing upright, matted hair |
 | [zombie-brute-6](zombie-brute-6/) | Oversized muscular corpse, broken chains, heavy cleaver, stitched limbs |
 
+### Tavern & town NPCs (set of 12)
+
+| Folder | Concept |
+|---|---|
+| [tavern-keeper](tavern-keeper/) | Stout keeper, apron, polishing mug, bar towel over shoulder |
+| [tavern-server-1](tavern-server-1/) | Tray of mugs, practical dress, balanced walking pose |
+| [tavern-server-2](tavern-server-2/) | Writing order on slate, pencil behind ear, coin pouch |
+| [blacksmith](blacksmith/) | Leather apron, hammer raised over on-base anvil |
+| [stable-hand](stable-hand/) | Hay bale and brush, straw in hair, relaxed working pose |
+| [noble](noble/) | Embroidered coat, jeweled ring, hand on hip, arrogant posture |
+| [traveling-merchant](traveling-merchant/) | Heavy backpack, ledger, belt scales, cautious stance |
+| [market-merchant](market-merchant/) | Goods crate, cloth sample, persuasive sales gesture |
+| [street-urchin-1](street-urchin-1/) | Patched clothes, stolen apple, sneaky pose, oversized cap |
+| [street-urchin-2](street-urchin-2/) | Sitting on crate, playing dice, fingerless gloves |
+| [priest](priest/) | Holy symbol, simple robes, blessing gesture |
+| [scholar](scholar/) | Long robe, books, quill and scroll, adjusting spectacles |
+
+### Additional town NPCs (set of 12)
+
+| Folder | Concept |
+|---|---|
+| [town-crier](town-crier/) | Bell, proclamation scroll, loud speaking pose, official sash |
+| [mayor](mayor/) | Formal coat, chain of office, authoritative pointing pose |
+| [guard-captain](guard-captain/) | Decorated armor, cape, sword at side, command whistle |
+| [bard](bard/) | Lute in hands, colorful travel clothes, performance pose, feathered hat |
+| [cloaked-stranger](cloaked-stranger/) | Deep hood, wrapped packages, standing still ominous pose |
+| [assassin](assassin/) | Dark fitted leather, hood, poison vial and dagger, silent step |
+| [sailor](sailor/) | Tricorn hat, cutlass, rope belt, sea-worn coat, swagger stance |
+| [farmer](farmer/) | Pitchfork, straw hat, simple tunic, tired but sturdy pose |
+| [miner](miner/) | Pickaxe, headlamp helmet, ore sack, dust-covered clothes |
+| [hunter](hunter/) | Bow on back, skinning knife, fur cloak, tracking crouch |
+| [hedge-witch](hedge-witch/) | Herb basket, crooked staff, layered shawls, knowing smile |
+| [alchemist](alchemist/) | Bottles on bandolier, stained apron, stirring rod, curious expression |
+
 ### Bandit gang (set of 8)
 
 | Folder | Concept |

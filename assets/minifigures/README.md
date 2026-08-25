@@ -238,6 +238,22 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [crypt-entrance](crypt-entrance/) | Stone stairs, iron gate, grave markers |
 | [stone-mausoleum](stone-mausoleum/) | Ornate door, angel niche, domed/peaked roof |
 
+### Encounter centerpieces (set of 11)
+
+| Folder | Concept |
+|---|---|
+| [dragon-lair-platform](dragon-lair-platform/) | Rocky elevation, treasure scatter, bones |
+| [necromancer-ritual-dais](necromancer-ritual-dais/) | Bone circle, altar, candle clusters, raised platform |
+| [demon-summoning-gate](demon-summoning-gate/) | Stone arch, hellfire, chains, rune floor plate |
+| [giant-stone-throne](giant-stone-throne/) | Oversized seat, skull armrests, cracked steps |
+| [kraken-terrain](kraken-terrain/) | Water floor, 8 tentacles, waves forming a bowl |
+| [lich-tomb-chamber](lich-tomb-chamber/) | Open sarcophagus, pillars, braziers, raised dais |
+| [vampire-throne-room](vampire-throne-room/) | Gothic throne, carpet ruins, candelabra pillars |
+| [elemental-portal-frame](elemental-portal-frame/) | Stone ring, swirling energy, rune pillars |
+| [giant-tree-root-arena](giant-tree-root-arena/) | Massive roots forming circle, mossy ground |
+| [clockwork-core-chamber](clockwork-core-chamber/) | Brass gears, piston columns, crystal engine |
+| [ancient-idol-statue](ancient-idol-statue/) | Large stone figure, offering bowl, removable seams |
+
 ### Other figures
 
 | Folder | Concept |

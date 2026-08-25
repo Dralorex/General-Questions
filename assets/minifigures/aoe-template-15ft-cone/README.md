@@ -1,0 +1,15 @@
+# AOE Template — 15ft Cone — Accessory Concept
+
+Generated unpainted gray resin tabletop accessory. 32mm tabletop scale, 25µm layer-friendly geometry.
+
+Concept: 15ft cone spell template.
+
+| Image | Notes |
+|---|---|
+| [`aoe-template-15ft-cone-v1.png`](aoe-template-15ft-cone-v1.png) | First pass. Flat cone wedge with large embossed 15 mark. |
+
+Print note: Thick solid template.
+
+## Direct links (viewable on phone via GitHub)
+
+- v1: https://github.com/Dralorex/General-Questions/blob/main/assets/minifigures/aoe-template-15ft-cone/aoe-template-15ft-cone-v1.png

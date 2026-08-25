@@ -254,6 +254,38 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [clockwork-core-chamber](clockwork-core-chamber/) | Brass gears, piston columns, crystal engine |
 | [ancient-idol-statue](ancient-idol-statue/) | Large stone figure, offering bowl, removable seams |
 
+### Tabletop accessories (set of 27)
+
+| Folder | Concept |
+|---|---|
+| [initiative-tracker-clip](initiative-tracker-clip/) | Numbered clip-on flag, thick design |
+| [base-number-clip](base-number-clip/) | Embossed numeral clip, readable at distance |
+| [hp-dial-25mm](hp-dial-25mm/) | Rotating HP dial for 25mm bases |
+| [hp-dial-40mm](hp-dial-40mm/) | Rotating HP dial for 40mm bases |
+| [condition-ring-prone](condition-ring-prone/) | Prone ring token |
+| [condition-ring-poisoned](condition-ring-poisoned/) | Poisoned ring token |
+| [condition-ring-charmed](condition-ring-charmed/) | Charmed ring token |
+| [condition-ring-stunned](condition-ring-stunned/) | Stunned ring token |
+| [condition-ring-blessed](condition-ring-blessed/) | Blessed ring token |
+| [condition-ring-blinded](condition-ring-blinded/) | Blinded ring token |
+| [condition-ring-frightened](condition-ring-frightened/) | Frightened ring token |
+| [condition-ring-restrained](condition-ring-restrained/) | Restrained ring token |
+| [condition-ring-paralyzed](condition-ring-paralyzed/) | Paralyzed ring token |
+| [condition-ring-grappled](condition-ring-grappled/) | Grappled ring token |
+| [condition-ring-unconscious](condition-ring-unconscious/) | Unconscious ring token |
+| [condition-ring-invisible](condition-ring-invisible/) | Invisible ring token |
+| [condition-ring-exhaustion](condition-ring-exhaustion/) | Exhaustion ring token |
+| [condition-ring-deafened](condition-ring-deafened/) | Deafened ring token |
+| [condition-ring-petrified](condition-ring-petrified/) | Petrified ring token |
+| [condition-ring-incapacitated](condition-ring-incapacitated/) | Incapacitated ring token |
+| [aoe-template-15ft-cone](aoe-template-15ft-cone/) | 15ft cone template |
+| [aoe-template-20ft-line](aoe-template-20ft-line/) | 20ft line template |
+| [aoe-template-10ft-burst](aoe-template-10ft-burst/) | 10ft burst circle template |
+| [aoe-template-20ft-burst](aoe-template-20ft-burst/) | 20ft burst circle template |
+| [loot-token-gold-coins](loot-token-gold-coins/) | Gold coin pile token |
+| [loot-token-gem-cluster](loot-token-gem-cluster/) | Gem cluster token |
+| [loot-token-magic-item](loot-token-magic-item/) | Magic item glow token |
+
 ### Other figures
 
 | Folder | Concept |

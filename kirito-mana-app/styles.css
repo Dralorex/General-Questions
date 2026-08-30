@@ -316,6 +316,83 @@ body {
   color: var(--muted);
 }
 
+.class-skills-combat {
+  margin-bottom: 14px;
+}
+
+.superiority-panel {
+  background: var(--panel);
+  border: 1px solid rgba(230, 196, 122, 0.22);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.superiority-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.superiority-readout {
+  margin: 2px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--gold);
+}
+
+.superiority-pending {
+  margin: 8px 0 0;
+}
+
+.maneuver-picker {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0 12px;
+}
+
+.maneuver-option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  align-items: start;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.maneuver-option.is-locked {
+  opacity: 0.45;
+}
+
+.maneuver-option input {
+  margin-top: 3px;
+}
+
+.mo-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.mo-when {
+  grid-column: 2;
+  font-size: 0.74rem;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.maneuver-detail .feature-desc.muted {
+  font-size: 0.82rem;
+}
+
+.archetype-summary p {
+  margin: 0;
+  line-height: 1.45;
+}
+
 .feature-card {
   background: var(--panel);
   border: 1px solid rgba(255, 255, 255, 0.08);

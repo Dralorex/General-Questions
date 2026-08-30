@@ -77,6 +77,23 @@
           <p class="muted tiny" id="fighterCombatHint">Second Wind and more unlock as you level.</p>
         </div>
         <div id="fighterCombatAbilities" class="fighter-ability-grid"></div>
+        <div id="classSkillsCombatSection" class="class-skills-combat" hidden>
+          <div class="section-head tight">
+            <h2>Class Skills</h2>
+            <p class="muted tiny" id="classSkillsCombatHint">Maneuvers and rollable resources from your archetype.</p>
+          </div>
+          <div id="superiorityPanel" class="superiority-panel" hidden>
+            <div class="superiority-head">
+              <div>
+                <p class="label">Superiority Dice</p>
+                <p id="superiorityReadout" class="superiority-readout">—</p>
+              </div>
+              <button type="button" id="rollSuperiorityBtn" class="btn primary tiny">Roll Die</button>
+            </div>
+            <p id="superiorityPending" class="superiority-pending muted tiny" hidden></p>
+          </div>
+          <div id="classSkillCombatGrid" class="fighter-ability-grid"></div>
+        </div>
         <div class="section-head tight">
           <h2>Sword Skills</h2>
         </div>
@@ -104,6 +121,10 @@
         <div class="section-head tight"><h2>Class Features</h2></div>
         <div id="fighterFeatureList" class="card-list">
           <p class="muted">Fighter features appear here by level.</p>
+        </div>
+        <div class="section-head tight"><h2>Archetype</h2></div>
+        <div id="archetypeStatsList" class="card-list">
+          <p class="muted">Martial archetype features appear here.</p>
         </div>
       </section>
 
@@ -205,8 +226,14 @@
             <input id="classInput" type="text" />
           </label>
           <label class="field">
-            <span>Subclass</span>
-            <input id="subclassInput" type="text" placeholder="e.g. Champion" />
+            <span>Martial Archetype</span>
+            <select id="subclassSelect">
+              <option value="">Choose at L3…</option>
+            </select>
+          </label>
+          <label class="field" id="customSubclassField" hidden>
+            <span>Custom Subclass</span>
+            <input id="subclassInput" type="text" placeholder="e.g. Homebrew archetype" />
           </label>
           <label class="field">
             <span>Fighting Style</span>
@@ -230,6 +257,20 @@
             <span>Hit Dice</span>
             <input id="hitDiceInput" type="text" placeholder="e.g. 3d10" />
           </label>
+        </div>
+
+        <div id="classSkillsProfileSection" class="class-skills-profile" hidden>
+          <div class="section-head tight">
+            <h2>Class Skills</h2>
+            <p class="muted tiny" id="classSkillsProfileHint">Pick maneuvers and review archetype abilities.</p>
+          </div>
+          <div id="archetypeSummary" class="info-card archetype-summary"></div>
+          <div id="maneuverPickerSection" hidden>
+            <p class="label">Known Maneuvers <span id="maneuverCountLabel" class="muted"></span></p>
+            <div id="maneuverPicker" class="maneuver-picker"></div>
+          </div>
+          <div id="selectedManeuverDetails" class="card-list"></div>
+          <div id="archetypeFeaturePreview" class="card-list"></div>
         </div>
 
         <div class="section-head tight"><h2>Coins</h2></div>
@@ -354,6 +395,7 @@
     <script src="./data/skills.js"></script>
     <script src="./data/dnd.js"></script>
     <script src="./data/fighter.js"></script>
+    <script src="./data/class-skills.js"></script>
     <script src="./data/dm-link.js"></script>
     <script src="./app.js"></script>
   </body>

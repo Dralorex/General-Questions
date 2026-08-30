@@ -42,6 +42,7 @@
       classId: "fighter",
       className: "Fighter",
       subclass: "",
+      subclassId: "",
       fightingStyle: "",
       race: "",
       background: "",
@@ -62,6 +63,9 @@
         "action-surge": 0,
         indomitable: 0,
       },
+      selectedManeuvers: [],
+      superiorityDiceUsed: 0,
+      superiorityRoll: null,
       autoSaveKeys: [],
       combatLog: [],
       progress,
@@ -99,9 +103,17 @@
       if (!raw) return defaultState();
       const parsed = JSON.parse(raw);
       const base = defaultState();
+      let subclassId = parsed.subclassId || "";
+      if (parsed.subclass && !subclassId) {
+        const guess = (window.FIGHTER_ARCHETYPES || []).find(
+          (a) => a.name.toLowerCase() === String(parsed.subclass).toLowerCase()
+        );
+        if (guess) subclassId = guess.id;
+      }
       const merged = {
         ...base,
         ...parsed,
+        subclassId,
         progress: { ...base.progress, ...(parsed.progress || {}) },
         abilities: { ...base.abilities, ...(parsed.abilities || {}) },
         proficiencies: { ...base.proficiencies, ...(parsed.proficiencies || {}) },
@@ -116,6 +128,14 @@
           ...base.fighterUses,
           ...(parsed.fighterUses || {}),
         },
+        selectedManeuvers: Array.isArray(parsed.selectedManeuvers)
+          ? parsed.selectedManeuvers
+          : base.selectedManeuvers,
+        superiorityDiceUsed: Number(parsed.superiorityDiceUsed) || 0,
+        superiorityRoll:
+          parsed.superiorityRoll && typeof parsed.superiorityRoll.value === "number"
+            ? parsed.superiorityRoll
+            : base.superiorityRoll,
         autoSaveKeys: Array.isArray(parsed.autoSaveKeys)
           ? parsed.autoSaveKeys
           : base.autoSaveKeys,
@@ -414,9 +434,10 @@
     if (!state.fighterUses) state.fighterUses = {};
     state.fighterUses["second-wind"] = 0;
     state.fighterUses["action-surge"] = 0;
+    resetSuperiorityDice({ keepRoll: false });
     persist();
     render();
-    toast("Short rest · +50 mana · Fighter short-rest abilities refresh", "ok");
+    toast("Short rest · +50 mana · short-rest abilities & superiority dice refresh", "ok");
   }
 
   function longRest() {
@@ -432,6 +453,7 @@
     state.lastSkillId = null;
     state.lastWasUltimate = false;
     state.fighterUses = { "second-wind": 0, "action-surge": 0, indomitable: 0 };
+    resetSuperiorityDice({ keepRoll: false });
     persist();
     render();
     toast("Long rest · full mana & HP · Fighter abilities refresh", "ok");
@@ -439,6 +461,31 @@
 
   function isFighter() {
     return (state.classId || "fighter") === "fighter";
+  }
+
+  function resetSuperiorityDice({ keepRoll = false } = {}) {
+    state.superiorityDiceUsed = 0;
+    if (!keepRoll) state.superiorityRoll = null;
+  }
+
+  function superiorityDiceRemaining() {
+    const max = (window.superiorityDiceMax || (() => 0))(state.level);
+    return Math.max(0, max - Number(state.superiorityDiceUsed || 0));
+  }
+
+  function syncSubclassName() {
+    const arch = (window.getFighterArchetype || (() => null))(state.subclassId);
+    if (arch) state.subclass = arch.name;
+    else if (!state.subclassId && !state.subclass) state.subclass = "";
+  }
+
+  function pruneSelectedManeuvers() {
+    if (!Array.isArray(state.selectedManeuvers)) state.selectedManeuvers = [];
+    const max = (window.maneuversKnownMax || (() => 0))(state.level);
+    const valid = new Set((window.BATTLE_MASTER_MANEUVERS || []).map((m) => m.id));
+    state.selectedManeuvers = state.selectedManeuvers
+      .filter((id) => valid.has(id))
+      .slice(0, max);
   }
 
   function formatFighterFeatureNotes(level) {
@@ -491,6 +538,8 @@
         style ? `Fighting Style: ${style.name} — ${style.description}` : "Fighting Style: (choose in Profile)",
       ];
       state.proficienciesText = profBits.filter(Boolean).join("\n");
+      syncSubclassName();
+      pruneSelectedManeuvers();
       applyFighterSaves();
     }
     syncMaxManaForLevel({ announce: announceMana });
@@ -575,6 +624,92 @@
       "ok"
     );
     if (navigator.vibrate) navigator.vibrate(14);
+  }
+
+  function rollSuperiorityDie() {
+    if (!isFighter() || state.subclassId !== "battle-master") {
+      return toast("Choose Battle Master in Profile", "warn");
+    }
+    if (!window.hasSuperiorityDice(state.subclassId, state.level)) {
+      return toast("Superiority dice unlock at level 3", "warn");
+    }
+    const left = superiorityDiceRemaining();
+    if (left <= 0) {
+      return toast("No superiority dice left — short or long rest", "warn");
+    }
+    const sides = window.superiorityDieSides(state.level);
+    const value = rollDie(sides);
+    state.superiorityRoll = { value, sides };
+    persist();
+    render();
+    toast(`Superiority d${sides} → ${value} (ready to spend)`, "ok");
+    if (navigator.vibrate) navigator.vibrate(12);
+  }
+
+  function spendSuperiorityDie(maneuverName) {
+    const left = superiorityDiceRemaining();
+    if (left <= 0) {
+      toast("No superiority dice left", "warn");
+      return null;
+    }
+    let value;
+    let sides = window.superiorityDieSides(state.level);
+    if (state.superiorityRoll && typeof state.superiorityRoll.value === "number") {
+      value = state.superiorityRoll.value;
+      sides = state.superiorityRoll.sides || sides;
+      state.superiorityRoll = null;
+    } else {
+      value = rollDie(sides);
+    }
+    state.superiorityDiceUsed = Number(state.superiorityDiceUsed || 0) + 1;
+    const remaining = superiorityDiceRemaining();
+    pushLog({
+      skill: `${maneuverName} (d${sides}=${value})`,
+      cost: 0,
+      before: state.mana,
+      after: state.mana,
+      kind: "spend",
+    });
+    state.combatLog[0] = {
+      t: Date.now(),
+      round: state.round,
+      skill: `${maneuverName} · superiority d${sides}=${value}${remaining ? ` · ${remaining} dice left` : ""}`,
+      cost: 0,
+      before: state.mana,
+      after: state.mana,
+      kind: "spend",
+    };
+    return { value, sides, remaining };
+  }
+
+  function useClassSkill(id) {
+    if (!isFighter()) return toast("Set class to Fighter in Profile", "warn");
+    const entries = (window.classSkillCombatEntries || (() => []))(state);
+    const entry = entries.find((e) => e.id === id);
+    if (!entry) return toast("Maneuver not selected in Profile", "warn");
+    const result = spendSuperiorityDie(entry.name);
+    if (!result) return;
+    persist();
+    render();
+    toast(`${entry.name} · d${result.sides}=${result.value}`, "ok");
+    if (navigator.vibrate) navigator.vibrate(14);
+  }
+
+  function toggleManeuver(id, checked) {
+    if (!Array.isArray(state.selectedManeuvers)) state.selectedManeuvers = [];
+    const max = (window.maneuversKnownMax || (() => 0))(state.level);
+    if (checked) {
+      if (state.selectedManeuvers.includes(id)) return;
+      if (state.selectedManeuvers.length >= max) {
+        toast(`Max ${max} maneuvers at level ${state.level}`, "warn");
+        return;
+      }
+      state.selectedManeuvers.push(id);
+    } else {
+      state.selectedManeuvers = state.selectedManeuvers.filter((x) => x !== id);
+    }
+    persist();
+    render();
   }
 
   function train(id) {
@@ -1162,6 +1297,17 @@
                   : "";
               })()
             : "";
+        const archetypeNote =
+          f.id === "martial-archetype" && state.subclassId
+            ? (() => {
+                const arch = window.getFighterArchetype?.(state.subclassId);
+                return arch
+                  ? `<p class="feature-desc"><strong>Chosen:</strong> ${escapeText(
+                      arch.name
+                    )} — ${escapeText(arch.description)}</p>`
+                  : "";
+              })()
+            : "";
         return `<article class="feature-card">
           <header>
             <h3>${escapeText(f.name)}</h3>
@@ -1169,9 +1315,247 @@
           </header>
           <p class="feature-desc">${escapeText(f.description || "—")}</p>
           ${styleNote}
+          ${archetypeNote}
         </article>`;
       })
       .join("");
+    renderArchetypeStats();
+  }
+
+  function renderArchetypeStats() {
+    const archRoot = $("#archetypeStatsList");
+    if (!archRoot) return;
+    if (!isFighter()) {
+      archRoot.innerHTML = `<p class="muted">Select Fighter in Profile.</p>`;
+      return;
+    }
+    if (!state.subclassId) {
+      archRoot.innerHTML = `<p class="muted">Choose a Martial Archetype in Profile.</p>`;
+      return;
+    }
+    if (state.subclassId === "custom") {
+      archRoot.innerHTML = `<p class="muted">${escapeText(
+        state.subclass || "Custom subclass"
+      )} — see Profile notes.</p>`;
+      return;
+    }
+    const archFeats = (window.archetypeFeaturesUpToLevel || (() => []))(
+      state.subclassId,
+      state.level
+    );
+    let html = archFeats
+      .map(
+        (f) => `<article class="feature-card">
+          <header>
+            <h3>${escapeText(f.name)}</h3>
+            <span class="pill">L${f.level}</span>
+          </header>
+          <p class="feature-desc">${escapeText(f.description || "—")}</p>
+        </article>`
+      )
+      .join("");
+    if (state.subclassId === "battle-master" && state.selectedManeuvers?.length) {
+      html += state.selectedManeuvers
+        .map((id) => window.getManeuverById?.(id))
+        .filter(Boolean)
+        .map(
+          (m) => `<article class="feature-card">
+            <header><h3>${escapeText(m.name)}</h3><span class="pill">${escapeText(
+              m.actionType
+            )}</span></header>
+            <p class="feature-desc"><strong>When:</strong> ${escapeText(m.when)}</p>
+            <p class="feature-desc">${escapeText(m.description)}</p>
+          </article>`
+        )
+        .join("");
+    }
+    archRoot.innerHTML = html || `<p class="muted">No archetype features at this level.</p>`;
+  }
+
+  function renderClassSkillsCombat() {
+    const section = $("#classSkillsCombatSection");
+    const supPanel = $("#superiorityPanel");
+    const grid = $("#classSkillCombatGrid");
+    const hint = $("#classSkillsCombatHint");
+    if (!section) return;
+
+    const show = isFighter() && state.subclassId && state.level >= 3;
+    section.hidden = !show;
+    if (!show) return;
+
+    const arch = window.getFighterArchetype?.(state.subclassId);
+    if (hint && arch) {
+      hint.textContent = `${arch.name} · Lv ${state.level}`;
+    }
+
+    const hasSup = window.hasSuperiorityDice?.(state.subclassId, state.level);
+    if (supPanel) supPanel.hidden = !hasSup;
+    if (hasSup) {
+      const max = window.superiorityDiceMax(state.level);
+      const left = superiorityDiceRemaining();
+      const sides = window.superiorityDieSides(state.level);
+      const readout = $("#superiorityReadout");
+      if (readout) readout.textContent = `${left}/${max} · d${sides}`;
+      const rollBtn = $("#rollSuperiorityBtn");
+      if (rollBtn) rollBtn.disabled = left <= 0;
+      const pending = $("#superiorityPending");
+      if (pending) {
+        if (state.superiorityRoll?.value != null) {
+          pending.hidden = false;
+          pending.textContent = `Rolled d${state.superiorityRoll.sides || sides} = ${state.superiorityRoll.value} — spends when you use a maneuver`;
+        } else {
+          pending.hidden = true;
+          pending.textContent = "";
+        }
+      }
+    }
+
+    const entries = (window.classSkillCombatEntries || (() => []))(state);
+    if (!grid) return;
+    if (!entries.length) {
+      if (state.subclassId === "battle-master") {
+        grid.innerHTML = `<p class="muted">Select maneuvers in Profile → Class Skills.</p>`;
+      } else {
+        const feats = (window.archetypeFeaturesUpToLevel || (() => []))(
+          state.subclassId,
+          state.level
+        );
+        grid.innerHTML = feats.length
+          ? feats
+              .map(
+                (f) => `<div class="fighter-ability is-passive" tabindex="0">
+              <span class="fa-name">${escapeText(f.name)}</span>
+              <span class="fa-summary">${escapeText(f.description.slice(0, 72))}${f.description.length > 72 ? "…" : ""}</span>
+              <span class="fa-meta">L${f.level} · Passive</span>
+            </div>`
+              )
+              .join("")
+          : `<p class="muted">Archetype features unlock as you level.</p>`;
+      }
+      return;
+    }
+    const noDice = hasSup && superiorityDiceRemaining() <= 0;
+    grid.innerHTML = entries
+      .map((e) => {
+        const rollHint =
+          state.superiorityRoll?.value != null
+            ? `Spend d${state.superiorityRoll.sides}=${state.superiorityRoll.value}`
+            : "Rolls die on use";
+        return `<button type="button" class="fighter-ability class-skill-btn ${
+          noDice ? "is-disabled" : ""
+        }" data-class-skill="${e.id}" ${noDice ? "disabled" : ""} title="${escapeAttr(
+          e.detail || ""
+        )}">
+          <span class="fa-name">${escapeText(e.name)}</span>
+          <span class="fa-summary">${escapeText(e.summary)}</span>
+          <span class="fa-meta">${escapeText(e.actionType)} · ${escapeText(rollHint)}</span>
+        </button>`;
+      })
+      .join("");
+  }
+
+  function renderClassSkillsProfile() {
+    const section = $("#classSkillsProfileSection");
+    if (!section) return;
+    const show = isFighter();
+    section.hidden = !show;
+    if (!show) return;
+
+    const subclassSel = $("#subclassSelect");
+    if (subclassSel) {
+      subclassSel.value = state.subclassId || "";
+      subclassSel.disabled = !isFighter();
+    }
+    const customSubclassField = $("#customSubclassField");
+    if (customSubclassField) customSubclassField.hidden = state.subclassId !== "custom";
+
+    const summary = $("#archetypeSummary");
+    const arch = state.subclassId ? window.getFighterArchetype?.(state.subclassId) : null;
+    if (summary) {
+      if (!state.subclassId) {
+        summary.innerHTML = `<p class="muted">Choose a Martial Archetype at level 3. Maneuvers and superiority dice sync to Combat.</p>`;
+      } else if (state.subclassId === "custom") {
+        summary.innerHTML = `<p>${escapeText(
+          state.subclass || "Custom subclass"
+        )} — track details in notes below.</p>`;
+      } else if (arch) {
+        summary.innerHTML = `<p><strong>${escapeText(arch.name)}</strong> — ${escapeText(
+          arch.description
+        )}</p>`;
+      }
+    }
+
+    const pickerSection = $("#maneuverPickerSection");
+    const isBM = state.subclassId === "battle-master" && state.level >= 3;
+    if (pickerSection) pickerSection.hidden = !isBM;
+
+    const maxM = window.maneuversKnownMax?.(state.level) || 0;
+    const countLabel = $("#maneuverCountLabel");
+    if (countLabel) {
+      countLabel.textContent = isBM ? `(${state.selectedManeuvers?.length || 0}/${maxM})` : "";
+    }
+
+    const picker = $("#maneuverPicker");
+    if (picker && isBM) {
+      const selected = new Set(state.selectedManeuvers || []);
+      picker.innerHTML = (window.BATTLE_MASTER_MANEUVERS || [])
+        .map((m) => {
+          const checked = selected.has(m.id) ? "checked" : "";
+          const atMax = !selected.has(m.id) && selected.size >= maxM;
+          return `<label class="maneuver-option ${atMax ? "is-locked" : ""}">
+            <input type="checkbox" data-maneuver="${m.id}" ${checked} ${atMax ? "disabled" : ""} />
+            <span class="mo-name">${escapeText(m.name)}</span>
+            <span class="mo-when">${escapeText(m.when)}</span>
+          </label>`;
+        })
+        .join("");
+    }
+
+    const detailsRoot = $("#selectedManeuverDetails");
+    if (detailsRoot) {
+      if (!isBM || !state.selectedManeuvers?.length) {
+        detailsRoot.innerHTML = "";
+      } else {
+        detailsRoot.innerHTML = state.selectedManeuvers
+          .map((id) => window.getManeuverById?.(id))
+          .filter(Boolean)
+          .map(
+            (m) => `<article class="feature-card maneuver-detail">
+              <header>
+                <h3>${escapeText(m.name)}</h3>
+                <span class="pill">${escapeText(m.actionType)}</span>
+              </header>
+              <p class="feature-desc"><strong>When:</strong> ${escapeText(m.when)}</p>
+              <p class="feature-desc">${escapeText(m.summary)}</p>
+              <p class="feature-desc muted">${escapeText(m.description)}</p>
+            </article>`
+          )
+          .join("");
+      }
+    }
+
+    const previewRoot = $("#archetypeFeaturePreview");
+    if (previewRoot) {
+      if (!arch || state.subclassId === "custom") {
+        previewRoot.innerHTML = "";
+      } else {
+        const feats = (window.archetypeFeaturesUpToLevel || (() => []))(
+          state.subclassId,
+          state.level
+        );
+        previewRoot.innerHTML = feats.length
+          ? `<p class="label">Archetype features (through L${state.level})</p>` +
+            feats
+              .map(
+                (f) => `<article class="feature-card">
+              <header><h3>${escapeText(f.name)}</h3><span class="pill">L${f.level}</span></header>
+              <p class="feature-desc">${escapeText(f.description)}</p>
+            </article>`
+              )
+              .join("")
+          : `<p class="muted">No archetype features yet at this level.</p>`;
+      }
+    }
   }
 
   function escapeAttr(s) {
@@ -1187,6 +1571,7 @@
 
   function renderCombat() {
     renderFighterCombat();
+    renderClassSkillsCombat();
     const learned = SKILLS.filter((s) => skillStatus(s) === "learned" && !s.isGate);
     const quickIds = [
       "deflect",
@@ -1314,6 +1699,7 @@
     $("#maxManaInput").value = String(state.maxMana);
     $("#classInput").value = state.className || "";
     $("#subclassInput").value = state.subclass || "";
+    renderClassSkillsProfile();
     $("#raceInput").value = state.race || "";
     $("#backgroundInput").value = state.background || "";
     $("#alignmentInput").value = state.alignment || "";
@@ -1372,6 +1758,22 @@
     render();
   }
 
+  function populateSubclassSelect() {
+    const subclassSel = $("#subclassSelect");
+    if (!subclassSel || subclassSel.dataset.ready) return;
+    for (const a of window.FIGHTER_ARCHETYPES || []) {
+      const opt = document.createElement("option");
+      opt.value = a.id;
+      opt.textContent = `${a.name} (L${a.minLevel}+)`;
+      subclassSel.appendChild(opt);
+    }
+    const customOpt = document.createElement("option");
+    customOpt.value = "custom";
+    customOpt.textContent = "Custom…";
+    subclassSel.appendChild(customOpt);
+    subclassSel.dataset.ready = "1";
+  }
+
   function bind() {
     // Vitals: bind once on document so re-renders don't stack listeners
     document.addEventListener("click", handleVitalsClick);
@@ -1388,6 +1790,16 @@
     $("#fighterCombatAbilities")?.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-fighter-use]");
       if (btn) useFighterAbility(btn.dataset.fighterUse);
+    });
+    $("#classSkillCombatGrid")?.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-class-skill]");
+      if (btn) useClassSkill(btn.dataset.classSkill);
+    });
+    $("#rollSuperiorityBtn")?.addEventListener("click", rollSuperiorityDie);
+    $("#maneuverPicker")?.addEventListener("change", (e) => {
+      const cb = e.target.closest("[data-maneuver]");
+      if (!cb) return;
+      toggleManeuver(cb.dataset.maneuver, cb.checked);
     });
     $("#trainSkills").addEventListener("click", (e) => {
       const btn = e.target.closest("[data-train]");
@@ -1505,6 +1917,23 @@
       render();
     });
 
+    $("#subclassSelect")?.addEventListener("change", (e) => {
+      state.subclassId = e.target.value || "";
+      if (state.subclassId !== "custom") {
+        syncSubclassName();
+        if (state.subclassId !== "battle-master") {
+          state.selectedManeuvers = [];
+          resetSuperiorityDice({ keepRoll: false });
+        }
+      } else {
+        state.subclass = state.subclass || "";
+      }
+      pruneSelectedManeuvers();
+      persist();
+      render();
+      toast(state.subclassId ? "Archetype updated" : "Archetype cleared", "ok");
+    });
+
     $("#dmLinkToggle")?.addEventListener("change", (e) => {
       state.dmLinkEnabled = !!e.target.checked;
       persist(true);
@@ -1616,6 +2045,7 @@
     refreshClassDerived({ announceMana: false });
   }
 
+  populateSubclassSelect();
   bind();
   setTab("combat");
   setSaveBadge(true);

@@ -1291,9 +1291,12 @@
                   (x) => x.id === state.fightingStyle
                 );
                 return s
-                  ? `<p class="feature-desc"><strong>Chosen:</strong> ${escapeText(
-                      s.name
-                    )} — ${escapeText(s.description)}</p>`
+                  ? expandableBlockHTML(
+                      `fighting-style:${s.id}`,
+                      "Fighting Style",
+                      s.description,
+                      { preview: `<strong>Chosen:</strong> ${escapeText(s.name)}` }
+                    )
                   : "";
               })()
             : "";
@@ -1302,21 +1305,22 @@
             ? (() => {
                 const arch = window.getFighterArchetype?.(state.subclassId);
                 return arch
-                  ? `<p class="feature-desc"><strong>Chosen:</strong> ${escapeText(
-                      arch.name
-                    )} — ${escapeText(arch.description)}</p>`
+                  ? expandableBlockHTML(
+                      `archetype:${arch.id}`,
+                      "Martial Archetype",
+                      arch.description,
+                      { preview: `<strong>Chosen:</strong> ${escapeText(arch.name)}` }
+                    )
                   : "";
               })()
             : "";
-        return `<article class="feature-card">
-          <header>
-            <h3>${escapeText(f.name)}</h3>
-            <span class="pill">L${f.level}</span>
-          </header>
-          <p class="feature-desc">${escapeText(f.description || "—")}</p>
-          ${styleNote}
-          ${archetypeNote}
-        </article>`;
+        return featureCardHTML({
+          id: `fighter-feat:${f.id}`,
+          name: f.name,
+          pill: `L${f.level}`,
+          description: f.description || "—",
+          extras: styleNote + archetypeNote,
+        });
       })
       .join("");
     renderArchetypeStats();
@@ -1344,29 +1348,20 @@
       state.level
     );
     let html = archFeats
-      .map(
-        (f) => `<article class="feature-card">
-          <header>
-            <h3>${escapeText(f.name)}</h3>
-            <span class="pill">L${f.level}</span>
-          </header>
-          <p class="feature-desc">${escapeText(f.description || "—")}</p>
-        </article>`
+      .map((f) =>
+        featureCardHTML({
+          id: `archetype-feat:${state.subclassId}:${f.id}`,
+          name: f.name,
+          pill: `L${f.level}`,
+          description: f.description || "—",
+        })
       )
       .join("");
     if (state.subclassId === "battle-master" && state.selectedManeuvers?.length) {
       html += state.selectedManeuvers
         .map((id) => window.getManeuverById?.(id))
         .filter(Boolean)
-        .map(
-          (m) => `<article class="feature-card">
-            <header><h3>${escapeText(m.name)}</h3><span class="pill">${escapeText(
-              m.actionType
-            )}</span></header>
-            <p class="feature-desc"><strong>When:</strong> ${escapeText(m.when)}</p>
-            <p class="feature-desc">${escapeText(m.description)}</p>
-          </article>`
-        )
+        .map((m) => maneuverCardHTML(m, { idPrefix: "stats-maneuver" }))
         .join("");
     }
     archRoot.innerHTML = html || `<p class="muted">No archetype features at this level.</p>`;
@@ -1423,11 +1418,18 @@
         grid.innerHTML = feats.length
           ? feats
               .map(
-                (f) => `<div class="fighter-ability is-passive" tabindex="0">
-              <span class="fa-name">${escapeText(f.name)}</span>
-              <span class="fa-summary">${escapeText(f.description.slice(0, 72))}${f.description.length > 72 ? "…" : ""}</span>
-              <span class="fa-meta">L${f.level} · Passive</span>
-            </div>`
+                (f) => `<details class="expand-block fighter-expand" data-expand-id="${escapeAttr(
+                  `combat-archetype:${state.subclassId}:${f.id}`
+                )}"${expandedDescIds.has(`combat-archetype:${state.subclassId}:${f.id}`) ? " open" : ""}>
+              <summary class="expand-toggle fighter-ability is-passive">
+                <span class="fa-name">${escapeText(f.name)}</span>
+                <span class="fa-summary">${escapeText(f.description.slice(0, 72))}${f.description.length > 72 ? "…" : ""}</span>
+                <span class="fa-meta">L${f.level} · Tap for full rules</span>
+              </summary>
+              <div class="expand-body">
+                <p class="feature-desc">${escapeText(f.description)}</p>
+              </div>
+            </details>`
               )
               .join("")
           : `<p class="muted">Archetype features unlock as you level.</p>`;
@@ -1479,9 +1481,11 @@
           state.subclass || "Custom subclass"
         )} — track details in notes below.</p>`;
       } else if (arch) {
-        summary.innerHTML = `<p><strong>${escapeText(arch.name)}</strong> — ${escapeText(
+        summary.innerHTML = `<p><strong>${escapeText(arch.name)}</strong></p>${expandableBlockHTML(
+          `archetype-summary:${arch.id}`,
+          "Archetype overview",
           arch.description
-        )}</p>`;
+        )}`;
       }
     }
 
@@ -1502,11 +1506,16 @@
         .map((m) => {
           const checked = selected.has(m.id) ? "checked" : "";
           const atMax = !selected.has(m.id) && selected.size >= maxM;
-          return `<label class="maneuver-option ${atMax ? "is-locked" : ""}">
-            <input type="checkbox" data-maneuver="${m.id}" ${checked} ${atMax ? "disabled" : ""} />
-            <span class="mo-name">${escapeText(m.name)}</span>
-            <span class="mo-when">${escapeText(m.when)}</span>
-          </label>`;
+          return `<div class="maneuver-option ${atMax ? "is-locked" : ""}">
+            <label class="maneuver-check-row">
+              <input type="checkbox" data-maneuver="${m.id}" ${checked} ${atMax ? "disabled" : ""} />
+              <span class="mo-name">${escapeText(m.name)}</span>
+              <span class="mo-when">${escapeText(m.when)}</span>
+            </label>
+            ${expandableBlockHTML(`picker:${m.id}`, "Description", m.description, {
+              preview: escapeText(m.summary),
+            })}
+          </div>`;
         })
         .join("");
     }
@@ -1519,17 +1528,7 @@
         detailsRoot.innerHTML = state.selectedManeuvers
           .map((id) => window.getManeuverById?.(id))
           .filter(Boolean)
-          .map(
-            (m) => `<article class="feature-card maneuver-detail">
-              <header>
-                <h3>${escapeText(m.name)}</h3>
-                <span class="pill">${escapeText(m.actionType)}</span>
-              </header>
-              <p class="feature-desc"><strong>When:</strong> ${escapeText(m.when)}</p>
-              <p class="feature-desc">${escapeText(m.summary)}</p>
-              <p class="feature-desc muted">${escapeText(m.description)}</p>
-            </article>`
-          )
+          .map((m) => maneuverCardHTML(m, { idPrefix: "profile-maneuver" }))
           .join("");
       }
     }
@@ -1546,11 +1545,13 @@
         previewRoot.innerHTML = feats.length
           ? `<p class="label">Archetype features (through L${state.level})</p>` +
             feats
-              .map(
-                (f) => `<article class="feature-card">
-              <header><h3>${escapeText(f.name)}</h3><span class="pill">L${f.level}</span></header>
-              <p class="feature-desc">${escapeText(f.description)}</p>
-            </article>`
+              .map((f) =>
+                featureCardHTML({
+                  id: `profile-archetype:${state.subclassId}:${f.id}`,
+                  name: f.name,
+                  pill: `L${f.level}`,
+                  description: f.description,
+                })
               )
               .join("")
           : `<p class="muted">No archetype features yet at this level.</p>`;
@@ -1567,6 +1568,46 @@
 
   function escapeText(s) {
     return String(s || "").replace(/</g, "&lt;");
+  }
+
+  const expandedDescIds = new Set();
+
+  function expandableBlockHTML(id, label, body, { preview = "" } = {}) {
+    const open = expandedDescIds.has(id) ? " open" : "";
+    const previewHtml = preview
+      ? `<p class="feature-desc feature-teaser">${preview}</p>`
+      : "";
+    return `<details class="expand-block" data-expand-id="${escapeAttr(id)}"${open}>
+      <summary class="expand-toggle">${escapeText(label)}</summary>
+      <div class="expand-body">
+        ${previewHtml}
+        <p class="feature-desc">${escapeText(body || "—")}</p>
+      </div>
+    </details>`;
+  }
+
+  function featureCardHTML({ id, name, pill, preview, description, extras = "" }) {
+    return `<article class="feature-card">
+      <header>
+        <h3>${escapeText(name)}</h3>
+        ${pill ? `<span class="pill">${escapeText(pill)}</span>` : ""}
+      </header>
+      ${preview ? `<p class="feature-desc feature-teaser">${escapeText(preview)}</p>` : ""}
+      ${expandableBlockHTML(id, "Description", description)}
+      ${extras}
+    </article>`;
+  }
+
+  function maneuverCardHTML(m, { idPrefix = "maneuver" } = {}) {
+    return `<article class="feature-card maneuver-detail">
+      <header>
+        <h3>${escapeText(m.name)}</h3>
+        <span class="pill">${escapeText(m.actionType)}</span>
+      </header>
+      <p class="feature-desc feature-teaser"><strong>When:</strong> ${escapeText(m.when)}</p>
+      <p class="feature-desc feature-teaser">${escapeText(m.summary)}</p>
+      ${expandableBlockHTML(`${idPrefix}:${m.id}`, "Full description", m.description)}
+    </article>`;
   }
 
   function renderCombat() {
@@ -2009,6 +2050,17 @@
       if (document.visibilityState === "hidden") persist(true);
     });
     window.addEventListener("pagehide", () => persist(true));
+
+    document.addEventListener(
+      "toggle",
+      (e) => {
+        const el = e.target;
+        if (!(el instanceof HTMLDetailsElement) || !el.dataset.expandId) return;
+        if (el.open) expandedDescIds.add(el.dataset.expandId);
+        else expandedDescIds.delete(el.dataset.expandId);
+      },
+      true
+    );
   }
 
   async function registerSW() {

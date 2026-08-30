@@ -354,21 +354,26 @@ body {
 
 .maneuver-option {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 2px 8px;
-  align-items: start;
+  gap: 6px;
   padding: 8px 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   background: rgba(0, 0, 0, 0.15);
+}
+
+.maneuver-check-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  align-items: start;
   cursor: pointer;
 }
 
-.maneuver-option.is-locked {
+.maneuver-option.is-locked .maneuver-check-row {
   opacity: 0.45;
 }
 
-.maneuver-option input {
+.maneuver-check-row input {
   margin-top: 3px;
 }
 
@@ -386,6 +391,75 @@ body {
 
 .maneuver-detail .feature-desc.muted {
   font-size: 0.82rem;
+}
+
+.expand-block {
+  margin-top: 0.45rem;
+}
+
+.expand-block.expand-inline {
+  margin-top: 0;
+}
+
+.expand-toggle {
+  appearance: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  border: 1px solid rgba(230, 196, 122, 0.22);
+  border-radius: 10px;
+  background: rgba(230, 196, 122, 0.08);
+  color: var(--gold);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.45rem 0.65rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.expand-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.expand-toggle::after {
+  content: "▾";
+  font-size: 0.85rem;
+  transition: transform 140ms ease;
+  flex-shrink: 0;
+}
+
+.expand-block[open] .expand-toggle::after {
+  transform: rotate(180deg);
+}
+
+.expand-body {
+  padding: 0.55rem 0.15rem 0.15rem;
+}
+
+.feature-teaser {
+  color: var(--muted);
+}
+
+.fighter-expand {
+  display: block;
+}
+
+.fighter-expand .expand-toggle {
+  display: grid;
+  gap: 0.2rem;
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--text);
+  padding: 0.7rem 0.65rem;
+}
+
+.fighter-expand .expand-toggle::after {
+  align-self: center;
+  color: var(--gold);
 }
 
 .archetype-summary p {

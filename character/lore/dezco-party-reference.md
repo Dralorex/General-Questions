@@ -3,7 +3,7 @@
 *Use this when talking about yourself to other party members.*
 *Keep it short. Scan the section you need. Full stories live in the other lore files.*
 
-**Last updated:** 2026-08-23 (Journal 03 detail pass: Yolon fork, river split, owlbear bridge)  
+**Last updated:** 2026-08-30 (removed Alice; Eden solo scout; Vita bridge save)  
 **Update rule:** any new Dezco / Alzenhiem / Knoleburn / Yua fact must be mirrored here the same turn.
 
 ---
@@ -113,10 +113,9 @@
 | The King’s Lion | King’s greatest swordsman; only one who truly saw Yua at the duel; directed that I be trained; knows Yua travels with me |
 | Rilock | Royal master swordsman; one of the King’s Lion’s royal guard; my actual trainer/master from ages 12 to 17; knows Yua travels with me |
 | The Rival | Older trainee who believed he was the chosen one; challenged me at 12; lost after Yua’s hidden aid |
-| Eden | Elf archer; twin to Alice; bow like punishment made elegant; terrible with frightened children; saved me in the street fight |
-| Alice | Eden’s twin; soft with scared people; good with children; pulled me up on the owlbear bridge |
+| Eden | Elf archer; bow like punishment made elegant; terrible with frightened children; saved me in the street fight; scouted river fork alone |
 | Jylia | Halfling dancer; fought in the keep; danced to calm the hall; pushed open the tomb door without hesitation |
-| Vita | Human priest (~30s); healer and spellcaster; read the old library map; helped restore the focus; collected Yolon statue vines |
+| Vita | Human priest (~30s); healer and spellcaster; read the old library map; dove to catch me on the owlbear bridge; helped restore the focus; collected Yolon statue vines |
 | Alem | Snake man; telepathy mind to mind; healed before I met him properly; relayed Eden’s owlbear scouting |
 | Yeara | Priestess in Saltrock; worked with Vita and the mayor to set the focus back; wants us at Lořel by morning decision |
 | Yolon | Stone dragon statue (>100 years); spoke after Jylia drank bowl rain; fought first King’s Lion to endless draws; said take the right fork at the next split |
@@ -152,7 +151,7 @@
 | Lořel | City of churches; priestess Yeara wants us to go there instead |
 | First King’s Lion tomb | Hilltop beyond Saltrock; goblin hideout behind outer door; real tomb held the focus |
 | Yolon statue | Stone dragon with rain bowl on tomb path; grime, moss, vines; spoke when Jylia drank; said keep path then take right at fork |
-| Tomb road fork | Left path down to rivers (Eden + Alice went); right path cliff stairs to hilltop tomb (rest of party) |
+| Tomb road fork | Left path down to rivers (Eden scouted alone); right path cliff stairs to hilltop tomb (rest of party) |
 | Owlbear bridge | Rickety crossing past false boulder; sleeping giant owlbear inside; gone on return trip |
 
 **First magic item I ever saw:** the floating protective staff in Saltrock.  
@@ -294,13 +293,13 @@ Add new rows here whenever something new becomes true in play:
 | Journal 03 | Missed a short bow creature; faceplant in wet muddy gravel; nearly shot; saved by Eden | Yes |
 | Journal 03 | Faceplant tied to accidental ~15 ft mana dash / simple imbue (not understood yet) | After Yua explains |
 | Journal 03 | Keep siege: troll (magic resistant, regenerating) + 5 goblins; Eden/fire; second imbue on goblins | Yes |
-| Journal 03 | Party names: Eden, Alice, Jylia, Vita, Alem | Yes |
-| Journal 03 | Yolon fork: right = cliff stairs to tomb; Eden + Alice went left to rivers (their find unknown) | Yes |
+| Journal 03 | Party names: Eden, Jylia, Vita, Alem | Yes |
+| Journal 03 | Yolon fork: right = cliff stairs to tomb; Eden scouted left to rivers alone (her find unknown) | Yes |
 | Journal 03 | Yua visible only to me; party doubts path until Vita confirms map | No (hide Yua) |
 | Journal 03 | Talked to air on bridge; blamed dragon statue vines | They believe vine story |
 | Journal 03 | Lord AO gift named in woods; Yua warns of unknown darkness | Private for now |
 | Journal 03 | Focus restored Saltrock; feast; choose Lyndor escort vs Lořel with Yeara by dawn | Yes |
-| Journal 03 | Foot hurt from 15 ft cliff fall; Eden smacked my hand with bow; Alice + Vita saved me | Yes (embarrassing) |
+| Journal 03 | Foot hurt from 15 ft cliff fall; Eden smacked my hand with bow; Vita dove and caught my wrist on bridge | Yes (embarrassing) |
 | Yua plots | Mana Well bestowed at Hero charge; Yua will explain after watching the biff | After she tells me |
 | Lore | Birthday is November 6 | Yes |
 | Export | Tabbed Sheets + Docs lore pack in character/lore/exports/ | Yes |

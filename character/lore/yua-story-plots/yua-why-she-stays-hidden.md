@@ -16,7 +16,7 @@ What they must not learn is that she walks with Dezco day to day.
 | The current King’s Lion | Yes |
 | Rilock | Yes |
 | Dezco | Yes |
-| Saltrock party (Eden, Alice, Jylia, Vita, Alem, etc.) | No |
+| Saltrock party (Eden, Jylia, Vita, Alem, etc.) | No |
 | General public | No |
 
 ## Why Dezco hides her

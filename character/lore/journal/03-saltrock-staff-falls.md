@@ -35,7 +35,7 @@ Beating on doors we had already sealed…
 
 We made it inside alive. That counts for something, though the room did not feel like victory.
 
-The fallen staff lay near enough that its wrongness ached in my teeth. Rain kept drumming the roof. People breathed too loud. The elf archer who saved me turned out to have a twin sister. Her name is Eden. She handles a bow like punishment made elegant. She is also, I learned quickly, terrible with frightened children. Her sister Alice is the opposite: soft voice, steady hands, the kind of presence that makes panic sit down.
+The fallen staff lay near enough that its wrongness ached in my teeth. Rain kept drumming the roof. People breathed too loud. The elf archer who saved me is Eden. She handles a bow like punishment made elegant. She is also, I learned quickly, terrible with frightened children.
 
 The halfling who fought beside us is Jylia. Where steel could not reach fear, she tried dance. She spun and stepped through the crowded hall until some of the terror unclenched its jaw. It helped. Not enough. But it helped.
 
@@ -123,7 +123,7 @@ Farther on we reached the fork he had warned us about.
 
 One path dropped toward the rivers below. The other climbed a cliff in a long run of stone stairs to the hilltop. Yolon had said to go right. The right path was the stairs.
 
-Eden and Alice went left, down toward the water. The rest of us went right, up the cliff. I do not know yet what the sisters found by the river. We had a tomb to reach.
+Eden went left alone to scout the river road. The rest of us went right, up the cliff. I do not know yet what she found by the water. We had a tomb to reach.
 
 ## The Tomb and the Focus
 
@@ -145,7 +145,7 @@ On the return path something lifted me two feet off the ground and dropped me ov
 
 When we reached the bridge again, the owlbear was gone. We did not even search properly. We simply could not see it anywhere. We counted that as a blessing.
 
-I tried to recreate the lift Yua had given me, if it was her at all. I attempted to jump a gap back onto the bridge. Nothing answered. I started to fall into the deep cavern below. One hand barely hooked the edge. Eden reached with her bow to help me grab it. She smacked my fingers instead. I lost my grip and dropped farther. Alice caught my other hand just in time. Vita came over and helped pull me all the way up.
+I tried to recreate the lift Yua had given me, if it was her at all. I attempted to jump a gap back onto the bridge. Nothing answered. I started to fall into the deep cavern below. One hand barely hooked the edge. Eden reached with her bow to help me grab it. She smacked my fingers instead. I lost my grip and dropped farther. Vita dove to his stomach, slid to the edge, and caught my wrist just in time. He helped pull me all the way up.
 
 I shouted at empty air afterward. Yua was furious, or hurt, or both. She said we would need to talk later. The party saw only a boy cursing at nothing. I blamed the vines on Yolon’s statue. That lie held.
 

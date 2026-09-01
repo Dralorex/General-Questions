@@ -238,53 +238,23 @@ Each minifigure gets its own folder under `assets/minifigures/<slug>/` with:
 | [crypt-entrance](crypt-entrance/) | Stone stairs, iron gate, grave markers |
 | [stone-mausoleum](stone-mausoleum/) | Ornate door, angel niche, domed/peaked roof |
 
-### Encounter centerpieces (set of 11)
+### Boss arenas (set of 11, ~8" × 8")
+
+Replaces the smaller PR #79 encounter centerpieces with spacious boss-fight platforms.
 
 | Folder | Concept |
 |---|---|
-| [dragon-lair-platform](dragon-lair-platform/) | Rocky elevation, treasure scatter, bones |
-| [necromancer-ritual-dais](necromancer-ritual-dais/) | Bone circle, altar, candle clusters, raised platform |
-| [demon-summoning-gate](demon-summoning-gate/) | Stone arch, hellfire, chains, rune floor plate |
-| [giant-stone-throne](giant-stone-throne/) | Oversized seat, skull armrests, cracked steps |
-| [kraken-terrain](kraken-terrain/) | Water floor, 8 tentacles, waves forming a bowl |
-| [lich-tomb-chamber](lich-tomb-chamber/) | Open sarcophagus, pillars, braziers, raised dais |
-| [vampire-throne-room](vampire-throne-room/) | Gothic throne, carpet ruins, candelabra pillars |
-| [elemental-portal-frame](elemental-portal-frame/) | Stone ring, swirling energy, rune pillars |
-| [giant-tree-root-arena](giant-tree-root-arena/) | Massive roots forming circle, mossy ground |
-| [clockwork-core-chamber](clockwork-core-chamber/) | Brass gears, piston columns, crystal engine |
-| [ancient-idol-statue](ancient-idol-statue/) | Large stone figure, offering bowl, removable seams |
-
-### Tabletop accessories (set of 27)
-
-| Folder | Concept |
-|---|---|
-| [initiative-tracker-clip](initiative-tracker-clip/) | Numbered clip-on flag, thick design |
-| [base-number-clip](base-number-clip/) | Embossed numeral clip, readable at distance |
-| [hp-dial-25mm](hp-dial-25mm/) | Rotating HP dial for 25mm bases |
-| [hp-dial-40mm](hp-dial-40mm/) | Rotating HP dial for 40mm bases |
-| [condition-ring-prone](condition-ring-prone/) | Prone ring token |
-| [condition-ring-poisoned](condition-ring-poisoned/) | Poisoned ring token |
-| [condition-ring-charmed](condition-ring-charmed/) | Charmed ring token |
-| [condition-ring-stunned](condition-ring-stunned/) | Stunned ring token |
-| [condition-ring-blessed](condition-ring-blessed/) | Blessed ring token |
-| [condition-ring-blinded](condition-ring-blinded/) | Blinded ring token |
-| [condition-ring-frightened](condition-ring-frightened/) | Frightened ring token |
-| [condition-ring-restrained](condition-ring-restrained/) | Restrained ring token |
-| [condition-ring-paralyzed](condition-ring-paralyzed/) | Paralyzed ring token |
-| [condition-ring-grappled](condition-ring-grappled/) | Grappled ring token |
-| [condition-ring-unconscious](condition-ring-unconscious/) | Unconscious ring token |
-| [condition-ring-invisible](condition-ring-invisible/) | Invisible ring token |
-| [condition-ring-exhaustion](condition-ring-exhaustion/) | Exhaustion ring token |
-| [condition-ring-deafened](condition-ring-deafened/) | Deafened ring token |
-| [condition-ring-petrified](condition-ring-petrified/) | Petrified ring token |
-| [condition-ring-incapacitated](condition-ring-incapacitated/) | Incapacitated ring token |
-| [aoe-template-15ft-cone](aoe-template-15ft-cone/) | 15ft cone template |
-| [aoe-template-20ft-line](aoe-template-20ft-line/) | 20ft line template |
-| [aoe-template-10ft-burst](aoe-template-10ft-burst/) | 10ft burst circle template |
-| [aoe-template-20ft-burst](aoe-template-20ft-burst/) | 20ft burst circle template |
-| [loot-token-gold-coins](loot-token-gold-coins/) | Gold coin pile token |
-| [loot-token-gem-cluster](loot-token-gem-cluster/) | Gem cluster token |
-| [loot-token-magic-item](loot-token-magic-item/) | Magic item glow token |
+| [dragon-lair-platform](dragon-lair-platform/) | Rocky elevation, edge treasure/bones, open center |
+| [necromancer-ritual-dais](necromancer-ritual-dais/) | Bone circle, edge altar/candles, open center |
+| [demon-summoning-gate](demon-summoning-gate/) | Rear gate, chains, rune plaza combat floor |
+| [giant-stone-throne](giant-stone-throne/) | Rear oversized throne, open plaza |
+| [kraken-terrain](kraken-terrain/) | Edge tentacles, wave bowl, open water center |
+| [lich-tomb-chamber](lich-tomb-chamber/) | Edge pillars/braziers, open chamber floor |
+| [vampire-throne-room](vampire-throne-room/) | Rear gothic throne, open flanking floors |
+| [elemental-portal-frame](elemental-portal-frame/) | Rear portal, rune plaza combat floor |
+| [giant-tree-root-arena](giant-tree-root-arena/) | Outer root ring, open mossy center |
+| [clockwork-core-chamber](clockwork-core-chamber/) | Perimeter gears, open grated floor |
+| [ancient-idol-statue](ancient-idol-statue/) | Rear idol, open courtyard plaza |
 
 ### Other figures
 
